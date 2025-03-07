@@ -1,98 +1,178 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Absensi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+    <title>Login - SALAMIN KE BANG JAYI</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        .buttonfont {
-            font-family: "Poppins", sans-serif;
+        body {
+            background-color: #f3e5f5;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 20px;
+        }
+
+        .nav-link {
+            color: #6F3A68 !important;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #d6b5d3 !important;
+        }
+
+        .hero-section {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .hero-text {
+            max-width: 500px;
+        }
+        .hero-text p{
+            font-size: 16px;
+            color: #5C5C5C;
+            line-height: 1.9;
             font-weight: 400;
-            font-style: normal;
         }
 
-        .poppins-medium {
-            font-family: "Poppins", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+        .hero-image {
+            background: url('{{ asset('images/image-desa.png') }}') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
         }
 
-        .poppins-semibold {
-            font-family: "Poppins", sans-serif;
-            font-weight: 600;
-            font-style: normal;
+        .btn-custom{
+            padding: 8px;
+            background-color: #6F3A68;
+            color: white;
         }
 
-        .poppins-bold {
-            font-family: "Poppins", sans-serif;
-            font-weight: 700;
-            font-style: normal;
+        .btn-custom:hover{
+            padding: 8px;
+            background-color: #6F3A68;
+            color: white;
         }
 
-        .poppins-extrabold {
-            font-family: "Poppins", sans-serif;
-            font-weight: 800;
-            font-style: normal;
+        .btn-outline-custom{
+            padding: 8px;
+            background-color: #ffffff;
+            color: #6F3A68;
+            border-color: #6F3A68;
         }
+
+        .btn-outline-custom:hover{
+            padding: 8px;
+            background-color: #ffffff;
+            color: #6F3A68;
+            border-color: #6F3A68;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .hero-image {
+                height: 300px; /* Atur tinggi lebih kecil di mobile */
+                width: 100%;
+            }
+
+            .hero-text {
+                text-align: center;
+                padding: 20px;
+            }
+        }
+
+
     </style>
 </head>
-
 <body>
+    <!-- Sticky Header -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{{ asset('images/images.png') }}" alt="Logo" width="40">
+            </a>
 
-    <div class="jumbotron jumbotron-fluid position-relative"
-        style="background-image: url('{{ asset('bg-website.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        height: 100vh; /* Mengatur tinggi jumbotron sesuai dengan tinggi layar */
-        width: 100%; /* Mengatur lebar jumbotron agar mengisi seluruh lebar layar */">
-        <!-- Overlay dengan efek redup -->
-        <div class="position-absolute top-0 start-0 w-100 h-100"
-            style="background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan opacity 0.5 */"></div>
-
-        <!-- Teks di tengah -->
-        <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
-            <div class="container">
-                <h1 class="display-3 fw-bold poppins-extrabold">Kelurahan Subang Jaya</h1>
-                <p class="poppins-medium">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis eveniet repudiandae, ipsum porro accusantium minima minus aspernatur similique blanditiis inventore sint quas aliquid assumenda. Deleniti necessitatibus accusantium inventore atque culpa.</p>
-
-
-                <!-- Bagian login/register sesuai dengan kondisi -->
-                @if (Route::has('login'))
-                    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                        @auth
-                            <a class="btn btn-outline-light btn-lg rounded-0 px-5 buttonfont" href="{{ url('/dashboard') }}"
-                                role="button">Dashboard</a>
-                        @else
-                            <a class="btn btn-outline-light btn-lg rounded-0 px-5 buttonfont" href="{{ route('login') }}"
-                                role="button">LOGIN</a>
-                            <a class="btn btn-outline-light btn-lg rounded-0 px-5 buttonfont" href="{{ route('register') }}"
-                                role="button">Register</a>
-                        @endauth
-                    </div>
-                @endif
+            <!-- Navbar untuk Desktop -->
+            <div class="d-none d-lg-flex ms-3">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Persyaratan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Artikel</a></li>
+                </ul>
             </div>
+
+            <!-- Button di kanan -->
+            <div class="ms-auto d-none d-lg-flex">
+                <a href="{{ route('register') }}" class="btn btn-custom me-2">DAFTAR</a>
+                <a href="{{ route('login') }}" class="btn btn-outline-custom">MASUK</a>
+            </div>
+
+            <!-- Toggle Button (Mobile) -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Offcanvas Sidebar untuk Mobile -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Persyaratan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Artikel</a></li>
+            </ul>
+            <hr>
+            <a href="{{ route('register') }}" class="btn btn-custom w-100 mb-2">DAFTAR</a>
+            <a href="{{ route('login') }}" class="btn btn-outline-custom w-100">MASUK</a>
         </div>
     </div>
 
 
+   <!-- Hero Section -->
+   <div class="container-fluid hero-section">
+    <div class="row g-0 w-100">
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="hero-text">
+                <h1 class="fw-bold">SALAMIN KE BANG JAYI</h1>
+                <p class="mt-4 mb-5">Selamat datang di SALAMIN KE BANG JAY!
+                    Website layanan administrasi Kelurahan Subangjaya yang bisa diakses secara Online</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-custom w-100">Login</a>
+                        <a href="#" class="btn btn-outline-custom w-100">Lihat Layanan</a>
+                    </div>
 
+            </div>
+        </div>
+        <div class="col-md-6 hero-image"></div>
+    </div>
+</div>
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
