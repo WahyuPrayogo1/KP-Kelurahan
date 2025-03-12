@@ -118,4 +118,49 @@ class SuratKeteranganPindahDomisiliController extends Controller
         $surat->delete();
         return redirect()->route('surat.index')->with('success', 'Data berhasil dihapus!');
     }
+
+    function createUser()  {
+        return view('pages.keterangan_domisili.index');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nik' => 'required|string|unique:surat_keterangan_pindah_domisilis,nik',
+            'no_hp' => 'required|string|max:15',
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat_lengkap' => 'required|string',
+            'tempat_lahir' => 'required|string|max:255',
+            'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_kartu_keluarga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_pernyataan_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'catatan' => 'nullable|string',
+        ]);
+
+        // Upload file
+        $foto_ktp = $request->file('foto_ktp')->store('uploads', 'private');
+        $foto_kartu_keluarga = $request->file('foto_kartu_keluarga')->store('uploads', 'private');
+        $foto_pernyataan_rt_rw = $request->file('foto_pernyataan_rt_rw')->store('uploads', 'private');
+        $foto_pengantar_rt_rw = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
+
+        // Simpan ke database
+        surat_keterangan_pindah_domisili::create([
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'user_id' => auth()->id(), // Pastikan user login
+            'no_hp' => $request->no_hp,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'alamat_lengkap' => $request->alamat_lengkap,
+            'tempat_lahir' => $request->tempat_lahir,
+            'foto_ktp' => $foto_ktp,
+            'foto_kartu_keluarga' => $foto_kartu_keluarga,
+            'foto_pernyataan_rt_rw' => $foto_pernyataan_rt_rw,
+            'foto_pengantar_rt_rw' => $foto_pengantar_rt_rw,
+            'status' => 'proses',
+        ]);
+
+        return redirect()->route('surat-keterangan-pindah.create')->with('success', 'Pengajuan berhasil dikirim.');
+    }
 }

@@ -90,13 +90,13 @@
                 </h2>
 
             </div>
-            <div class="col-auto ms-auto d-print-none">
+            {{-- <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <a href="{{ route('keterangan_domisili.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Tambah Domisili
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

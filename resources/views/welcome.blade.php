@@ -7,10 +7,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <style>
         body {
-            background-color: #f3e5f5;
+            background-color: #ffffff;
             font-family: 'Poppins', sans-serif;
         }
 
@@ -37,6 +38,7 @@
             display: flex;
             align-items: center;
             height: 100vh;
+            background-color: #f3e5f5
         }
 
         .hero-text {
@@ -99,6 +101,37 @@
         }
 
 
+        /* Section 2 */
+        .layanan-text{
+            font-weight: 400;
+            font-size: 14px;
+            color: #969696;
+            line-height: 1.6;
+        }
+
+
+
+        /* Search */
+        .search-box .form-control {
+            border: 2px solid #6F3A68;
+            background-color: #ffffff;
+            color: #6F3A68;
+        }
+
+        .search-box .form-control::placeholder {
+            color: #6F3A68
+        }
+
+        .search-box .input-group-text {
+            background-color: #ffffff;
+            border: 2px solid #6F3A68;
+            color: #6F3A68;
+        }
+
+        .search-box .form-control:focus {
+            border-color: #5A2F59;
+            box-shadow: 0 0 5px rgba(111, 58, 104, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -170,7 +203,100 @@
         </div>
         <div class="col-md-6 hero-image"></div>
     </div>
-</div>
+    </div>
+
+    <!-- Section Baru -->
+        <!-- Section Baru -->
+        <div class="container mt-5 mb-5 ">
+            <div class="row g-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold">Layanan Umum</h2>
+                    <div class="input-group search-box" style="max-width: 250px;">
+                        <input type="text" class="form-control" placeholder="Cari layanan...">
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan ijin keramaian</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan catatan Kepolisian</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan tidak mampu Miskin</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Penyelenggaraan Jaminan Pemeliharaan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                        <a style="text-decoration: none" href="{{route('surat-keterangan-pindah.create')}}">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Domisili</h5>
+                        </div>
+                    </a>
+                    </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text"> Surat Keterangan pindah Domisili Perusahaan/yayasan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Tanah tidak sengketa</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan ijin keramaian</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Beda Data Kependudukan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Status Perkawinan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Laporan Kehilangan</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
