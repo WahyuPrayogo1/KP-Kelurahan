@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratKeteranganPindahDomisiliController;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,24 @@ Route::middleware('auth')->group(function () {
 
     // admin
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
+
+    Route::get('/file-preview', function (Request $request) {
+        $path = $request->query('path');
+
+        // Validasi path tidak kosong dan file ada
+        if (!$path || !Storage::disk('private')->exists($path)) {
+            abort(404);
+        }
+
+        // Opsional: batasi hanya user tertentu (misal admin) yang boleh akses
+        if (!auth()->check()) {
+            abort(403); // Forbidden
+        }
+
+        // Return file dari storage private
+        return response()->file(Storage::disk('private')->path($path));
+    })->name('file.preview')->middleware('auth');
+
 
 
 });

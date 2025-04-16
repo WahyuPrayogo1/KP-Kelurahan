@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <div class="card">
-            <div class="card-header">Form Pengajuan Surat Pindah Domisili</div>
+            <div class="card-header">Form Pengajuan Surat Pind222ah Domisili</div>
             <div class="card-body">
                 <form action="{{ route('surat-keterangan-pindah.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf

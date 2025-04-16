@@ -241,22 +241,22 @@
                                   <div class="dropdown-menu">
                                       <div class="dropdown-menu-columns">
                                           <div class="dropdown-menu-column">
-                                              <a class="dropdown-item" href="./layout-horizontal.html">
+                                              {{-- <a class="dropdown-item" href="#">
                                                   Surat Keterangan Usaha
-                                              </a>
+                                              </a> --}}
                                               <a class="dropdown-item" href="{{route('keterangan_domisili.index')}}">
                                                   Surat Keterangan Pindah Domisili
                                               </a>
 
                                           </div>
-                                          <div class="dropdown-menu-column">
-                                              <a class="dropdown-item" href="./layout-vertical.html">
+                                          {{-- <div class="dropdown-menu-column">
+                                              <a class="dropdown-item" href="#">
                                                   Surat Keterangan Akta Nikah
                                               </a>
-                                              <a class="dropdown-item" href="./layout-vertical.html">
+                                              <a class="dropdown-item" href="#">
                                                   Surat Keterangan Kepemilikan Rumah
                                               </a>
-                                          </div>
+                                          </div> --}}
                                       </div>
                                   </div>
                               </li>
