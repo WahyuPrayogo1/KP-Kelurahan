@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('alamat_lengkap');
             $table->string('tempat_lahir');
             $table->string('foto_ktp');
+            $table->string('foto_kk');
             $table->string('foto_kartu_keluarga');
             $table->string('foto_pernyataan_rt_rw');
             $table->string('foto_pengantar_rt_rw');
