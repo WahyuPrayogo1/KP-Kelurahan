@@ -22,43 +22,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="subheader">Pendaftaran</div>
-                            <div class="ms-auto lh-1">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">Filter</a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item active" href="#">7 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">30 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">3 Bulan Terakhir</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="h1 mb-3">2</div>
-                        <small>Hari Ini</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
                             <div class="subheader">Proses</div>
-                            <div class="ms-auto lh-1">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">Filter</a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item active" href="#">7 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">30 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">3 Bulan Terakhir</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="h1 mb-3">10</div>
-                        <small>Hari Ini</small>
+                        <!-- Ganti angka '2' dengan data dinamis dari controller -->
+                        <div class="h1 mb-3">{{ $prosesCount }}</div>
+                        <small>Total</small>
                     </div>
                 </div>
             </div>
@@ -67,28 +35,31 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="subheader">Selesai</div>
-                            <div class="ms-auto lh-1">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">Filter</a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item active" href="#">7 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">30 Hari Terakhir</a>
-                                        <a class="dropdown-item" href="#">3 Bulan Terakhir</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="h1 mb-3">10</div>
-                        <small>Hari Ini</small>
+                        <!-- Ganti angka '10' dengan data dinamis dari controller -->
+                        <div class="h1 mb-3">{{ $selesaiCount }}</div>
+                        <small>Total</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="subheader">Ditolak</div>  
+                        </div>
+                        <!-- Ganti angka '10' dengan data dinamis dari controller -->
+                        <div class="h1 mb-3">{{ $ditolakCount }}</div>
+                        <small>Total</small>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="row mt-5">
 
             <div class="col-md-6">
-                <h1>Pendaftaran</h1>
+                <h1>Proses</h1>
                 <div class="card" style="height: 28rem">
                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                         <div class="divide-y">
@@ -367,7 +338,7 @@
 
 
             <div class="col-md-6">
-                <h1>Proses</h1>
+                <h1>Selesai</h1>
                 <div class="card" style="height: 28rem">
                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                         <div class="divide-y">
