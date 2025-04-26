@@ -9,11 +9,23 @@ class surat_keterangan_usaha extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat_keterangan_usaha';
+    protected $table = 'surat_keterangan_usahas';
+
     protected $fillable = [
-        'nama', 'user_id', 'nik', 'no_hp', 'jenis_kelamin', 'alamat_lengkap',
-        'tempat_lahir', 'foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_rt_rw',
-        'foto_pengantar_rt_rw', 'foto_foto_usaha', 'status', 'catatan'
+        'nama',
+        'nik',
+        'user_id',
+        'no_hp',
+        'jenis_kelamin',
+        'alamat_lengkap',
+        'tempat_lahir',
+        'foto_ktp',
+        'foto_kartu_keluarga',
+        'foto_pernyataan_rt_rw',
+        'foto_pengantar_rt_rw',
+        'foto_usaha',
+        'status',
+        'catatan',
     ];
 
     public function user()

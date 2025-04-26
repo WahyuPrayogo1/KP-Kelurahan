@@ -19,6 +19,7 @@
     <link href="{{asset('backend/css/tabler-payments.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{asset('backend/css/tabler-vendors.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{asset('backend/css/demo.min.css?1692870487')}}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.min.css">
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -48,5 +49,7 @@
     <script src="{{asset('backend/js/demo.min.js?1692870487')}}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.min.js"></script>
   </body>
 </html>

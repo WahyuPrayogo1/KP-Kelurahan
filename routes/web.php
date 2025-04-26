@@ -4,7 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratKeteranganPindahDomisiliController;
+use App\Http\Controllers\SuratKeteranganUsahaController;
+
+use App\Http\Controllers\UserController;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 /*
@@ -33,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
     // admin
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
+    Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
+
 
     Route::get('/file-preview', function (Request $request) {
         $path = $request->query('path');

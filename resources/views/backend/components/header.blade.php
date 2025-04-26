@@ -249,14 +249,14 @@
                                               </a>
 
                                           </div>
-                                          {{-- <div class="dropdown-menu-column">
-                                              <a class="dropdown-item" href="#">
-                                                  Surat Keterangan Akta Nikah
+                                          <div class="dropdown-menu-column">
+                                              <a class="dropdown-item" href="{{route('keterangan_usaha.index')}}">
+                                                  Surat Keterangan Usaha
                                               </a>
-                                              <a class="dropdown-item" href="#">
+                                              {{-- <a class="dropdown-item" href="#">
                                                   Surat Keterangan Kepemilikan Rumah
-                                              </a>
-                                          </div> --}}
+                                              </a> --}}
+                                          </div>
                                       </div>
                                   </div>
                               </li>

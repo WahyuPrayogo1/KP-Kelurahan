@@ -2,82 +2,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-<style>
-    .dataTables_wrapper .dataTable tbody td {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    .dataTables_wrapper .dataTable thead th {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate {
-        margin-top: 20px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        font-size: 12px;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .dataTables_wrapper .dataTables_info {
-        margin-top: 10px;
-    }
-
-    .dataTables_wrapper .dataTables_filter,
-    .dataTables_wrapper .dataTables_length {
-        margin-bottom: 20px;
-    }
-
-    .dataTables_wrapper .dataTables_length,
-    .dataTables_wrapper .dataTables_filter,
-    .dataTables_wrapper .dataTables_info,
-    .dataTables_wrapper .dataTables_paginate {
-        color: white;
-    }
-
-    .table th, .table td {
-        color: white;
-    }
-
-    .table {
-        background-color: transparent;
-    }
-
-    .table thead {
-        background-color: #f30000;
-    }
-
-    .table tbody tr:nth-child(odd) {
-        background-color: rgba(255, 10, 10, 0);
-        border-bottom: 2px solid rgba(219, 219, 219, 0.192);
-    }
-
-    .table tbody tr:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0);
-        border-bottom: 2px solid rgba(219, 219, 219, 0.192);
-    }
-
-    .dataTables_paginate a {
-        color: white;
-        border: 1px solid rgb(214, 26, 26);
-        padding: 5px 10px;
-    }
-
-    .dataTables_paginate a:hover {
-        background-color: #555;
-    }
-</style>
-
 <div class="page-header d-print-none">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
@@ -130,7 +54,6 @@
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
@@ -160,6 +83,15 @@
                 { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
             ]
         });
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        @endif
     });
 
     function confirmDelete(id) {
