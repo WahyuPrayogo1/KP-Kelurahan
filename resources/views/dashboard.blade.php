@@ -1,6 +1,19 @@
 @extends('backend.master')
 
 @section('content')
+<style>
+    .card-body a:hover {
+    transform: scale(1.05); /* Membesarkan elemen sedikit */
+    transition: transform 0.3s ease-in-out; /* Durasi animasi */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan */
+}
+
+.card-body a {
+    display: block; /* Pastikan elemen link mengisi area di dalam card */
+    padding: 8px;
+}
+
+</style>
     <div class="page-header d-print-none">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
@@ -46,7 +59,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="subheader">Ditolak</div>  
+                            <div class="subheader">Ditolak</div>
                         </div>
                         <!-- Ganti angka '10' dengan data dinamis dari controller -->
                         <div class="h1 mb-3">{{ $ditolakCount }}</div>
@@ -55,577 +68,118 @@
                 </div>
             </div>
         </div>
-        
-        <div class="row mt-5">
 
+        <div class="row mt-5">
+            <!-- Proses -->
             <div class="col-md-6">
                 <h1>Proses</h1>
                 <div class="card" style="height: 28rem">
                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                        <div class="divide-y">
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">JL</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Jeffie Lewzey</strong> commented on your <strong>"I'm not a
-                                                witch."</strong> post.
+                        @forelse($prosesItems as $item)
+                            <div class="py-2 border-bottom">
+                                <a href="{{ url($item->model_type . '/' . $item->id . '/edit') }}"
+                                    class="text-decoration-none text-dark">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="avatar bg-primary-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
                                         </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/002m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            It's <strong>Mallory Hulme</strong>'s birthday. Wish him well!
+                                        <div class="col">
+                                            <h1 class="mb-0 fs-3 fw-bold text-body">
+                                                @if ($item->model_type == 'keterangan_domisili')
+                                                    Surat Keterangan Pindah Domisili
+                                                @elseif($item->model_type == 'keterangan_usaha')
+                                                    Surat Keterangan Usaha
+                                                @endif
+                                            </h1>
+
+                                            <div class="row align-items-center">
+                                                <div class="col-6">
+                                                    <div class="text-secondary small">
+                                                        Status: {{ ucfirst($item->status) }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 text-end">
+                                                    <div class="text-muted small">
+                                                        Dibuat pada: {{ $item->created_at->format('d M Y') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="text-secondary">2 days ago</div>
                                     </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/003m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Dunn Slane</strong> posted <strong>"Well, what do you want?"</strong>.
-                                        </div>
-                                        <div class="text-secondary">today</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
+                        @empty
+                            <div class="text-center text-muted py-3">
+                                Tidak ada data Proses.
                             </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/000f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Emmy Levet</strong> created a new project <strong>Morning alarm
-                                                clock</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/001f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Maryjo Lebarree</strong> liked your photo.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">EP</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Egan Poetz</strong> registered new client as <strong>Trilia</strong>.
-                                        </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/002f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Kellie Skingley</strong> closed a new deal on project <strong>Pen
-                                                Pineapple Apple Pen</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/003f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Christabel Charlwood</strong> created a new project for
-                                            <strong>Wikibox</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">HS</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Haskel Shelper</strong> change status of <strong>Tabler Icons</strong>
-                                            from <strong>open</strong> to <strong>closed</strong>.
-                                        </div>
-                                        <div class="text-secondary">today</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/006m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Lorry Mion</strong> liked <strong>Tabler UI Kit</strong>.
-                                        </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/004f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Leesa Beaty</strong> posted new video.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/007m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Perren Keemar</strong> and 3 others followed you.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">SA</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Sunny Airey</strong> upload 3 new photos to category
-                                            <strong>Inspirations</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/009m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Geoffry Flaunders</strong> made a <strong>$10</strong> donation.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/010m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Thatcher Keel</strong> created a profile.
-                                        </div>
-                                        <div class="text-secondary">3 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/005f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Dyann Escala</strong> hosted the event <strong>Tabler UI
-                                                Birthday</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/006f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Avivah Mugleston</strong> mentioned you on <strong>Best of
-                                                2020</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">AA</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Arlie Armstead</strong> sent a Review Request to <strong>Amanda
-                                                Blake</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
 
-
+            <!-- Selesai -->
             <div class="col-md-6">
                 <h1>Selesai</h1>
                 <div class="card" style="height: 28rem">
                     <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                        <div class="divide-y">
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">JL</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Jeffie Lewzey</strong> commented on your <strong>"I'm not a
-                                                witch."</strong> post.
+                        @forelse($selesaiItems as $item)
+                            <div class="py-2 border-bottom">
+                                <a href="{{ url($item->model_type . '/' . $item->id . '/edit') }}"
+                                    class="text-decoration-none text-dark">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span
+                                                class="avatar bg-success-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
                                         </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/002m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            It's <strong>Mallory Hulme</strong>'s birthday. Wish him well!
+                                        <div class="col">
+                                            <h1 class="mb-0 fs-3 fw-bold text-body">
+                                                @if ($item->model_type == 'keterangan_domisili')
+                                                    Surat Keterangan Pindah Domisili
+                                                @elseif($item->model_type == 'keterangan_usaha')
+                                                    Surat Keterangan Usaha
+                                                @endif
+                                            </h1>
+
+                                            <div class="row align-items-center">
+                                                <div class="col-6">
+                                                    <div class="text-secondary small">
+                                                        Status: {{ ucfirst($item->status) }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 text-end">
+                                                    <div class="text-muted small">
+                                                        Dibuat pada: {{ $item->created_at->format('d M Y') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="text-secondary">2 days ago</div>
                                     </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/003m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Dunn Slane</strong> posted <strong>"Well, what do you want?"</strong>.
-                                        </div>
-                                        <div class="text-secondary">today</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
+                        @empty
+                            <div class="text-center text-muted py-3">
+                                Tidak ada data Selesai.
                             </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/000f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Emmy Levet</strong> created a new project <strong>Morning alarm
-                                                clock</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                    <div class="col-auto align-self-center">
-                                        <div class="badge bg-primary"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/001f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Maryjo Lebarree</strong> liked your photo.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">EP</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Egan Poetz</strong> registered new client as <strong>Trilia</strong>.
-                                        </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/002f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Kellie Skingley</strong> closed a new deal on project <strong>Pen
-                                                Pineapple Apple Pen</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/003f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Christabel Charlwood</strong> created a new project for
-                                            <strong>Wikibox</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">HS</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Haskel Shelper</strong> change status of <strong>Tabler Icons</strong>
-                                            from <strong>open</strong> to <strong>closed</strong>.
-                                        </div>
-                                        <div class="text-secondary">today</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/006m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Lorry Mion</strong> liked <strong>Tabler UI Kit</strong>.
-                                        </div>
-                                        <div class="text-secondary">yesterday</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/004f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Leesa Beaty</strong> posted new video.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/007m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Perren Keemar</strong> and 3 others followed you.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">SA</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Sunny Airey</strong> upload 3 new photos to category
-                                            <strong>Inspirations</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/009m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Geoffry Flaunders</strong> made a <strong>$10</strong> donation.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/010m.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Thatcher Keel</strong> created a profile.
-                                        </div>
-                                        <div class="text-secondary">3 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/005f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Dyann Escala</strong> hosted the event <strong>Tabler UI
-                                                Birthday</strong>.
-                                        </div>
-                                        <div class="text-secondary">4 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar"
-                                            style="background-image: url(./static/avatars/006f.jpg)"></span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Avivah Mugleston</strong> mentioned you on <strong>Best of
-                                                2020</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <span class="avatar">AA</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-truncate">
-                                            <strong>Arlie Armstead</strong> sent a Review Request to <strong>Amanda
-                                                Blake</strong>.
-                                        </div>
-                                        <div class="text-secondary">2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
-
         </div>
+
+
+
 
         <div class="row mt-5">
             <div class="col-lg-12">
                 <div class="card">
-                  <div class="card-body">
-                    <h3 class="card-title">Jumlah Penduduk</h3>
-                    <div id="chart-mentions" class="chart-lg"></div>
-                  </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Jumlah Penduduk</h3>
+                        <div id="chart-mentions" class="chart-lg"></div>
+                    </div>
                 </div>
-              </div>
+            </div>
         </div>
     </div>
 
