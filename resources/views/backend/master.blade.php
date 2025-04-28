@@ -29,6 +29,8 @@
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
     </style>
+        @stack('styles')
+
   </head>
   <body >
     <script src="{{asset('backend/js/demo-theme.min.js?1692870487')}}"></script>
@@ -51,5 +53,6 @@
 
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.min.js"></script>
+    @stack('scripts')
   </body>
 </html>

@@ -36,7 +36,7 @@
                     <table id="keterangan_domisili" class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>  <!-- Ganti dari ID jadi No -->
                                 <th>Nama</th>
                                 <th>NIK</th>
                                 <th>No HP</th>
@@ -74,14 +74,23 @@
                 }
             },
             columns: [
-                { data: 'id', name: 'id' },
-                { data: 'nama', name: 'nama' },
-                { data: 'nik', name: 'nik' },
-                { data: 'no_hp', name: 'no_hp' },
-                { data: 'jenis_kelamin', name: 'jenis_kelamin' },
-                { data: 'status', name: 'status', orderable: false, searchable: false },
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
-            ]
+    { 
+        data: null, 
+        name: 'nomor', 
+        orderable: false, 
+        searchable: false,
+        render: function (data, type, row, meta) {
+            return meta.row + meta.settings._iDisplayStart + 1;
+        }
+    },
+    { data: 'nama', name: 'nama' },
+    { data: 'nik', name: 'nik' },
+    { data: 'no_hp', name: 'no_hp' },
+    { data: 'jenis_kelamin', name: 'jenis_kelamin' },
+    { data: 'status', name: 'status', orderable: false, searchable: false },
+    { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
+]
+
         });
         @if(session('success'))
             Swal.fire({

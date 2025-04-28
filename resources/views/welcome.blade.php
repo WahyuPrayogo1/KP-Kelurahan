@@ -153,11 +153,16 @@
                 </ul>
             </div>
 
-            <!-- Button di kanan -->
-            <div class="ms-auto d-none d-lg-flex">
-                <a href="{{ route('register') }}" class="btn btn-custom me-2">DAFTAR</a>
-                <a href="{{ route('login') }}" class="btn btn-outline-custom">MASUK</a>
-            </div>
+<!-- Button di kanan -->
+<div class="ms-auto d-none d-lg-flex">
+    @if(Auth::check())  <!-- Memeriksa apakah pengguna sudah login -->
+        <a href="{{ route('/dashboard') }}" class="btn btn-custom me-2">DASHBOARD</a>
+    @else
+        <a href="{{ route('register') }}" class="btn btn-custom me-2">DAFTAR</a>
+        <a href="{{ route('login') }}" class="btn btn-outline-custom">MASUK</a>
+    @endif
+</div>
+
 
             <!-- Toggle Button (Mobile) -->
             <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
