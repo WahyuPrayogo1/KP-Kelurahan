@@ -9,11 +9,24 @@ class surat_keterangan_akta_nikah extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat_keterangan_akta_nikah';
+    protected $table = 'surat_keterangan_akta_nikahs'; // jamak
+
     protected $fillable = [
-        'nama', 'nik', 'jenis_kelamin', 'alamat_lengkap', 'tempat_lahir',
-        'foto_ktp', 'foto_kartu_keluarga', 'foto_akta_kelahiran', 'foto_ijazah',
-        'surat_pengantar_na', 'surat_pengantar_rt_rw', 'status', 'catatan'
+        'nama',
+        'nik',
+        'user_id', // ini perlu ada
+        'no_hp',
+        'jenis_kelamin',
+        'alamat_lengkap',
+        'tempat_lahir',
+        'foto_ktp',
+        'foto_kartu_keluarga',
+        'foto_akta_kelahiran',
+        'foto_ijazah',
+        'foto_pengantar_na_rt_rw', // ini yang benar
+        'foto_pengantar_rt_rw',
+        'status',
+        'catatan',
     ];
 
     public function user()

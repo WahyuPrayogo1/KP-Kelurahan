@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratKeteranganPindahDomisiliController;
 use App\Http\Controllers\SuratKeteranganUsahaController;
+use App\Http\Controllers\SuratKeteranganAktaNikahController;
+
 
 use App\Http\Controllers\UserController;
 
@@ -39,6 +41,7 @@ Route::middleware('auth')->group(function () {
     // admin
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
+    Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
 
 
     Route::get('/file-preview', function (Request $request) {
@@ -65,4 +68,7 @@ Route::middleware('auth')->group(function () {
     // User
     Route::get('/surat-keterangan-pindah/create', [SuratKeteranganPindahDomisiliController::class, 'createUser'])->name('surat-keterangan-pindah.create');
     Route::post('/surat-keterangan-pindah/store', [SuratKeteranganPindahDomisiliController::class, 'storeUser'])->name('surat-keterangan-pindah.store');
+
+    Route::get('/surat-keterangan-akta-nikah/create', [SuratKeteranganAktaNikahController::class, 'createUser'])->name('surat-keterangan-akta-nikah.create');
+    Route::post('/surat-keterangan-akta-nikah/store', [SuratKeteranganAktaNikahController::class, 'storeUser'])->name('surat-keterangan-akta-nikah.store');
 require __DIR__.'/auth.php';

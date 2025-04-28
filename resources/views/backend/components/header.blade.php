@@ -247,15 +247,16 @@
                                               <a class="dropdown-item" href="{{route('keterangan_domisili.index')}}">
                                                   Surat Keterangan Pindah Domisili
                                               </a>
-
                                           </div>
+
+
                                           <div class="dropdown-menu-column">
                                               <a class="dropdown-item" href="{{route('keterangan_usaha.index')}}">
                                                   Surat Keterangan Usaha
                                               </a>
-                                              {{-- <a class="dropdown-item" href="#">
-                                                  Surat Keterangan Kepemilikan Rumah
-                                              </a> --}}
+                                              <a class="dropdown-item" href="{{route('keterangan_akta_nikah.index')}}">
+                                                  Surat Keterangan Akta Nikah
+                                              </a>
                                           </div>
                                       </div>
                                   </div>
