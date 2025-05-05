@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('sarans', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->string('keterangan');
-            $table->string('foto');
+            $table->string('nama');
+            $table->string('email')->nullable();
+            $table->text('pesan');
             $table->timestamps();
         });
     }

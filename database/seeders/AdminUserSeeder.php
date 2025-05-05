@@ -23,7 +23,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'Admin User',
             'whatsapp_number' => '12345678',
             // 'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // Jangan lupa untuk hash password
+            'password' => Hash::make('12345678'), // Jangan lupa untuk hash password
         ]);
 
         // Menetapkan Role Admin pada User

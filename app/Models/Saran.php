@@ -9,8 +9,6 @@ class Saran extends Model
 {
     use HasFactory;
 
-    protected $table = 'sarans';
-    protected $fillable = [
-        'judul', 'keterangan', 'foto'
-    ];
+    protected $fillable = ['nama', 'email', 'pesan'];
+
 }

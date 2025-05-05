@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('artikels', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('content');
-            $table->string('author');
-            $table->string('image')->nullable();
-            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->string('judul');
+            $table->text('isi');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

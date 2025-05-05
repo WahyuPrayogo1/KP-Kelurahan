@@ -1,65 +1,73 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Saran;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use ReCaptcha\ReCaptcha;
+
+
 
 class SaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'nullable|email',
+            'pesan' => 'required|string',
+            'g-recaptcha-response' => 'required|string',
+        ]);
+
+        // Verifikasi reCAPTCHA
+        $recaptcha = new ReCaptcha(config('services.recaptcha.secret_key'));
+        $response = $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip());
+
+        if (!$response->isSuccess()) {
+            return redirect()->back()->withErrors(['captcha' => 'reCAPTCHA validation failed.']);
+        }
+
+        Saran::create([
+            'nama' => $validated['nama'],
+            'email' => $validated['email'],
+            'pesan' => $validated['pesan'],
+        ]);
+
+        return redirect()->back()->with('success', 'Terima kasih atas sarannya!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Saran $saran)
+
+
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $sarans = Saran::latest()->get();
+
+            // Mengubah format tanggal menggunakan Carbon
+            $sarans->transform(function ($saran) {
+                $saran->created_at = Carbon::parse($saran->created_at)->timezone('Asia/Jakarta')->format('d-m-Y');
+                return $saran;
+            });
+
+            return DataTables::of($sarans)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($row) {
+                    return view('backend.pages.saran.action', compact('row'));
+                })
+                ->rawColumns(['aksi']) // jika ada HTML di kolom aksi
+                ->make(true);
+        }
+
+        return view('backend.pages.saran.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Saran $saran)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Saran $saran)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Saran $saran)
+
+    public function destroy($id)
     {
-        //
+        $saran = Saran::findOrFail($id);
+        $saran->delete();
+        return redirect()->back()->with('success', 'Saran berhasil dihapus!');
     }
 }

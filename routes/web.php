@@ -6,10 +6,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratKeteranganPindahDomisiliController;
 use App\Http\Controllers\SuratKeteranganUsahaController;
 use App\Http\Controllers\SuratKeteranganAktaNikahController;
-
-
+use App\Http\Controllers\SaranController;
+use App\Models\Artikel;
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,8 +26,22 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $artikels = Artikel::latest()->take(5)->get(); // Ambil 5 artikel terbaru
+    return view('welcome', compact('artikels'));
 });
+
+// Berita
+Route::get('/berita/{id}', [ArtikelController::class, 'detail'])->name('berita.detail');
+Route::get('/berita', [ArtikelController::class, 'list'])->name('berita.list');
+
+// Saran
+Route::post('/saran', [SaranController::class, 'store'])->name('saran.store');
+
+// Persyaratan
+Route::get('/persyaratan', function () {
+    return view('pages.persyaratan.index');
+})->name('persyaratan');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('/dashboard');
@@ -43,6 +57,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
 
+
+    // Artikel
+    Route::resource('artikel', ArtikelController::class);
+
+    // Saran
+    Route::get('/saran', [SaranController::class, 'index'])->name('saran.index');
+    Route::delete('/saran/{id}', [SaranController::class, 'destroy'])->name('saran.destroy');
 
     Route::get('/file-preview', function (Request $request) {
         $path = $request->query('path');
