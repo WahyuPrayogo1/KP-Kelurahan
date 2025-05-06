@@ -11,7 +11,7 @@ use App\Models\Artikel;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuratSayaController;
-
+use App\Http\Controllers\SuratPengantarIjinKeramaianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
+    Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
+
 
 
 

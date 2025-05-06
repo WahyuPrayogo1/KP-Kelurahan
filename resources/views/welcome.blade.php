@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="col-md-3 mb-4">
-                <a style="text-decoration: none" href="{{ route('surat-keterangan-pindah.create') }}">
+                <a style="text-decoration: none" href="#">
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3"
                             width="60">

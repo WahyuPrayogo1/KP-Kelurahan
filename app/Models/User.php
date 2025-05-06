@@ -58,5 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SuratKeteranganPindahDomisili::class);
     }
+    public function SuratPengantarIjinKeramaian()
+    {
+        return $this->hasMany(SuratPengantarIjinKeramaian::class);
+    }
 
 }
