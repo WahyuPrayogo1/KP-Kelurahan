@@ -43,4 +43,19 @@ class User extends Authenticatable
         'whatsapp_number' => 'string',
         'password' => 'hashed',
     ];
+
+    public function suratKeteranganPindahDomisili()
+    {
+        return $this->hasMany(surat_keterangan_pindah_domisili::class);
+    }
+
+    public function suratKeteranganAktaNikah()
+    {
+        return $this->hasMany(surat_keterangan_akta_nikah::class);
+    }
+    public function SuratKeteranganUsaha()
+    {
+        return $this->hasMany(surat_keterangan_usaha::class);
+    }
+
 }

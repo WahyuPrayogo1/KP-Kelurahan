@@ -10,6 +10,8 @@ use App\Http\Controllers\SaranController;
 use App\Models\Artikel;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SuratSayaController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,6 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
 
+
+
+    // Surat Saya
+    Route::get('/surat-saya', [SuratSayaController::class, 'index'])->name('surat.saya');
 
     // Artikel
     Route::resource('artikel', ArtikelController::class);

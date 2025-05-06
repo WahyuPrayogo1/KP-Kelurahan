@@ -20,9 +20,8 @@ class AdminUserSeeder extends Seeder
 
         // Membuat User dan menetapkan Role Admin
         $user = User::create([
-            'name' => 'Admin User',
+            'name' => 'Admin',
             'whatsapp_number' => '12345678',
-            // 'email' => 'admin@example.com',
             'password' => Hash::make('12345678'), // Jangan lupa untuk hash password
         ]);
 

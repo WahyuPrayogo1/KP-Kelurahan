@@ -49,10 +49,14 @@ class SuratKeteranganPindahDomisiliController extends Controller
         return view('backend.pages.Pindah_Domisili.edit', compact('surat'));
     }
 
+    public function create(){
+        return view('backend.pages.Pindah_Domisili.create');
+    }
+
     public function update(Request $request, $id)
     {
         $surat = surat_keterangan_pindah_domisili::findOrFail($id);
-    
+
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'nik' => 'required|string|unique:surat_keterangan_pindah_domisilis,nik,' . $id,
@@ -67,7 +71,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
             'status' => 'required|in:proses,selesai,ditolak', // tambah validasi status
             'catatan' => 'nullable|string',
         ]);
-    
+
         // Hapus dan update file jika ada upload baru
         if ($request->hasFile('foto_ktp')) {
             if ($surat->foto_ktp && Storage::disk('private')->exists($surat->foto_ktp)) {
@@ -75,33 +79,33 @@ class SuratKeteranganPindahDomisiliController extends Controller
             }
             $validatedData['foto_ktp'] = $request->file('foto_ktp')->store('uploads', 'private');
         }
-    
+
         if ($request->hasFile('foto_kartu_keluarga')) {
             if ($surat->foto_kartu_keluarga && Storage::disk('private')->exists($surat->foto_kartu_keluarga)) {
                 Storage::disk('private')->delete($surat->foto_kartu_keluarga);
             }
             $validatedData['foto_kartu_keluarga'] = $request->file('foto_kartu_keluarga')->store('uploads', 'private');
         }
-    
+
         if ($request->hasFile('foto_pernyataan_rt_rw')) {
             if ($surat->foto_pernyataan_rt_rw && Storage::disk('private')->exists($surat->foto_pernyataan_rt_rw)) {
                 Storage::disk('private')->delete($surat->foto_pernyataan_rt_rw);
             }
             $validatedData['foto_pernyataan_rt_rw'] = $request->file('foto_pernyataan_rt_rw')->store('uploads', 'private');
         }
-    
+
         if ($request->hasFile('foto_pengantar_rt_rw')) {
             if ($surat->foto_pengantar_rt_rw && Storage::disk('private')->exists($surat->foto_pengantar_rt_rw)) {
                 Storage::disk('private')->delete($surat->foto_pengantar_rt_rw);
             }
             $validatedData['foto_pengantar_rt_rw'] = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
         }
-    
+
         $surat->update($validatedData);
-    
+
         return redirect()->route('keterangan_domisili.index')->with('success', 'Data berhasil diupdate!');
     }
-    
+
 
 
     public function destroy($id)
@@ -137,7 +141,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
         return view('pages.keterangan_domisili.index');
     }
 
-    public function storeUser(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
@@ -175,6 +179,6 @@ class SuratKeteranganPindahDomisiliController extends Controller
             'status' => 'proses',
         ]);
 
-        return redirect()->route('surat-keterangan-pindah.create')->with('success', 'Pengajuan berhasil dikirim.');
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
     }
 }

@@ -72,7 +72,7 @@ class SuratKeteranganUsahaController extends Controller
             'catatan' => $request->catatan,
         ], $data));
 
-        return redirect()->route('keterangan_usaha.index')->with('success', 'Pengajuan surat berhasil dikirim.');
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan surat berhasil dikirim.');
     }
 
     public function edit($id)
