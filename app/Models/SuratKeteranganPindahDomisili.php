@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class surat_keterangan_pindah_domisili extends Model
+class SuratKeteranganPindahDomisili extends Model
 {
     use HasFactory;
     protected $table = 'surat_keterangan_pindah_domisilis';

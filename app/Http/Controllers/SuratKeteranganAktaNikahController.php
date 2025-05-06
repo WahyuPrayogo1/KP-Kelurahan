@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\surat_keterangan_akta_nikah;
+use App\Models\SuratKeteranganAktaNikah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -14,7 +14,7 @@ class SuratKeteranganAktaNikahController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $absens = surat_keterangan_akta_nikah::with('user')->get();
+            $absens = SuratKeteranganAktaNikah::with('user')->get();
             return DataTables::of($absens)
                 ->addColumn('status', function($row) {
                     $badgeClass = '';
@@ -43,15 +43,21 @@ class SuratKeteranganAktaNikahController extends Controller
         return view('backend.pages.Akta_Nikah.index');
     }
 
+    public function create()
+    {
+        return view('backend.pages.Akta_Nikah.create');
+    }
+
     public function edit($id)
     {
-        $surat = surat_keterangan_akta_nikah::findOrFail($id);
+        $surat = SuratKeteranganAktaNikah::findOrFail($id);
         return view('backend.pages.Akta_Nikah.edit', compact('surat'));
     }
 
+
     public function update(Request $request, $id)
     {
-        $surat = surat_keterangan_akta_nikah::findOrFail($id);
+        $surat = SuratKeteranganAktaNikah::findOrFail($id);
 
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -96,7 +102,7 @@ class SuratKeteranganAktaNikahController extends Controller
 
     public function destroy($id)
     {
-        $surat = surat_keterangan_akta_nikah::findOrFail($id);
+        $surat = SuratKeteranganAktaNikah::findOrFail($id);
 
         $fileFields = [
             'foto_ktp',
@@ -125,7 +131,7 @@ class SuratKeteranganAktaNikahController extends Controller
         return view('pages.akta_nikah.index');
     }
 
-    public function storeUser(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
@@ -160,8 +166,8 @@ class SuratKeteranganAktaNikahController extends Controller
             'status' => 'proses',
         ];
 
-        surat_keterangan_akta_nikah::create($data);
+        SuratKeteranganAktaNikah::create($data);
 
-        return redirect()->route('surat-keterangan-akta-nikah.create')->with('success', 'Pengajuan berhasil dikirim.');
-    }
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
+        }
 }

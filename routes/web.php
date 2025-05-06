@@ -92,10 +92,10 @@ Route::middleware('auth')->group(function () {
 
 });
 
-    // User
-    Route::get('/surat-keterangan-pindah/create', [SuratKeteranganPindahDomisiliController::class, 'createUser'])->name('surat-keterangan-pindah.create');
-    Route::post('/surat-keterangan-pindah/store', [SuratKeteranganPindahDomisiliController::class, 'storeUser'])->name('surat-keterangan-pindah.store');
+    // // User
+    // Route::get('/surat-keterangan-pindah/create', [SuratKeteranganPindahDomisiliController::class, 'createUser'])->name('surat-keterangan-pindah.create');
+    // Route::post('/surat-keterangan-pindah/store', [SuratKeteranganPindahDomisiliController::class, 'storeUser'])->name('surat-keterangan-pindah.store');
 
-    Route::get('/surat-keterangan-akta-nikah/create', [SuratKeteranganAktaNikahController::class, 'createUser'])->name('surat-keterangan-akta-nikah.create');
-    Route::post('/surat-keterangan-akta-nikah/store', [SuratKeteranganAktaNikahController::class, 'storeUser'])->name('surat-keterangan-akta-nikah.store');
+    // Route::get('/surat-keterangan-akta-nikah/create', [SuratKeteranganAktaNikahController::class, 'createUser'])->name('surat-keterangan-akta-nikah.create');
+    // Route::post('/surat-keterangan-akta-nikah/store', [SuratKeteranganAktaNikahController::class, 'storeUser'])->name('surat-keterangan-akta-nikah.store');
 require __DIR__.'/auth.php';

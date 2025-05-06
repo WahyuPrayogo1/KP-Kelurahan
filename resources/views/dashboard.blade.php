@@ -263,7 +263,7 @@
                             Surat pendukung yang digunakan untuk proses pembuatan atau pelaporan akta pernikahan.
                         </p>
                         <div class="text-end">
-                            <a href="#" class="btn btn-outline-primary btn-sm">
+                            <a href="{{route('keterangan_akta_nikah.create')}}" class="btn btn-outline-primary btn-sm">
                                 Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                             </a>
                         </div>

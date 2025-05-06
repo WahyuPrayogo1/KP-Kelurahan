@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\surat_keterangan_pindah_domisili;
+use App\Models\SuratKeteranganPindahDomisili;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -12,7 +12,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $absens = surat_keterangan_pindah_domisili::with('user')->get();
+            $absens = SuratKeteranganPindahDomisili::with('user')->get();
             return DataTables::of($absens)
                 ->addColumn('status', function($row) {
                     $badgeClass = '';
@@ -45,7 +45,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
 
     public function edit($id)
     {
-        $surat = surat_keterangan_pindah_domisili::findOrFail($id);
+        $surat = SuratKeteranganPindahDomisili::findOrFail($id);
         return view('backend.pages.Pindah_Domisili.edit', compact('surat'));
     }
 
@@ -55,7 +55,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
 
     public function update(Request $request, $id)
     {
-        $surat = surat_keterangan_pindah_domisili::findOrFail($id);
+        $surat = SuratKeteranganPindahDomisili::findOrFail($id);
 
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -110,7 +110,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
 
     public function destroy($id)
     {
-        $surat = surat_keterangan_pindah_domisili::findOrFail($id);
+        $surat = SuratKeteranganPindahDomisili::findOrFail($id);
 
         // Hapus semua file terkait jika ada
         $fileFields = [
@@ -164,7 +164,7 @@ class SuratKeteranganPindahDomisiliController extends Controller
         $foto_pengantar_rt_rw = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
 
         // Simpan ke database
-        surat_keterangan_pindah_domisili::create([
+        SuratKeteranganPindahDomisili::create([
             'nama' => $request->nama,
             'nik' => $request->nik,
             'user_id' => auth()->id(), // Pastikan user login

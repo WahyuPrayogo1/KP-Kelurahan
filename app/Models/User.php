@@ -44,18 +44,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function suratKeteranganPindahDomisili()
-    {
-        return $this->hasMany(surat_keterangan_pindah_domisili::class);
-    }
-
-    public function suratKeteranganAktaNikah()
-    {
-        return $this->hasMany(surat_keterangan_akta_nikah::class);
-    }
     public function SuratKeteranganUsaha()
     {
-        return $this->hasMany(surat_keterangan_usaha::class);
+        return $this->hasMany(SuratKeteranganUsaha::class);
+    }
+
+    public function SuratKeteranganAktaNikah()
+    {
+        return $this->hasMany(SuratKeteranganAktaNikah::class);
+    }
+
+    public function SuratKeteranganPindahDomisili()
+    {
+        return $this->hasMany(SuratKeteranganPindahDomisili::class);
     }
 
 }

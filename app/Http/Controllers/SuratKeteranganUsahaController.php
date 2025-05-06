@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\surat_keterangan_usaha;
+use App\Models\SuratKeteranganUsaha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,7 +12,7 @@ class SuratKeteranganUsahaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = surat_keterangan_usaha::with('user')->get();
+            $data = SuratKeteranganUsaha::with('user')->get();
             return DataTables::of($data)
                 ->addColumn('status', function ($row) {
                     $badgeClass = match ($row->status) {
@@ -60,7 +60,7 @@ class SuratKeteranganUsahaController extends Controller
             $data[$field] = $request->file($field)->store('uploads', 'private');
         }
 
-        surat_keterangan_usaha::create(array_merge([
+        SuratKeteranganUsaha::create(array_merge([
             'nama' => $request->nama,
             'nik' => $request->nik,
             'user_id' => auth()->id(),
@@ -77,13 +77,13 @@ class SuratKeteranganUsahaController extends Controller
 
     public function edit($id)
     {
-        $surat = surat_keterangan_usaha::findOrFail($id);
+        $surat = SuratKeteranganUsaha::findOrFail($id);
         return view('backend.pages.Usaha.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-        $surat = surat_keterangan_usaha::findOrFail($id);
+        $surat = SuratKeteranganUsaha::findOrFail($id);
 
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
@@ -97,6 +97,7 @@ class SuratKeteranganUsahaController extends Controller
             'foto_pernyataan_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_usaha' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status' => 'required|in:proses,selesai,ditolak', // tambah validasi status
             'catatan' => 'nullable|string',
         ]);
 
@@ -115,7 +116,7 @@ class SuratKeteranganUsahaController extends Controller
 
     public function destroy($id)
     {
-        $surat = surat_keterangan_usaha::findOrFail($id);
+        $surat = SuratKeteranganUsaha::findOrFail($id);
 
         foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_rt_rw', 'foto_pengantar_rt_rw', 'foto_usaha'] as $field) {
             if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {

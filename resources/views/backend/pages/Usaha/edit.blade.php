@@ -115,6 +115,16 @@
                     <textarea name="catatan" id="catatan" class="form-control" rows="3">{{ $surat->catatan }}</textarea>
                 </div>
 
+                 <!-- Status -->
+                 <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select" required>
+                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses</option>
+                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+
                 <!-- Tombol Aksi -->
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-success">Update</button>

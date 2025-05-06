@@ -5,38 +5,155 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <div class="page-title">Surat Saya</div>
-                <h2 class="page-pretitle pb-2">Daftar Surat Yang Anda Ajukan</h2>
+                <h1 class="page-title">Surat Saya</h1>
+                <div class="text-muted mt-1">Daftar surat yang Anda ajukan</div>
             </div>
+            @if($suratSaya->count() > 0)
+            <div class="col-auto ms-auto">
+                <div class="btn-list">
+                    <span class="d-none d-sm-inline">
+                        <span class="badge bg-green text-green-fg">
+                            Total Surat: {{ $suratSaya->count() }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
 
-<div class="container-xl mt-5">
-    <div class="row row-cards">
-        @foreach ($suratSaya as $surat)
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">
-                    @if ($surat instanceof App\Models\surat_keterangan_pindah_domisili)
-                        Surat Keterangan Pindah Domisili
-                    @elseif ($surat instanceof App\Models\surat_keterangan_akta_nikah)
-                        Surat Keterangan Akta Nikah
-                    @elseif ($surat instanceof App\Models\surat_keterangan_usaha)
-                        Surat Keterangan Usaha
-                    @else
-                        Surat Tidak Dikenal
-                    @endif
-                </h5>
-                <p class="card-text">
-                    <strong>Status:</strong> {{ $surat->status }}<br>
-                    <strong>Tanggal Pengajuan:</strong> {{ $surat->created_at->format('d M Y') }}
-                </p>
-                <a href="#" class="btn btn-primary">Lihat Detail</a>
+<div class="page-body">
+    <div class="container-xl">
+        @if($suratSaya->count() > 0)
+        <div class="row row-cards">
+            @foreach ($suratSaya as $surat)
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                @if ($surat instanceof App\Models\SuratKeteranganPindahDomisili)
+                                <span class="avatar avatar-md bg-blue-lt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-community" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" />
+                                        <path d="M13 7l0 .01" />
+                                        <path d="M17 7l0 .01" />
+                                        <path d="M17 11l0 .01" />
+                                        <path d="M17 15l0 .01" />
+                                    </svg>
+                                </span>
+                                @elseif ($surat instanceof App\Models\SuratKeteranganAktaNikah)
+                                <span class="avatar avatar-md bg-pink-lt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                    </svg>
+                                </span>
+                                @elseif ($surat instanceof App\Models\SuratKeteranganUsaha)
+                                <span class="avatar avatar-md bg-green-lt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-businessplan" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M16 6m-5 0a5 3 0 1 0 10 0a5 3 0 1 0 -10 0" />
+                                        <path d="M11 6v4c0 1.657 2.239 3 5 3s5 -1.343 5 -3v-4" />
+                                        <path d="M11 10v4c0 1.657 2.239 3 5 3s5 -1.343 5 -3v-4" />
+                                        <path d="M11 14v4c0 1.657 2.239 3 5 3s5 -1.343 5 -3v-4" />
+                                        <path d="M7 9h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+                                        <path d="M5 15v1m0 -8v1" />
+                                    </svg>
+                                </span>
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="card-title mb-1">
+                                    @if ($surat instanceof App\Models\SuratKeteranganPindahDomisili)
+                                        Surat Pindah Domisili
+                                    @elseif ($surat instanceof App\Models\SuratKeteranganAktaNikah)
+                                        Surat Akta Nikah
+                                    @elseif ($surat instanceof App\Models\SuratKeteranganUsaha)
+                                        Surat Keterangan Usaha
+                                    @endif
+                                </h3>
+                                <div class="text-muted">
+                                    {{ $surat->created_at->format('d M Y H:i') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($surat->status == 'ditolak' && $surat->catatan)
+    <div class="alert alert-danger mt-3 p-2">
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                <path d="M12 8v4"></path>
+                <path d="M12 16h.01"></path>
+            </svg>
+            <div class="ms-2">
+                <h4 class="alert-title">Alasan Penolakan</h4>
+                <div class="text-muted">{{ $surat->catatan }}</div>
             </div>
         </div>
-    @endforeach
-
+    </div>
+@elseif($surat->status == 'selesai')
+    <div class="alert alert-success mt-3 p-2">
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                <path d="M9 12l2 2l4 -4"></path>
+            </svg>
+            <div class="ms-2">
+                <h4 class="alert-title">Surat Telah Selesai</h4>
+                <div class="text-muted">
+                        Surat Anda telah selesai diproses dan dapat diambil.
+                </div>
+            </div>
+        </div>
+    </div>
+@elseif($surat->status == 'proses')
+    <div class="alert alert-warning mt-3 p-2">
+        <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                <path d="M12 7v5l3 3"></path>
+            </svg>
+            <div class="ms-2">
+                <h4 class="alert-title">Sedang Diproses</h4>
+                <div class="text-muted">
+                    Permohonan Anda sedang diverifikasi. Mohon tunggu                </div>
+            </div>
+        </div>
+    </div>
+@endif
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="empty">
+            <div class="empty-img">
+                <img src="{{ asset('static/illustrations/undraw_quitting_time_dm8t.svg') }}" height="128" alt="">
+            </div>
+            <p class="empty-title">Belum ada surat yang diajukan</p>
+            <p class="empty-subtitle text-muted">
+                Anda belum mengajukan surat apapun. Klik tombol dibawah untuk mengajukan surat baru.
+            </p>
+            <div class="empty-action">
+                <a href="#" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 5l0 14"></path>
+                        <path d="M5 12l14 0"></path>
+                    </svg>
+                    Ajukan Surat Baru
+                </a>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection

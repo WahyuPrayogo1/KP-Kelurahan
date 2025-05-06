@@ -3,26 +3,55 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\SuratKeteranganPindahDomisili;
+use App\Models\SuratKeteranganAktaNikah;
+use App\Models\SuratKeteranganUsaha;
+
 
 class SuratSayaController extends Controller
 {
     public function index()
-    {
-        $user = auth()->user();
+{
+    $user = auth()->user();
 
-        // Ambil semua surat berdasarkan relasi yang ada di user
-        $pindahDomisili = $user->suratKeteranganPindahDomisili;
-        $aktaNikah = $user->suratKeteranganAktaNikah;
-        $usaha = $user->suratKeteranganUsaha;
+    // Ambil semua surat dengan cara yang lebih baik
+    $pindahDomisili = SuratKeteranganPindahDomisili::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'pindah_domisili';
+            return $item;
+        });
 
-        // Gabungkan semua surat dan urutkan berdasarkan tanggal
-        $suratSaya = $pindahDomisili
-            ->merge($aktaNikah)
-            ->merge($usaha)
-            ->sortByDesc('created_at');
+    $aktaNikah = SuratKeteranganAktaNikah::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'akta_nikah';
+            return $item;
+        });
 
-        return view('backend.pages.SuratSaya.index', compact('suratSaya'));
-    }
+    $usaha = SuratKeteranganUsaha::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'usaha';
+            return $item;
+        });
+
+    // Gabungkan dengan concatenate bukan merge
+    $suratSaya = collect([])
+        ->concat($pindahDomisili)
+        ->concat($aktaNikah)
+        ->concat($usaha);
+
+    // Urutkan hasil penggabungan
+    $suratSaya = $suratSaya->sortByDesc('created_at');
+
+    return view('backend.pages.SuratSaya.index', compact('suratSaya'));
+}
+
+
 
 
 
