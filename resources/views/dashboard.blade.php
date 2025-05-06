@@ -125,6 +125,10 @@
                                                         Surat Keterangan Pindah Domisili
                                                     @elseif($item->model_type == 'keterangan_usaha')
                                                         Surat Keterangan Usaha
+                                                    @elseif($item->model_type == 'keterangan_nikah')
+                                                        Surat Keterangan Akta Nikah
+                                                    @elseif($item->model_type == 'pengantar_keramaian')
+                                                        Surat Pengantar Ijin Keramaian
                                                     @endif
                                                 </h1>
 
@@ -203,11 +207,20 @@
                     </div>
                 </div>
             </div>
-
-
-
-
             <div class="row mt-5">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Statistik Penduduk Per Tahun</h3>
+                            <canvas id="pendudukChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            {{-- <div class="row mt-5">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -216,8 +229,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
+
+
 
         </div>
     @endrole
@@ -359,6 +374,65 @@
             });
         @endif
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('pendudukChart').getContext('2d');
+    const chartData = @json($chartData);
+
+    new Chart(ctx, {
+        type: 'bar', // bisa diganti 'line' untuk grafik garis
+        data: {
+            labels: chartData.labels,
+            datasets: [
+                {
+                    label: 'Laki-laki',
+                    data: chartData.laki,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Perempuan',
+                    data: chartData.perempuan,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Jumlah Penduduk'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tahun'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        afterBody: function(context) {
+                            const total = context[0].parsed.y + context[1].parsed.y;
+                            return `Total: ${total}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
