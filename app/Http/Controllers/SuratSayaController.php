@@ -7,6 +7,8 @@ use App\Models\SuratKeteranganPindahDomisili;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratPengantarIjinKeramaian;
+use App\Models\SuratPindahDomisiliPerusahaan;
+
 
 
 
@@ -48,13 +50,22 @@ class SuratSayaController extends Controller
             return $item;
         });
 
+    $perusahaan = SuratPindahDomisiliPerusahaan::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'perusahaan';
+            return $item;
+        });
+
 
     // Gabungkan dengan concatenate bukan merge
     $suratSaya = collect([])
         ->concat($pindahDomisili)
         ->concat($aktaNikah)
         ->concat($keramain)
-        ->concat($usaha);
+        ->concat($usaha)
+        ->concat($perusahaan);
 
     // Urutkan hasil penggabungan
     $suratSaya = $suratSaya->sortByDesc('created_at');

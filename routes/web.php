@@ -12,6 +12,11 @@ use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuratSayaController;
 use App\Http\Controllers\SuratPengantarIjinKeramaianController;
+use App\Http\Controllers\PendudukController;
+use App\Http\Controllers\SuratPindahDomisiliPerusahaanController;
+
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -59,7 +64,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
     Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
+    Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
 
+
+    Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
+    Route::resource('penduduk', PendudukController::class);
 
 
 
