@@ -8,6 +8,8 @@ use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
+use App\Models\SuratPernyataanTanahTidakSengketa;
+
 
 
 
@@ -57,6 +59,14 @@ class SuratSayaController extends Controller
             $item->type = 'perusahaan';
             return $item;
         });
+        $tanah = SuratPernyataanTanahTidakSengketa::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'tanah';
+            return $item;
+        });
+
 
 
     // Gabungkan dengan concatenate bukan merge
@@ -65,7 +75,8 @@ class SuratSayaController extends Controller
         ->concat($aktaNikah)
         ->concat($keramain)
         ->concat($usaha)
-        ->concat($perusahaan);
+        ->concat($perusahaan)
+        ->concat($tanah);
 
     // Urutkan hasil penggabungan
     $suratSaya = $suratSaya->sortByDesc('created_at');

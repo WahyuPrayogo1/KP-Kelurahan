@@ -40,11 +40,11 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="nik" class="form-label">NIK</label>
-                  <input type="text" name="nik" id="nik" class="form-control" required>
+                  <input type="number" name="nik" id="nik" class="form-control" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="no_hp" class="form-label">No HP</label>
-                  <input type="text" name="no_hp" id="no_hp" class="form-control" required>
+                  <input type="number" name="no_hp" id="no_hp" class="form-control" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>

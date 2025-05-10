@@ -130,7 +130,9 @@
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
-                                                        Surat Keterangan  Pindah Domisili Perusahaan
+                                                        Surat Keterangan Pindah Domisili Perusahaan
+                                                    @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
+                                                        Surat Tanah Tidak Sengketa
                                                     @endif
                                                 </h1>
 
@@ -186,6 +188,8 @@
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
                                                         Surat Pengantar Ijin Keramaian
+                                                    @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
+                                                        Surat Tanah Sengketa
                                                     @endif
                                                 </h1>
 
@@ -352,6 +356,24 @@
                             </p>
                             <div class="text-end">
                                 <a href="{{ route('surat-pindah-perusahaan.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan kepemilikan tanah">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Kepemilikan Tanah Tidak Sengketa</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Surat resmi yang menyatakan kepemilikan tanah beserta status kepemilikan yang sah dan tidak dalam sengketa.
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('surat-tanah-tidak-sengketa.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>

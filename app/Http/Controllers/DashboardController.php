@@ -8,6 +8,7 @@ use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
+use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\PendudukStat;
 
 class DashboardController extends Controller
@@ -64,13 +65,25 @@ class DashboardController extends Controller
         $selesaiPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'selesai')->count();
         $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'ditolak')->count();
 
+         // Hitung dari
+        $prosesTanah = SuratPernyataanTanahTidakSengketa::where('status', 'proses')->count();
+        $selesaiTanah = SuratPernyataanTanahTidakSengketa::where('status', 'selesai')->count();
+        $ditolakTanah = SuratPernyataanTanahTidakSengketa::where('status', 'ditolak')->count();
+
         // Total semua model
-        $prosesCount = $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan;
-        $selesaiCount = $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan;
-        $ditolakCount = $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan;
+        $prosesCount = $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah;
+        $selesaiCount = $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah;
+        $ditolakCount = $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah;
 
 
         // Ambil semua data status "proses" dari semua model
+         $prosesTanah = SuratPernyataanTanahTidakSengketa::where('status', 'proses')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-tanah-tidak-sengketa';
+                return $item;
+            });
+
         $prosesPindah = SuratKeteranganPindahDomisili::where('status', 'proses')
             ->get()
             ->map(function ($item) {
@@ -106,11 +119,19 @@ class DashboardController extends Controller
                 return $item;
             });
 
-        // Ambil semua data status "selesai" dari semua model
+
+         // Ambil semua data status "selesai" dari semua model
         $selesaiPindah = SuratKeteranganPindahDomisili::where('status', 'selesai')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'keterangan_domisili';
+                return $item;
+            });
+
+        $selesaiTanah = SuratPernyataanTanahTidakSengketa::where('status', 'selesai')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-tanah-tidak-sengketa';
                 return $item;
             });
 
@@ -144,8 +165,8 @@ class DashboardController extends Controller
 
 
         // Gabungkan semua data
-        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan);
-        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan);
+        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah);
+        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah);
 
         return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData'));
     }

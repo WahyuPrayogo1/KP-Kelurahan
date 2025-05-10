@@ -14,6 +14,7 @@ use App\Http\Controllers\SuratSayaController;
 use App\Http\Controllers\SuratPengantarIjinKeramaianController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\SuratPindahDomisiliPerusahaanController;
+use App\Http\Controllers\SuratPernyataanTanahTidakSengketaController;
 
 
 
@@ -65,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
     Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
     Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
+    Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
 
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');

@@ -138,6 +138,9 @@
                                               <a class="dropdown-item" href="{{route('keterangan_akta_nikah.index')}}">
                                                   Surat Keterangan Akta Nikah
                                               </a>
+                                              <a class="dropdown-item" href="{{route('surat-tanah-tidak-sengketa.index')}}">
+                                                  Surat Keterangan Kepemilikan Tanah Tidak Sengketa
+                                              </a>
                                           </div>
                                       </div>
                                   </div>
