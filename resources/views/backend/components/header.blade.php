@@ -141,6 +141,9 @@
                                               <a class="dropdown-item" href="{{route('surat-tanah-tidak-sengketa.index')}}">
                                                   Surat Keterangan Kepemilikan Tanah Tidak Sengketa
                                               </a>
+                                                <a class="dropdown-item" href="{{route('beda-data-kependudukan.index')}}">
+                                                  Surat Keterangan Beda Data Kependudukan
+                                                </a>
                                           </div>
                                       </div>
                                   </div>

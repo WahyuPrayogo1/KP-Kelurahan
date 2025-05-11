@@ -381,6 +381,24 @@
                     </div>
                 </div>
 
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan beda data kependudukan">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Beda Data Kependudukan</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Surat resmi yang menyatakan adanya perbedaan data kependudukan antara dokumen yang dimiliki dengan data di Dinas Kependudukan dan Catatan Sipil.
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Template untuk hasil tidak ditemukan -->

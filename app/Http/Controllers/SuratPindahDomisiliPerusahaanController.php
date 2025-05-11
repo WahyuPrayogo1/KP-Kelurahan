@@ -6,6 +6,7 @@ use App\Models\SuratPindahDomisiliPerusahaan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Spatie\SimpleExcel\SimpleExcelWriter;
+use Illuminate\Support\Facades\Storage;
 
 class SuratPindahDomisiliPerusahaanController extends Controller
 {

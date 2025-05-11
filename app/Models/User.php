@@ -68,4 +68,9 @@ class User extends Authenticatable
         return $this->hasMany(SuratPindahDomisiliPerusahaan::class);
     }
 
+     public function SuratKeteranganBedaDataKependudukan()
+    {
+        return $this->hasMany(SuratKeteranganBedaDataKependudukan::class);
+    }
+
 }
