@@ -128,6 +128,9 @@
                                               <a class="dropdown-item" href="{{route('surat-pindah-perusahaan.index')}}">
                                                   Surat Pindah Perusahaan / Yayasan
                                               </a>
+                                               <a class="dropdown-item" href="{{route('surat-keterangan-orang-tua.index')}}">
+                                                  Surat Keterangan Orang Tua
+                                              </a>
                                           </div>
 
 

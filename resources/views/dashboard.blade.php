@@ -133,6 +133,8 @@
                                                         Surat Keterangan Pindah Domisili Perusahaan
                                                     @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
                                                         Surat Tanah Tidak Sengketa
+                                                    @elseif($item->model_type == 'beda-data-kependudukan')
+                                                        Surat Keterangan Beda Penduduk
                                                     @endif
                                                 </h1>
 
@@ -190,6 +192,8 @@
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
                                                         Surat Tanah Sengketa
+                                                    @elseif($item->model_type == 'beda-data-kependudukan')
+                                                        Surat Keterangan Beda Penduduk
                                                     @endif
                                                 </h1>
 
@@ -220,7 +224,64 @@
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="col-lg-12">
+                 <div class="col-md-12">
+                    <h1>Di Tolak</h1>
+                    <div class="card" style="height: 28rem">
+                        <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+                            @forelse($ditolakItems as $item)
+                                <div class="py-2 border-bottom">
+                                    <a href="{{ url($item->model_type . '/' . $item->id . '/edit') }}"
+                                        class="text-decoration-none text-dark">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <span
+                                                    class="avatar bg-success-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
+                                            </div>
+                                            <div class="col">
+                                                <h1 class="mb-0 fs-3 fw-bold text-body">
+                                                    @if ($item->model_type == 'keterangan_domisili')
+                                                        Surat Keterangan Pindah Domisili
+                                                    @elseif($item->model_type == 'keterangan_usaha')
+                                                        Surat Keterangan Usaha
+                                                    @elseif($item->model_type == 'keterangan_nikah')
+                                                        Surat Keterangan Akta Nikah
+                                                    @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
+                                                        Surat Pengantar Ijin Keramaian
+                                                    @elseif($item->model_type == 'surat-pindah-perusahaan')
+                                                        Surat Pengantar Ijin Keramaian
+                                                    @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
+                                                        Surat Tanah Sengketa
+                                                    @elseif($item->model_type == 'beda-data-kependudukan')
+                                                        Surat Keterangan Beda Penduduk
+                                                    @endif
+                                                </h1>
+
+                                                <div class="row align-items-center">
+                                                    <div class="col-6">
+                                                        <div class="text-secondary small">
+                                                            Status: {{ ucfirst($item->status) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 text-end">
+                                                        <div class="text-muted small">
+                                                            Dibuat pada: {{ $item->created_at->format('d M Y') }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            @empty
+                                <div class="text-center text-muted py-3">
+                                    Tidak ada data Selesai.
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Statistik Penduduk Per Tahun</h3>
@@ -363,7 +424,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan kepemilikan tanah">
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan Tanah Tidak Sengketa">
                     <div class="card card-link-pop shadow-sm h-100">
                         <div class="card-header card-header-light">
                             <h5 class="card-title mb-0">Surat Keterangan Kepemilikan Tanah Tidak Sengketa</h5>
@@ -392,6 +453,24 @@
                             </p>
                             <div class="text-end">
                                 <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan beda data kependudukan">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Data Orang Tua</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Orang Tua
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('surat-keterangan-orang-tua.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>

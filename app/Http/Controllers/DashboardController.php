@@ -8,6 +8,7 @@ use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
+use App\Models\SuratKeteranganBedaDataKependudukan;
 use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\PendudukStat;
 
@@ -70,13 +71,25 @@ class DashboardController extends Controller
         $selesaiTanah = SuratPernyataanTanahTidakSengketa::where('status', 'selesai')->count();
         $ditolakTanah = SuratPernyataanTanahTidakSengketa::where('status', 'ditolak')->count();
 
+          // Beda Penduduk
+        $prosesBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'proses')->count();
+        $selesaiBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'selesai')->count();
+        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')->count();
+
         // Total semua model
-        $prosesCount = $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah;
-        $selesaiCount = $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah;
-        $ditolakCount = $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah;
+        $prosesCount = $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah + $prosesBedaPenduduk;
+        $selesaiCount = $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah + $selesaiBedaPenduduk;
+        $ditolakCount = $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah + $ditolakBedaPenduduk;
 
 
         // Ambil semua data status "proses" dari semua model
+          $prosesBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'proses')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'beda-data-kependudukan';
+                return $item;
+            });
+
          $prosesTanah = SuratPernyataanTanahTidakSengketa::where('status', 'proses')
             ->get()
             ->map(function ($item) {
@@ -121,6 +134,13 @@ class DashboardController extends Controller
 
 
          // Ambil semua data status "selesai" dari semua model
+        $selesaiBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'selesai')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'beda-data-kependudukan';
+                return $item;
+            });
+
         $selesaiPindah = SuratKeteranganPindahDomisili::where('status', 'selesai')
             ->get()
             ->map(function ($item) {
@@ -164,10 +184,64 @@ class DashboardController extends Controller
 
 
 
-        // Gabungkan semua data
-        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah);
-        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah);
 
-        return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData'));
+            // DITOLAK
+
+             // Ambil semua data status "ditolak" dari semua model
+        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'beda-data-kependudukan';
+                return $item;
+            });
+
+        $ditolakPindah = SuratKeteranganPindahDomisili::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'keterangan_domisili';
+                return $item;
+            });
+
+        $ditolakTanah = SuratPernyataanTanahTidakSengketa::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-tanah-tidak-sengketa';
+                return $item;
+            });
+
+        $ditolakUsaha = SuratKeteranganUsaha::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'keterangan_usaha';
+                return $item;
+            });
+
+        $ditolakNikah = SuratKeteranganAktaNikah::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'keterangan_akta_nikah';
+                return $item;
+            });
+
+        $ditolakKeramaian = SuratPengantarIjinKeramaian::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat_pengantar_ijin_keramaian';
+                return $item;
+            });
+        $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-pindah-perusahaan';
+                return $item;
+            });
+
+
+        // Gabungkan semua data
+        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah)->concat($prosesBedaPenduduk);
+        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah)->concat($selesaiBedaPenduduk);
+        $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakTanah)->concat($ditolakBedaPenduduk);
+
+        return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems','ditolakItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData'));
     }
 }

@@ -51,6 +51,13 @@
                                         <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                                     </svg>
                                 </span>
+                                 @elseif ($surat instanceof App\Models\SuratKeteranganBedaDataKependudukan)
+                                <span class="avatar avatar-md bg-pink-lt">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                    </svg>
+                                </span>
                                 @elseif ($surat instanceof App\Models\SuratPengantarIjinKeramaian)
                                 <span class="avatar avatar-md bg-warning-lt">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-group"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" /><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M17 10h2a2 2 0 0 1 2 2v1" /><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M3 13v-1a2 2 0 0 1 2 -2h2" /></svg>
@@ -110,6 +117,8 @@
                                         Surat Keterangan Usaha
                                     @elseif ($surat instanceof App\Models\SuratPernyataanTanahTidakSengketa)
                                         Surat Keterangan Kepemilikan Tanah Tidak Sengketa
+                                    @elseif ($surat instanceof App\Models\SuratKeteranganBedaDataKependudukan)
+                                        Surat Keterangan Beda Data Kependudukan
                                     @endif
 
 

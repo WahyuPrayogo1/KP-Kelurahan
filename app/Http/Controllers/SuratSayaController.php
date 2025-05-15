@@ -9,6 +9,8 @@ use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
 use App\Models\SuratPernyataanTanahTidakSengketa;
+use App\Models\SuratKeteranganBedaDataKependudukan;
+
 
 
 
@@ -19,6 +21,14 @@ class SuratSayaController extends Controller
     public function index()
 {
     $user = auth()->user();
+
+     $bedaDataPenduduk = SuratKeteranganBedaDataKependudukan::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'beda_penduduk';
+            return $item;
+        });
 
     // Ambil semua surat dengan cara yang lebih baik
     $pindahDomisili = SuratKeteranganPindahDomisili::where('user_id', $user->id)
@@ -76,7 +86,8 @@ class SuratSayaController extends Controller
         ->concat($keramain)
         ->concat($usaha)
         ->concat($perusahaan)
-        ->concat($tanah);
+        ->concat($tanah)
+        ->concat($bedaDataPenduduk);
 
     // Urutkan hasil penggabungan
     $suratSaya = $suratSaya->sortByDesc('created_at');
