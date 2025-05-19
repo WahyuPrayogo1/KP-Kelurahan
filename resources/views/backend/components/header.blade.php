@@ -89,7 +89,7 @@
                                       </svg>
                                   </span>
                                   <span class="nav-link-title">
-                                      Home
+                                      Beranda
                                   </span>
                               </a>
                           </li>
@@ -174,17 +174,28 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{ request()->routeIs('penduduk') ? 'active' : '' }}">
-                                    <a class="nav-link " href="{{ route('penduduk.index') }}">
-                                        <span
-                                            class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-message"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9h8" /><path d="M8 13h6" /><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" /></svg>
-                                        </span>
-                                        <span class="nav-link-title">
-                                            Penduduk
-                                        </span>
-                                    </a>
-                                </li>
+                            <li class="nav-item dropdown {{ request()->is('penduduk*') || request()->is('sektor-pekerjaan*') || request()->is('pekerjaan*') ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <!-- Icon untuk menu profil -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                            <path d="M6 20h12" />
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        Profil
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ route('penduduk.index') }}">Penduduk</a>
+                                    <a class="dropdown-item" href="{{ route('sektor-pekerjaan.index') }}">Sektor Pekerjaan</a>
+                                    <a class="dropdown-item" href="{{ route('pekerjaan.index') }}">Pekerjaan</a>
+                                </div>
+                            </li>
                           @endrole
                           @role('User')
                               <li class="nav-item {{ request()->routeIs('surat-saya') ? 'active' : '' }}">

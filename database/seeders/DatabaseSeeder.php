@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             RoleSeeder::class,
             PendudukStatsSeeder::class,
+            SektorPekerjaanSeeder::class,
             // SuratKeteranganPindahSeeder::class
         ]);
     }

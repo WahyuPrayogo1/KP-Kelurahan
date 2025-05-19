@@ -15,11 +15,8 @@ class PendudukStatsSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['tahun' => 2020, 'laki_laki' => 100, 'perempuan' => 390],
-            ['tahun' => 2021, 'laki_laki' => 225, 'perempuan' => 295],
-            ['tahun' => 2022, 'laki_laki' => 590, 'perempuan' => 100],
-            ['tahun' => 2023, 'laki_laki' => 500, 'perempuan' => 410],
-            ['tahun' => 2024, 'laki_laki' => 110, 'perempuan' => 220],
+            ['tahun' => 2023, 'laki_laki' => 8100, 'perempuan' => 8075],
+            ['tahun' => 2024, 'laki_laki' => 7824, 'perempuan' => 7808],
         ];
         foreach ($data as $item) {
             PendudukStat::create($item);

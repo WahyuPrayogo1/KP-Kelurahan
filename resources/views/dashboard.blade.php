@@ -290,6 +290,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Mata Pencaharian -->
+            <div class="row mb-5 text-center px-3" style="padding-top: 50px;">
+                <div class="col-12 text-center px-3">
+                    <h3 class="card-title">Statistik Sektor Mata Pencaharian</h3>
+                    <canvas id="sektorPekerjaanChart" style="max-width: 75%; height: 500px; max-height: 600px; margin: 0 auto;"></canvas>
+                </div>
+            </div>
 
 
 
@@ -535,17 +542,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: 'Laki-laki',
                     data: chartData.laki,
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: '#FF7043', 
+                    borderColor: '#E64A19',    
                     borderWidth: 1
                 },
                 {
                     label: 'Perempuan',
                     data: chartData.perempuan,
-                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: '#6F3A68', 
+                    borderColor: '#4A2B45',    
                     borderWidth: 1
                 }
+
             ]
         },
         options: {

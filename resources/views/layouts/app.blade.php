@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SALAMIN KE BANG JAYI</title>
+    <title>Login - SALAMIN KE BANG JAY!</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <style>
         body {
@@ -213,7 +214,7 @@
             <!-- Navbar untuk Desktop -->
             <div class="d-none d-lg-flex ms-3">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('tentangKami.list')}}">Tentang Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('persyaratan')}}">Persyaratan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('berita.list')}}">Artikel</a></li>
@@ -248,7 +249,7 @@
         </div>
         <div class="offcanvas-body">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{route('tentangKami.list')}}">Tentang Kami</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{route('persyaratan')}}">Persyaratan</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{route('berita.list')}}">Artikel</a></li>
@@ -262,63 +263,50 @@
     @yield('content')
 
 
-
-     <!-- Footer -->
-     <footer class="bg-light mt-5">
-        <div class="container ">
-            <div class="row pt-3">
-                <!-- Kolom 1: Logo -->
-                <div class="col-md-3">
-                    <img src="path_to_logo.png" alt="Logo" class="img-fluid mb-3" style="max-height: 60px;">
-                    <p class="text-muted" style="color: #4F4F4F; font-size: 14px">Kami menyediakan layanan berkualitas
-                        dengan komitmen tinggi untuk kepuasan pelanggan.</p>
+    <!-- Footer -->
+    <footer class="bg-light mt-5" style="font-size: 14px; color: #4F4F4F;">
+        <div class="container">
+            <div class="row pt-4 pb-2 gy-4">
+                <!-- Kolom 1: Logo + Alamat -->
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <img src="images/logo.png" alt="Logo" class="img-fluid me-3" style="max-height: 75px;">
+                        <div>
+                            <p class="mb-1">Kecamatan Cikole, Kelurahan Subangjaya,</p>
+                            <p class="mb-1">Sukabumi, Jawa Barat, Indonesia.</p>
+                            <p class="mb-0">43116</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Kolom 2: Jadwal Pelayanan -->
-                <div class="col-md-3">
-                    <h5 class="mb-3" style="font-weight: 600; font-size: 18px">Jadwal Pelayanan</h5>
-                    <ul class="list-unstyled text-muted" style="color: #4F4F4F; font-size: 14px">
-                        <li>Senin s.d Jum’at : pukul 07.30 - 15.00</li>
-                        <li>Jum’at : pukul 07.30 - 13.00</li>
+                <!-- Kolom 2: Kontak -->
+                <div class="col-md-4">
+                    <h5 class="mb-3" style="font-weight: 600; font-size: 18px;">Kontak</h5>
+                    <ul class="list-unstyled">
+                        <li>Email: <a href="mailto:kelurahansubangjaya@gmail.com" class="text-decoration-none text-dark">kelurahansubangjaya@gmail.com</a></li>
+                        <li>Telepon: +62 811-2201-102</li>
+                        <li>WhatsApp: +62 811-2201-102</li>
                     </ul>
                 </div>
 
-                <!-- Kolom 3: Alamat -->
-                <div class="col-md-3">
-                    <h5 class="mb-3" style="font-weight: 600; font-size: 18px">Alamat</h5>
-                    <p class="text-muted" style="color: #4F4F4F; font-size: 14px">Jawa Barat
-                        Kecamatan Cikole,
-                        Kelurahan Subang Jaya,
-                        Sukabumi
-                    </p>
-                </div>
-
-                <!-- Kolom 4: Kontak -->
-                <div class="col-md-3">
-                    <h5 class="mb-3" style="font-weight: 600; font-size: 18px">Kontak</h5>
-                    <ul class="list-unstyled text-muted" style="color: #4F4F4F; font-size: 14px">
-                        <li>Email: <a href="mailto:info@example.com">kelurahan@gmail.com</a></li>
-                        <li>Telepon: +62 123 456 789</li>
-                        <li>WhatsApp: +62 987 654 321</li>
+                <!-- Kolom 3: Jelajahi -->
+                <div class="col-md-4">
+                    <h5 class="mb-3" style="font-weight: 600; font-size: 18px;">Jelajahi</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://sukabumikota.go.id" class="text-decoration-underline text-dark">Website Kota Sukabumi</a></li>
+                        <li><a href="https://cekdptonline.kpu.go.id" class="text-decoration-underline text-dark">DPT Online</a></li>
                     </ul>
                 </div>
             </div>
 
+            <hr class="my-4">
+
             <!-- Copyright -->
-            <div class="row">
-                <div class="col-12 text-center mt-5 pt-4 pb-1 mb-0">
-                    <p class="text-muted" style="color: #4F4F4F; font-size: 14px">&copy; 2025 Nama Perusahaan. Semua
-                        Hak Dilindungi.</p>
-                </div>
+            <div class="text-center pb-2">
+                <p class="mb-0">&copy; 2025 Kelurahan Subangjaya. Semua Hak Dilindungi.</p>
             </div>
         </div>
     </footer>
-
-
-
-
-
-
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

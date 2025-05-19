@@ -4,7 +4,7 @@
     <nav aria-label="breadcrumb" class="mb-4" >
         <ol class="breadcrumb" style="font-size: 14px">
             <li class="breadcrumb-item">
-                <a href="{{ url('/') }}" class="text-decoration-none text-muted">Home</a>
+                <a href="{{ url('/') }}" class="text-decoration-none text-muted">Beranda</a>
             </li>
             <li class="breadcrumb-item ">
                 <a href="{{ route('berita.list') }}" class="text-decoration-none text-muted">Artikel</a>

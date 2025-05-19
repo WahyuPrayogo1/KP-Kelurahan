@@ -17,6 +17,9 @@ use App\Http\Controllers\SuratPindahDomisiliPerusahaanController;
 use App\Http\Controllers\SuratPernyataanTanahTidakSengketaController;
 use App\Http\Controllers\SuratKeteranganBedaDataKependudukanController;
 use App\Http\Controllers\SuratKeteranganTentangOrangTuaController;
+use App\Http\Controllers\TentangKamiController;
+use App\Http\Controllers\SektorPekerjaanController;
+use App\Http\Controllers\PekerjaanController;
 
 
 
@@ -45,6 +48,9 @@ Route::get('/', function () {
 // Berita
 Route::get('/berita/{id}', [ArtikelController::class, 'detail'])->name('berita.detail');
 Route::get('/berita', [ArtikelController::class, 'list'])->name('berita.list');
+
+//Tentang Kami
+Route::get('/tentang-kami', [TentangKamiController::class, 'tentangKami'])->name('tentangKami.list');
 
 // Saran
 Route::post('/saran', [SaranController::class, 'store'])->name('saran.store');
@@ -77,6 +83,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
     Route::resource('penduduk', PendudukController::class);
+    Route::resource('sektor-pekerjaan', SektorPekerjaanController::class);
+    Route::resource('pekerjaan', PekerjaanController::class);
 
 
 

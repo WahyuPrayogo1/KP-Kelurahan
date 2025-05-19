@@ -6,12 +6,12 @@
         <div class="row g-0 w-100">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div class="hero-text">
-                    <h1 class="fw-bold">SALAMIN KE BANG JAYI</h1>
+                    <h1 class="fw-bold">SALAMIN KE BANG JAY!</h1>
                     <p class="mt-4 mb-5">Selamat datang di SALAMIN KE BANG JAY!
                         Website layanan administrasi Kelurahan Subangjaya yang bisa diakses secara Online</p>
                     <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-custom w-100">Login</a>
-                        <a href="#" class="btn btn-outline-custom w-100">Lihat Layanan</a>
+                        <a href="{{ route('login') }}" class="btn btn-custom w-100">Login</a>
+                        <a href="{{route('persyaratan')}}" class="btn btn-outline-custom w-100">Lihat Layanan</a>
                     </div>
 
                 </div>
@@ -26,7 +26,10 @@
             <div
                 class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                 <div class="text-center text-md-start">
-                    <h2 class="fw-bold-custom1 m-0">Layanan Umum</h2>
+                    <h2 class="text-uppercase m-0"
+                        style="color: #6F3A68; font-weight:700; letter-spacing: 3px; font-size: 30px">
+                        Layanan Umum
+                    </h2>
                     <p class="text-muted small mt-2 mb-0">
                         Jelajahi berbagai layanan umum yang tersedia di Kelurahan Subangjaya.
                     </p>
@@ -40,121 +43,104 @@
                 </div>
             </div>
 
-
-
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan ijin keramaian</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan catatan Kepolisian</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan tidak mampu Miskin</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Penyelenggaraan Jaminan Pemeliharaan</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <a style="text-decoration: none" href="#">
+            <div class="row">
+                <div class="col-md-3 mb-4">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3"
-                            width="60">
+                        <i class="fas fa-bullhorn fa-2x me-3" style="color: #6F3A68;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan Ijin Keramaian</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-store fa-2x me-3" style="color: #FF7043;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Usaha</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-building fa-2x me-3" style="color: #BD10E0;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Pindah Domisili Perusahaan/Yayasan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map-marked-alt fa-2x me-3" style="color: #4A90E2;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map fa-2x me-3" style="color: #D0021B;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah Tidak Sengketa</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-id-card fa-2x me-3" style="color: #50E3C2;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Beda Data Kependudukan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-file-signature fa-2x me-3" style="color: #e4556d;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Status Perkawinan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-shield fa-2x me-3" style="color: #6F3A68;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Ahli Waris</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map-pin fa-2x me-3" style="color: #FF7043;"></i>
                         <h5 class="mb-0 layanan-text">Surat Keterangan Domisili</h5>
                     </div>
-                </a>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text"> Surat Keterangan pindah Domisili Perusahaan/yayasan</h5>
                 </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Tanah tidak sengketa</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan ijin keramaian</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Beda Data Kependudukan</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Status Perkawinan</h5>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('images/letter (1).png') }}" alt="Gambar 1" class="me-3" width="60">
-                    <h5 class="mb-0 layanan-text">Surat Keterangan Laporan Kehilangan</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container p-0 p-md-1 mt-0 mb-md-3 mb-0 ">
-        <div class="row d-flex align-items-stretch">
-            <!-- Kolom Pertama -->
-            <div class="col-md-6 mb-4">
-                <div class="content-box h-100 p-4 p-md-5 m-3 rounded-5 d-flex flex-column"
-                    style="background-color: #f3e5f5;">
-                    <h2 class="fw-bold-custom text-center lh-base pt-4">Syarat dan Kelengkapan <br> Layanan</h2>
-                    <ul class="layanan-text-syarat">
-                        <li>Lampiran : Keputusan Walikota Sukabumi</li>
-                        <li>Nomor : 12 Tahun 2013</li>
-                        <li>Tentang : Jenis dan Persyaratan Serta Bentuk Surat Keterangan pada Kelurahan di Lingkungan
-                            Pemerintah Kota Sukabumi</li>
-                    </ul>
-
-                    <!-- Tombol di bawah -->
-                    <div class="text-center mt-auto">
-                        <a href="#" class="btn btn-custom w-50 w-md-100">Lihat Detail</a>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-kaaba fa-2x me-3" style="color: #4A90E2;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Domisili Calon Jemaah Haji</h5>
                     </div>
                 </div>
-
-            </div>
-
-            <!-- Kolom Kedua -->
-            <div class="col-md-6 mb-4">
-                <div class="content-box h-100 p-4 p-md-5 m-3 rounded-5 text-white" style="background-color: #6F3A68;">
-                    <h2 class="fw-bold-custom text-center lh-base pt-4">Peraturan Perundang- <br> undangan</h2>
-                    <p class="text-center layanan-peraturan">
-                        KODEX TECHNOLOGY (PVT) LTD is a team of experienced mobile and web applications and website
-                        builders measuring dozens of completed projects. We build and develop mobile applications for
-                        several top platforms, including Android & IOS.
-                    </p>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-house-user fa-2x me-3" style="color: #7ED321;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Pindah Domisili</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-road fa-2x me-3" style="color: #BD10E0;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Jalan</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-ring fa-2x me-3" style="color: #D0021B;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Untuk Nikah</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-friends fa-2x me-3" style="color: #6F3A68;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Tentang Orang Tua</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-file-medical fa-2x me-3" style="color: #e4556d;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Kematian</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-briefcase fa-2x me-3" style="color: #50E3C2;"></i>
+                        <h5 class="mb-0 layanan-text">Surat Keterangan Bekerja di Luar Negeri</h5>
+                    </div>
                 </div>
             </div>
-        </div>
 
     </div>
     <div class="container p-3 mt-5 mt-md-5 mb-0">
@@ -187,7 +173,6 @@
                     </button>
                 </div>
             </div>
-
 
             <div class="position-relative">
                 <!-- Slider main container -->
@@ -228,7 +213,7 @@
                 <div class="text-center text-md-start w-100" style="max-width: 720px;">
                     <h2 class="text-uppercase m-0"
                         style="color: #6F3A68; font-weight:700; letter-spacing: 3px; font-size: 30px">
-                        Team Kami
+                        Tim Kami
                     </h2>
                     <p class="text-muted small mb-3 mt-2">
                         Kenali anggota tim profesional kami yang siap melayani Anda
@@ -252,77 +237,173 @@
             <div class="position-relative">
                 <div class="swiper teamSwiper">
                     <div class="swiper-wrapper">
-                        <!-- Anggota Tim 1 -->
+                        <!-- Lurah -->
                         <div class="swiper-slide">
                             <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
+                                <img src="{{ asset('images/lurah.jpg') }}" class="card-img-top" alt="Foto Anggota Tim">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Jumyati, S.E</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19720412 201001 1 001</p>
+                                    <p class="small text-muted">Lurah Subangjaya</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Anggota Tim 2 -->
+                        <!-- Sekretaris -->
                         <div class="swiper-slide">
                             <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Anggota Tim 2 -->
-                        <div class="swiper-slide">
-                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
-                                <img src="{{ asset('images/image-desa.png') }}" class="card-img-top"
-                                    alt="Foto Anggota Tim">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Nama Anggota</h5>
-                                    <p class="card-text text-muted" style="font-size: 14px;">Jabatan / Role</p>
-                                    <p class="small text-muted">Deskripsi singkat tentang anggota tim ini.</p>
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Muldan Kamiswara, S.IP</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19740328 200901 1 002</p>
+                                    <p class="small text-muted">Sekretaris</p>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Bendahara -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Watnaria Dian Utami, AM, Kep SH</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19880103 201101 2 002</p>
+                                    <p class="small text-muted">Bendahara</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pelaksana Bendahara -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Dewi Kurniawati</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NUP.20180301P851</p>
+                                    <p class="small text-muted">Pelaksana</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kasi Trantibum -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Asep Badrudin, S.IP</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19680314 199403 1 004</p>
+                                    <p class="small text-muted">Kasi Trantibum</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pelaksana Trantibum -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Fajar Herdiana Putra</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NUP.20141001L848</p>
+                                    <p class="small text-muted">Pelaksana</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MOSAM -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Herman Lesmana</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NUP.20170201L849</p>
+                                    <p class="small text-muted">MOSAM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kasi PPM -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Levi Hendrayani, S.P</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19761216 200901 2 002</p>
+                                    <p class="small text-muted">Kasi PPM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pelaksana PPM -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Kamilah Shalihah Saepullah, S.H</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NUP.20130101P1308</p>
+                                    <p class="small text-muted">Pelaksana</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kasi Kesos -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Hesti Trestawati, S.E</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NIP.19781026 200801 2 010</p>
+                                    <p class="small text-muted">Kasi Kesos</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pelaksana Kesos -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Akhmad Hidayat</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NUP.20220601L1256</p>
+                                    <p class="small text-muted">Pelaksana</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Operator -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Fikri Maulana Malik</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;"></p>
+                                    <p class="small text-muted">Operator</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Babinkamtibmas -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Bripka Hadi Ismanto</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NRP</p>
+                                    <p class="small text-muted">Babinkamtibmas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Babinsa -->
+                        <div class="swiper-slide">
+                            <div class="card shadow-sm rounded-2 overflow-hidden h-100 text-center">
+                                <img src="{{ asset('images/Default.png') }}" class="card-img-top" alt="Foto Anggota Tim">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold" style="font-size: 16px;">Serka Nasution</h5>
+                                    <p class="card-text text-muted" style="font-size: 14px;">NRP</p>
+                                    <p class="small text-muted">Babinsa</p>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Tambah slide lainnya sesuai kebutuhan -->
                     </div>
                 </div>
@@ -330,47 +411,88 @@
         </section>
     </div>
 
-    <div class="container mt-4 mb-5" style="background-color: #F3E5F5; padding: 40px; border-radius: 8px;">
-        <h2 class="text-center mb-3" style="font-size: 24px; color: #6F3A68;">Saran dan Masukan</h2>
-        <p class="text-center mb-4" style="color: #4F4F4F; font-size: 13px">Berikan saran dan masukan Anda untuk
-            kemajuan Kelurahan Subangjaya.</p>
-
-        <form id="saranForm" action="{{ route('saran.store') }}" method="POST" style="max-width: 600px; margin: 0 auto;">
-
-            @csrf
-            <div class="mb-3">
-                <label for="nama" class="form-label" style="color: #4F4F4F; font-weight: 500; font-size: 14px">Nama Lengkap</label>
-                <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" id="nama" value="{{ old('nama') }}">
-                @error('nama')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+<div class="container p-0 p-md-1 mt-0 mb-md-3 mb-0">
+    <div class="row d-flex align-items-stretch">
+        <!-- Kolom Pertama: Syarat dan Kelengkapan -->
+        <div class="col-md-6 mb-4">
+            <div class="content-box h-100 p-4 p-md-5 m-3 rounded-5 d-flex flex-column"
+                style="background-color: #6F3A68;">
+                <h2 class="text-center mb-3" style="font-size: 24px; color: #ffffff;">Pengumuman</h2>
+                <ul class="layanan-text-syarat text-white">
+                    <li>Lampiran : Keputusan Walikota Sukabumi</li>
+                    <li>Nomor : 12 Tahun 2013</li>
+                    <li>Tentang : Jenis dan Persyaratan Serta Bentuk Surat Keterangan pada Kelurahan di Lingkungan
+                        Pemerintah Kota Sukabumi</li>
+                </ul>
+                <br><br><h5 class="text-center mb-3 text-white">Jam Operasional Kelurahan</h5>
+                <ul class="text-white small text-center list-unstyled">
+                    <li>Senin – Kamis: 07.30 – 15.00 WIB</li>
+                    <li>Jumat: 07.30 – 13.00 WIB</li>
+                    <li>Istirahat: 12.00 – 13.00 WIB</li>
+                </ul>
+                    <br><br><p class="text-white text-center small">
+                        Informasi penting dan pengumuman terbaru akan ditampilkan di sini.<br>
+                        Silakan kunjungi kembali secara berkala.
+                    </p>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label" style="color: #4F4F4F; font-weight: 500;font-size: 14px">Email</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}">
-                @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+        <!-- Kolom Kedua: Form Saran -->
+        <div class="col-md-6 mb-4">
+            <div class="content-box h-100 p-4 p-md-5 m-3 rounded-5" style="background-color: #F3E5F5;">
+                <h2 class="text-center mb-3" style="font-size: 24px; color: #6F3A68;">Saran dan Masukan</h2>
+                <p class="text-center mb-4" style="color: #4F4F4F; font-size: 13px">
+                    Berikan saran dan masukan Anda untuk kemajuan Kelurahan Subangjaya.
+                </p>
+
+                <form id="saranForm" action="{{ route('saran.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="nama" class="form-label" style="color: #4F4F4F; font-weight: 500; font-size: 14px">
+                            Nama Lengkap
+                        </label>
+                        <input type="text" class="form-control @error('nama') is-invalid @enderror"
+                               name="nama" id="nama" value="{{ old('nama') }}">
+                        @error('nama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: #4F4F4F; font-weight: 500;font-size: 14px">
+                            Email
+                        </label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                               name="email" id="email" value="{{ old('email') }}">
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pesan" class="form-label" style="color: #4F4F4F; font-weight: 500;font-size: 14px">
+                            Saran dan Masukan
+                        </label>
+                        <textarea class="form-control @error('pesan') is-invalid @enderror" id="pesan"
+                                  name="pesan" rows="4">{{ old('pesan') }}</textarea>
+                        @error('pesan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn"
+                                style="background-color: #6F3A68; color: white; padding: 10px 15px;">
+                            Kirim Saran
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label for="pesan" class="form-label" style="color: #4F4F4F; font-weight: 500;font-size: 14px">Saran dan Masukan</label>
-                <textarea class="form-control @error('pesan') is-invalid @enderror" id="pesan" name="pesan" rows="4">{{ old('pesan') }}</textarea>
-                @error('pesan')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-
-
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn"
-                    style="background-color: #6F3A68; color: white; border-radius: 8px; padding: 10px 20px;">Kirim
-                    Saran</button>
-            </div>
-        </form>
+        </div>
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
