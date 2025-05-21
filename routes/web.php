@@ -74,7 +74,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
+    // Start Ijin Keramain
     Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
+    Route::get('/surat-pengantar-ijin-keramaian/{id}/preview-pdf', [SuratPengantarIjinKeramaianController::class, 'previewPdf'])
+     ->name('surat.preview-pdf');
+
+    Route::post('/surat-pengantar-ijin-keramaian/{id}/generate-pdf', [SuratPengantarIjinKeramaianController::class, 'generatePdf'])
+     ->name('surat.generate-pdf');
+    // End Ijin Keramain
     Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
     Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);

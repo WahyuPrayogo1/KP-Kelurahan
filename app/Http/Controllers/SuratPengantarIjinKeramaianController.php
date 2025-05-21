@@ -6,6 +6,9 @@ use App\Models\SuratPengantarIjinKeramaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+use Mpdf\Mpdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 
 class SuratPengantarIjinKeramaianController extends Controller
 {
@@ -56,51 +59,91 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_pengantar_ijin_keramaians,nik',
-            'no_hp' => 'required|string|max:15',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+        $validated = $request->validate([
+            'nama_pemohon' => 'required|string|max:255',
+            'jabatan_pemohon' => 'required|string|max:255',
+            'no_hp' => ['required', 'regex:/^08[0-9]{8,11}$/'],
+            'nama_organisasi' => 'required|string|max:255',
+            'alamat_organisasi' => 'nullable|string|max:500',
+            'mengadakan_keramain' => 'required|string|max:255',
+            'hiburan' => 'nullable|string|max:255',
+            'waktu' => 'required|string|max:255',
+
+            'tempat' => 'required|string|max:255',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'rt' => 'required|digits_between:1,3',
+            'rw' => 'required|digits_between:1,3',
+            'kode_pos' => 'required|digits:5',
+
+
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kartu_keluarga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pernyataan_tetangga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
             'catatan' => 'nullable|string',
+        ], [
+
+            'nama_pemohon.required' => 'Nama pemohon wajib diisi.',
+            'jabatan_pemohon.required' => 'Jabatan pemohon wajib diisi.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'no_hp.regex' => 'Nomor HP harus dimulai dengan 08 dan terdiri dari 10 hingga 13 digit.',
+            'nama_organisasi.required' => 'Nama organisasi wajib diisi.',
+            'mengadakan_keramain.required' => 'Kolom kegiatan yang diadakan wajib diisi.',
+            'waktu.required' => 'Waktu pelaksanaan wajib diisi.',
+
+            'foto_ktp.required' => 'Foto KTP wajib diunggah.',
+            'foto_kartu_keluarga.required' => 'Foto Kartu Keluarga wajib diunggah.',
+            'foto_pernyataan_tetangga.required' => 'Foto Surat Pernyataan Tetangga wajib diunggah.',
+            'foto_pengantar_rt_rw.required' => 'Foto Surat Pengantar RT/RW wajib diunggah.',
+
+            'foto_ktp.image' => 'File KTP harus berupa gambar.',
+            'foto_kartu_keluarga.image' => 'File KK harus berupa gambar.',
+            'foto_pernyataan_tetangga.image' => 'File pernyataan tetangga harus berupa gambar.',
+            'foto_pengantar_rt_rw.image' => 'File pengantar RT/RW harus berupa gambar.',
+
+            'foto_ktp.mimes' => 'Format KTP harus jpeg, jpg, atau png.',
+            'foto_kartu_keluarga.mimes' => 'Format KK harus jpeg, jpg, atau png.',
+            'foto_pernyataan_tetangga.mimes' => 'Format pernyataan tetangga harus jpeg, jpg, atau png.',
+            'foto_pengantar_rt_rw.mimes' => 'Format pengantar RT/RW harus jpeg, jpg, atau png.',
+
+            'foto_ktp.max' => 'Ukuran KTP tidak boleh lebih dari 2MB.',
+            'foto_kartu_keluarga.max' => 'Ukuran KK tidak boleh lebih dari 2MB.',
+            'foto_pernyataan_tetangga.max' => 'Ukuran pernyataan tetangga tidak boleh lebih dari 2MB.',
+            'foto_pengantar_rt_rw.max' => 'Ukuran pengantar RT/RW tidak boleh lebih dari 2MB.',
         ]);
 
-        // Upload file
-        $foto_ktp = $request->file('foto_ktp')->store('uploads', 'private');
-        $foto_kartu_keluarga = $request->file('foto_kartu_keluarga')->store('uploads', 'private');
-        $foto_pernyataan_tetangga = $request->file('foto_pernyataan_tetangga')->store('uploads', 'private');
-        $foto_pengantar_rt_rw = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
+            $validated['tempat'] = $request->tempat
+        . ', Kel. ' . $request->kelurahan
+        . ', Kec. ' . $request->kecamatan
+        . ', RT ' . $request->rt
+        . '/RW ' . $request->rw
+        . ' Kota Sukabumi '
+        . ', ' . $request->kode_pos;
 
-        // Simpan ke database
-        SuratPengantarIjinKeramaian::create([
-            'nama' => $request->nama,
-            'nik' => $request->nik,
-            'user_id' => auth()->id(), // Pastikan user login
-            'no_hp' => $request->no_hp,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'alamat_lengkap' => $request->alamat_lengkap,
-            'tempat_lahir' => $request->tempat_lahir,
-            'foto_ktp' => $foto_ktp,
-            'foto_kartu_keluarga' => $foto_kartu_keluarga,
-            'foto_pernyataan_tetangga' => $foto_pernyataan_tetangga,
-            'foto_pengantar_rt_rw' => $foto_pengantar_rt_rw,
-            'status' => 'proses',
-        ]);
+
+        // Simpan file ke folder private
+        foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_tetangga', 'foto_pengantar_rt_rw'] as $field) {
+            $validated[$field] = $request->file($field)->store('uploads', 'private');
+        }
+
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = 'proses';
+
+        SuratPengantarIjinKeramaian::create($validated);
 
         return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
     }
 
+
     /**
      * Display the specified resource.
      */
-    public function show(SuratPengantarIjinKeramaian $suratPengantarIjinKeramaian)
+    public function show($id)
     {
-        //
+        $surat = SuratPengantarIjinKeramaian::findOrFail($id);
+        return view('backend.pages.Ijin_Keramain.show', compact('surat'));
     }
 
     /**
@@ -120,31 +163,42 @@ class SuratPengantarIjinKeramaianController extends Controller
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
 
         $validatedData = $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_keterangan_usahas,nik,' . $id,
+            'nama_pemohon' => 'required|string|max:255',
+            'jabatan_pemohon' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+            'nama_organisasi' => 'required|string|max:255',
+            'alamat_organisasi' => 'required|string',
+            'mengadakan_keramain' => 'required|string|max:255',
+            'hiburan' => 'nullable|string|max:255',
+            'waktu' => 'required|string|max:255',
+            'tempat' => 'required|string|max:255',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kartu_keluarga' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pernyataan_tetangga' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status' => 'required|in:proses,selesai,ditolak', // tambah validasi status
+            'status' => 'required|in:proses,selesai,ditolak',
             'catatan' => 'nullable|string',
         ]);
 
+        // Handle file uploads
         foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_tetangga', 'foto_pengantar_rt_rw'] as $field) {
             if ($request->hasFile($field)) {
+                // Delete old file if exists
                 if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
                     Storage::disk('private')->delete($surat->$field);
                 }
+                // Store new file
                 $validatedData[$field] = $request->file($field)->store('uploads', 'private');
+            } else {
+                // Keep existing file if no new file uploaded
+                $validatedData[$field] = $surat->$field;
             }
         }
 
         $surat->update($validatedData);
-        return redirect()->route('surat_pengantar_ijin_keramaian.index')->with('success', 'Data berhasil diupdate.');
+
+        return redirect()->route('surat_pengantar_ijin_keramaian.index')
+            ->with('success', 'Surat pengantar ijin keramaian berhasil diperbarui.');
     }
 
     /**
@@ -162,5 +216,48 @@ class SuratPengantarIjinKeramaianController extends Controller
 
         $surat->delete();
         return redirect()->route('surat_pengantar_ijin_keramaian.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function previewPdf($id)
+    {
+        $surat = SuratPengantarIjinKeramaian::findOrFail($id);
+        return view('backend.pages.Ijin_Keramain.preview-pdf', compact('surat'));
+    }
+
+    public function generatePdf(Request $request, $id)
+    {
+        $surat = SuratPengantarIjinKeramaian::findOrFail($id);
+
+        $data = [
+            'surat' => $surat,
+            'nomor_surat' => $request->nomor_surat ?? '300 /     / 02.1006 / ' . date('Y'),
+            'tanggal_surat' => $request->tanggal_surat ?? now(),
+            'lurah_nip' => $request->lurah_nip,
+            'camat_nip' => $request->camat_nip,
+            'danramil_nrp' => $request->danramil_nrp,
+            'kapolsek_nip' => $request->kapolsek_nip,
+            'kapolsek_nomor' => $request->kapolsek_nomor,
+            'kapolsek_tanggal' => $request->kapolsek_tanggal,
+            'kapolsek_status' => $request->kapolsek_status,
+            'kapolsek_catatan' => $request->kapolsek_catatan,
+        ];
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'default_font' => 'times',
+            'margin_left' => 20,  // Diperkecil
+            'margin_right' => 20,
+            'margin_top' => 10,
+            'margin_bottom' => 0,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+        ]);
+
+        $html = view('backend.pages.Ijin_Keramain.pdf.surat', $data)->render();
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output('Surat-Ijin-Keramaian-'.$surat->id.'.pdf', \Mpdf\Output\Destination::INLINE);
     }
 }

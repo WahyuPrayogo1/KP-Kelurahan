@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Absensi</title>
+    <title>Kelurahan Subang Jaya</title>
     <!-- CSS files -->
     <link href="{{asset('backend/css/tabler.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{asset('backend/css/tabler-flags.min.css?1692870487')}}" rel="stylesheet"/>
@@ -12,6 +12,7 @@
     <link href="{{asset('backend/css/tabler-vendors.min.css?1692870487')}}" rel="stylesheet"/>
     <link href="{{asset('backend/css/demo.min.css?1692870487')}}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {

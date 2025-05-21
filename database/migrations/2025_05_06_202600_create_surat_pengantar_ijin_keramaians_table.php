@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('surat_pengantar_ijin_keramaians', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('nik')->unique();
+            $table->string('nama_pemohon');
+            $table->string('jabatan_pemohon')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('no_hp');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->text('alamat_lengkap');
-            $table->string('tempat_lahir');
+            $table->string('nama_organisasi');
+            $table->string('alamat_organisasi')->nullable();
+
+
+            $table->string('mengadakan_keramain');
+            $table->string('hiburan')->nullable();
+            $table->string('waktu');
+            $table->string('tempat');
 
             // Dokumen lampiran
             $table->string('foto_ktp'); // Fotocopy KTP

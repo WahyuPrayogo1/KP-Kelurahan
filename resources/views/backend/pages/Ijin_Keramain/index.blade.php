@@ -28,10 +28,11 @@
                             <thead>
                                 <tr>
                                     <th>No</th> <!-- Ganti dari ID jadi No -->
-                                    <th>Nama</th>
-                                    <th>NIK</th>
-                                    <th>No HP</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Nama Pemohon</th>
+                                    <th>Nama Organisasi</th>
+                                    <th>Waktu</th>
+                                    <th>Tempat</th>
+                                    <th>Menggelar Acara</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -74,20 +75,24 @@
                         }
                     },
                     {
-                        data: 'nama',
-                        name: 'nama'
+                        data: 'nama_pemohon',
+                        name: 'nama_pemohon'
                     },
                     {
-                        data: 'nik',
-                        name: 'nik'
+                        data: 'nama_organisasi',
+                        name: 'nama_organisasi'
                     },
                     {
-                        data: 'no_hp',
-                        name: 'no_hp'
+                        data: 'waktu',
+                        name: 'waktu'
                     },
                     {
-                        data: 'jenis_kelamin',
-                        name: 'jenis_kelamin'
+                        data: 'tempat',
+                        name: 'tempat'
+                    },
+                    {
+                        data: 'mengadakan_keramain',
+                        name: 'mengadakan_keramain  '
                     },
                     {
                         data: 'status',

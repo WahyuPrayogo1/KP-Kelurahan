@@ -13,13 +13,31 @@ return new class extends Migration
     {
         Schema::create('surat_keterangan_usahas', function (Blueprint $table) {
             $table->id();
+            // Atas
             $table->string('nama');
             $table->string('nik')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('no_hp');
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->text('alamat_lengkap');
-            $table->string('tempat_lahir');
+            $table->string('kewarganegaraan');
+            $table->string('pekerjaan');
+            $table->string('status_perkawinan');
+            $table->string('agama');
+
+            // Bawah
+            $table->string('nama_usaha');
+            $table->string('jenis_usaha');
+            $table->string('alamat_usaha');
+            $table->string('status_bangunan');
+            $table->string('no_sppt');
+            $table->string('akta_pendirian_usaha');
+            $table->string('jumlah_karyawan');
+            $table->string('pimpinan_usaha');
+
+
+
+
             $table->string('foto_ktp');
             $table->string('foto_kartu_keluarga');
             $table->string('foto_pernyataan_rt_rw');

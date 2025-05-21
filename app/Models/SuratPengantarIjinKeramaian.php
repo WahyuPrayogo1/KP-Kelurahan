@@ -10,13 +10,17 @@ class SuratPengantarIjinKeramaian extends Model
     use HasFactory;
     protected $table = 'surat_pengantar_ijin_keramaians';
     protected $fillable = [
-        'nama',
-        'nik',
+        'nama_pemohon',
+        'jabatan_pemohon',
         'user_id',
         'no_hp',
-        'jenis_kelamin',
-        'alamat_lengkap',
-        'tempat_lahir',
+        'nama_organisasi',
+        'alamat_organisasi',
+        'mengadakan_keramain',
+        'hiburan',
+        'waktu',
+        'tempat',
+
         'foto_ktp',
         'foto_kartu_keluarga',
         'foto_pernyataan_tetangga',
