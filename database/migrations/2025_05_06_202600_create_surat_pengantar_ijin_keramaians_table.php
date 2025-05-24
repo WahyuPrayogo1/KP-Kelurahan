@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('surat_pengantar_ijin_keramaians', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pemohon');
-            $table->string('jabatan_pemohon')->unique();
+            $table->string('jabatan_pemohon');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('no_hp');
             $table->string('nama_organisasi');

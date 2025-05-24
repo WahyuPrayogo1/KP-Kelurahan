@@ -123,44 +123,83 @@ class SuratPindahDomisiliPerusahaanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_pindah_domisili_perusahaans,nik',
-            'no_hp' => 'required|string|max:15',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+            'nama_perusahaan' => 'required|string|max:255',
+            'alamat_perusahaan' => 'required|string|max:255',
+            'nama_pemilik' => 'required|string|max:255',
+            'alamat_pemilik' => 'required|string',
+            'nomor_tdp' => 'required|string|max:50',
+            'jenis_usaha' => 'required|string|max:100',
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_akte_notaris' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pernyataan_pindah' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_akte_notaris' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'catatan' => 'nullable|string',
+        ], [
+            'required' => 'Field :attribute wajib diisi',
+            'unique' => 'Alamat perusahaan sudah terdaftar',
+            'max' => 'Maksimal :max karakter',
+            'image' => 'File harus berupa gambar',
+            'mimes' => 'Format file harus jpeg, png, atau jpg',
+            'foto_ktp.max' => 'Ukuran file tidak boleh lebih dari 2MB',
+            'foto_kk.max' => 'Ukuran file tidak boleh lebih dari 2MB',
+            'foto_pernyataan_pindah.max' => 'Ukuran file tidak boleh lebih dari 2MB',
+            'foto_akte_notaris.max' => 'Ukuran file tidak boleh lebih dari 2MB',
+            'foto_pengantar_rt_rw.max' => 'Ukuran file tidak boleh lebih dari 2MB',
         ]);
 
-        // Upload file
-        $foto_ktp = $request->file('foto_ktp')->store('uploads', 'private');
-        $foto_kk = $request->file('foto_kk')->store('uploads', 'private');
-        $foto_pernyataan_pindah = $request->file('foto_pernyataan_pindah')->store('uploads', 'private');
-        $foto_akte_notaris = $request->file('foto_akte_notaris')->store('uploads', 'private');
-        $foto_pengantar_rt_rw = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
+        // Upload files
+        $foto_ktp = $request->file('foto_ktp')->store('uploads/surat_pindah_perusahaan', 'private');
+        $foto_kk = $request->file('foto_kk')->store('uploads/surat_pindah_perusahaan', 'private');
+        $foto_pernyataan_pindah = $request->file('foto_pernyataan_pindah')->store('uploads/surat_pindah_perusahaan', 'private');
+        $foto_akte_notaris = $request->file('foto_akte_notaris')->store('uploads/surat_pindah_perusahaan', 'private');
+        $foto_pengantar_rt_rw = $request->file('foto_pengantar_rt_rw')->store('uploads/surat_pindah_perusahaan', 'private');
 
-        // Simpan ke database
+
+        $alamatLengkap = $request->alamat_perusahaan
+        . ', Kel. ' . $request->kelurahan_perusahaan
+        . ', Kec. ' . $request->kecamatan_perusahaan
+        . ', RT ' . $request->rt_perusahaan
+        . '/RW ' . $request->rw_perusahaan
+        . ', Kota Sukabumi'
+        . ', ' . $request->kode_pos_perusahaan;
+        // Save to database
         SuratPindahDomisiliPerusahaan::create([
-            'nama' => $request->nama,
-            'nik' => $request->nik,
-            'user_id' => auth()->id(), // Pastikan user login
-            'no_hp' => $request->no_hp,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'alamat_lengkap' => $request->alamat_lengkap,
-            'tempat_lahir' => $request->tempat_lahir,
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat_perusahaan' => $alamatLengkap,
+            'user_id' => auth()->id(),
+            'nama_pemilik' => $request->nama_pemilik,
+            'alamat_pemilik' => $request->alamat_pemilik,
+            'nomor_tdp' => $request->nomor_tdp,
+            'jenis_usaha' => $request->jenis_usaha,
             'foto_ktp' => $foto_ktp,
             'foto_kk' => $foto_kk,
             'foto_pernyataan_pindah' => $foto_pernyataan_pindah,
             'foto_akte_notaris' => $foto_akte_notaris,
             'foto_pengantar_rt_rw' => $foto_pengantar_rt_rw,
             'status' => 'proses',
+            'catatan' => $request->catatan,
         ]);
 
-        return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan surat pindah domisili perusahaan berhasil dikirim.');
     }
+
+       public function show($id)
+        {
+            $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+            return view('backend.pages.surat_pindah.show', compact('surat'));
+        }
+
+
+        public function previewPdf($id)
+        {
+            $surat = SuratPengantarIjinKeramaian::findOrFail($id);
+            return view('backend.pages.surat_pindah.preview-pdf', compact('surat'));
+        }
+
+        public function generatePdf(Request $request, $id)
+        {
+
+        }
+
 }

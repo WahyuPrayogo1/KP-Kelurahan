@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('surat_pindah_domisili_perusahaans', function (Blueprint $table) {
             $table->id();
              // Data pengaju (perorangan)
-            $table->string('nama');
-            $table->string('nik')->unique();
+            $table->string('nama_perusahaan');
+            $table->string('alamat_perusahaan');
+
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('no_hp');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->text('alamat_lengkap');
-            $table->string('tempat_lahir');
+            $table->string('nama_pemilik');
+            $table->text('alamat_pemilik');
+            $table->string('nomor_tdp');
+            $table->string('jenis_usaha');
+
 
             // Dokumen lampiran
             $table->string('foto_ktp'); // Fotocopy KTP

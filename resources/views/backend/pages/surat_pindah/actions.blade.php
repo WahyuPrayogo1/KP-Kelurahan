@@ -1,11 +1,27 @@
-<a href="{{ route('surat-pindah-perusahaan.edit', $row->id) }}" class="btn btn-sm btn-warning">Edit</a>
-<button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $row->id }})">Hapus</button>
+<td class="text-center">
+    <!-- Detail Button -->
+    <a href="{{ route('surat-pindah-perusahaan.show', $row->id) }}" class="btn btn-sm btn-info" title="Detail">
+        <i class="fas fa-eye"></i>
+    </a>
 
-<form id="delete-form-{{ $row->id }}" action="{{ route('surat-pindah-perusahaan.destroy', $row->id) }}" method="POST" style="display: none;">
-    @csrf
-    @method('DELETE')
-</form>
+    <!-- Edit Button -->
+    <a href="{{ route('surat-pindah-perusahaan.edit', $row->id) }}" class="btn btn-sm btn-warning" title="Edit">
+        <i class="fas fa-edit"></i>
+    </a>
 
+    <!-- Delete Button -->
+    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $row->id }})" title="Hapus">
+        <i class="fas fa-trash"></i>
+    </button>
+
+    <!-- Hidden Delete Form -->
+    <form id="delete-form-{{ $row->id }}" action="{{ route('surat-pindah-perusahaan.destroy', $row->id) }}" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+</td>
+
+<!-- SweetAlert Delete Confirmation -->
 <script>
     function confirmDelete(id) {
         Swal.fire({

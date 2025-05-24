@@ -21,13 +21,8 @@ use App\Http\Controllers\TentangKamiController;
 use App\Http\Controllers\SektorPekerjaanController;
 use App\Http\Controllers\PekerjaanController;
 
-
-
-
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +55,9 @@ Route::get('/persyaratan', function () {
     return view('pages.persyaratan.index');
 })->name('persyaratan');
 
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('/dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('/dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
@@ -74,26 +69,29 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
     Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
     Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
-    // Start Ijin Keramain
-    Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
-    Route::get('/surat-pengantar-ijin-keramaian/{id}/preview-pdf', [SuratPengantarIjinKeramaianController::class, 'previewPdf'])
-     ->name('surat.preview-pdf');
 
-    Route::post('/surat-pengantar-ijin-keramaian/{id}/generate-pdf', [SuratPengantarIjinKeramaianController::class, 'generatePdf'])
-     ->name('surat.generate-pdf');
+    // Start Ijin Keramain
+        Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
+        Route::get('/surat-pengantar-ijin-keramaian/{id}/preview-pdf', [SuratPengantarIjinKeramaianController::class, 'previewPdf'])->name('surat.preview-pdf');
+
+        Route::post('/surat-pengantar-ijin-keramaian/{id}/generate-pdf', [SuratPengantarIjinKeramaianController::class, 'generatePdf'])->name('surat.generate-pdf');
     // End Ijin Keramain
-    Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
+
+    // Start Surat Pindah Perusahaan
+        Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
+        Route::get('/surat-pindah-perusahaan/{id}/preview-pdf', [SuratPindahDomisiliPerusahaanController::class, 'previewPdf'])->name('surat-pindah-perusahaan.preview-pdf');
+
+        Route::post('/surat-pindah-perusahaan/{id}/generate-pdf', [SuratPindahDomisiliPerusahaanController::class, 'generatePdf'])->name('surat-pindah-perusahaan.generate-pdf');
+    // End Surat Pindah Perusahaan
+    
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
     Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
-
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
     Route::resource('penduduk', PendudukController::class);
     Route::resource('sektor-pekerjaan', SektorPekerjaanController::class);
     Route::resource('pekerjaan', PekerjaanController::class);
-
-
 
     // Surat Saya
     Route::get('/surat-saya', [SuratSayaController::class, 'index'])->name('surat.saya');
@@ -120,16 +118,15 @@ Route::middleware('auth')->group(function () {
 
         // Return file dari storage private
         return response()->file(Storage::disk('private')->path($path));
-    })->name('file.preview')->middleware('auth');
-
-
-
+    })
+        ->name('file.preview')
+        ->middleware('auth');
 });
 
-    // // User
-    // Route::get('/surat-keterangan-pindah/create', [SuratKeteranganPindahDomisiliController::class, 'createUser'])->name('surat-keterangan-pindah.create');
-    // Route::post('/surat-keterangan-pindah/store', [SuratKeteranganPindahDomisiliController::class, 'storeUser'])->name('surat-keterangan-pindah.store');
+// // User
+// Route::get('/surat-keterangan-pindah/create', [SuratKeteranganPindahDomisiliController::class, 'createUser'])->name('surat-keterangan-pindah.create');
+// Route::post('/surat-keterangan-pindah/store', [SuratKeteranganPindahDomisiliController::class, 'storeUser'])->name('surat-keterangan-pindah.store');
 
-    // Route::get('/surat-keterangan-akta-nikah/create', [SuratKeteranganAktaNikahController::class, 'createUser'])->name('surat-keterangan-akta-nikah.create');
-    // Route::post('/surat-keterangan-akta-nikah/store', [SuratKeteranganAktaNikahController::class, 'storeUser'])->name('surat-keterangan-akta-nikah.store');
-require __DIR__.'/auth.php';
+// Route::get('/surat-keterangan-akta-nikah/create', [SuratKeteranganAktaNikahController::class, 'createUser'])->name('surat-keterangan-akta-nikah.create');
+// Route::post('/surat-keterangan-akta-nikah/store', [SuratKeteranganAktaNikahController::class, 'storeUser'])->name('surat-keterangan-akta-nikah.store');
+require __DIR__ . '/auth.php';

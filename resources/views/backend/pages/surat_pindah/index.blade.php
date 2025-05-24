@@ -30,10 +30,9 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>NIK</th>
-                                    <th>No HP</th>
-                                    <th>Jenis Kelamin</th>
+                                    <th>Nama Perusahaan</th>
+                                    <th>Pemilik Perusahaan</th>
+                                    <th>Jenis Usaha</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -76,20 +75,16 @@
                         }
                     },
                     {
-                        data: 'nama',
-                        name: 'nama'
+                        data: 'nama_perusahaan',
+                        name: 'nama_perusahaan'
                     },
                     {
-                        data: 'nik',
-                        name: 'nik'
+                        data: 'nama_pemilik',
+                        name: 'nama_pemilik'
                     },
                     {
-                        data: 'no_hp',
-                        name: 'no_hp'
-                    },
-                    {
-                        data: 'jenis_kelamin',
-                        name: 'jenis_kelamin'
+                        data: 'jenis_usaha',
+                        name: 'jenis_usaha'
                     },
                     {
                         data: 'status',

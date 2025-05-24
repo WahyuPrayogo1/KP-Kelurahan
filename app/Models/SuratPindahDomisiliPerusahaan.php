@@ -10,13 +10,13 @@ class SuratPindahDomisiliPerusahaan extends Model
     use HasFactory;
 
      protected $fillable = [
-        'nama',
-        'nik',
+        'nama_perusahaan',
+        'alamat_perusahaan',
         'user_id',
-        'no_hp',
-        'jenis_kelamin',
-        'alamat_lengkap',
-        'tempat_lahir',
+        'nama_pemilik',
+        'alamat_pemilik',
+        'nomor_tdp',
+        'jenis_usaha',
         'foto_ktp',
         'foto_kk',
         'foto_pernyataan_pindah',
