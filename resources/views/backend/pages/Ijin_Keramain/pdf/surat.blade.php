@@ -67,6 +67,25 @@
     </style>
 </head>
 <body>
+    <div style="text-align: center;">
+        <table width="100%">
+            <tr>
+            <td width="100" align="center">
+                <img src="{{ public_path('images/logo.png') }}" width="80">
+            </td>
+            <td align="center">
+                <div style="font-size: 14pt; font-weight: bold;">PEMERINTAH KOTA SUKABUMI</div>
+                <div style="font-size: 13pt;">KECAMATAN CIKOLE</div>
+                <div style="font-size: 16pt; font-weight: bold;">KELURAHAN SUBANGJAYA</div>
+                <div style="font-size: 11pt;">
+                Jl. Subangjaya No. 41 Telp. (0266) 235 755 Kota Sukabumi
+                </div>
+            </td>
+            </tr>
+        </table>
+        <div style="height: 3px; background-color: black; margin: 4px 0;"></div>
+        <div style="height: 1px; background-color: black; margin-top: 0;"></div>
+        </div>
     <!-- Kop Surat -->
     <div class="header">
         <h3>SURAT PENGANTAR KETERANGAN IJIN KERAMAIAN</h3>

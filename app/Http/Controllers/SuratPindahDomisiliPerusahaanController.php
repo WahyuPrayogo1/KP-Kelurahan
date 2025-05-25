@@ -283,8 +283,8 @@ class SuratPindahDomisiliPerusahaanController extends Controller
                     'format' => 'A4',
                     'orientation' => 'P',
                     'default_font' => 'times',
-                    'margin_left' => 20,  // Diperkecil
-                    'margin_right' => 20,
+                    'margin_left' => 10,  // Diperkecil
+                    'margin_right' => 10,
                     'margin_top' => 10,
                     'margin_bottom' => 0,
                     'margin_header' => 0,
