@@ -42,6 +42,10 @@
                             <td>{{ $surat->alamat_pemilik }}</td>
                         </tr>
                          <tr>
+                            <th>Tanggal Pindah</th>
+                            <td>{{ $surat->tanggal_pindah }}</td>
+                        </tr>
+                         <tr>
                             <th>Status</th>
                             <td>
                                 <span class="badge

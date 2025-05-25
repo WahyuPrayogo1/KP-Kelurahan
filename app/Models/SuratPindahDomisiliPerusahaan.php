@@ -13,6 +13,7 @@ class SuratPindahDomisiliPerusahaan extends Model
         'nama_perusahaan',
         'alamat_perusahaan',
         'user_id',
+        'tanggal_pindah',
         'nama_pemilik',
         'alamat_pemilik',
         'nomor_tdp',

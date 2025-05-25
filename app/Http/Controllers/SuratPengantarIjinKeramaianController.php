@@ -17,6 +17,9 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function index(Request $request)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         if ($request->ajax()) {
             $absens = SuratPengantarIjinKeramaian::with('user')->get();
             return DataTables::of($absens)
@@ -142,6 +145,9 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function show($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
         return view('backend.pages.Ijin_Keramain.show', compact('surat'));
     }
@@ -151,6 +157,9 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function edit($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
         return view('backend.pages.Ijin_Keramain.edit', compact('surat'));
     }
@@ -160,6 +169,9 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function update(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -206,6 +218,9 @@ class SuratPengantarIjinKeramaianController extends Controller
      */
     public function destroy($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
 
         foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_tetangga', 'foto_pengantar_rt_rw'] as $field) {
@@ -220,12 +235,18 @@ class SuratPengantarIjinKeramaianController extends Controller
 
     public function previewPdf($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
         return view('backend.pages.Ijin_Keramain.preview-pdf', compact('surat'));
     }
 
     public function generatePdf(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
 
         $data = [

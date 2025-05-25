@@ -71,17 +71,42 @@
                                     <input type="text" name="jenis_usaha" class="form-control"
                                            required value="{{ $surat->jenis_usaha }}">
                                 </div>
-                                <div class="col-md-12 mb-3">
+                               <div class="col-md-12 mb-3">
                                     <label class="form-label">Alamat Perusahaan</label>
                                     <div class="row g-2">
                                         <div class="col-md-12">
-                                            <input type="text" name="alamat_perusahaan" class="form-control"
-                                                   placeholder="Contoh: Jl. Merdeka No. 45" required
-                                                   value="{{ $surat->alamat_perusahaan }}">
+                                            <input type="text" id="alamat_perusahaan" name="alamat_perusahaan" class="form-control required-step1"
+                                                placeholder="Contoh: Jl. Merdeka No. 45" required value="{{ old('alamat_perusahaan', $alamat) }}">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="kelurahan_perusahaan" name="kelurahan_perusahaan" class="form-control required-step1"
+                                                placeholder="Kelurahan" required value="{{ old('kelurahan_perusahaan', $kelurahan) }}">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="kecamatan_perusahaan" name="kecamatan_perusahaan" class="form-control required-step1"
+                                                placeholder="Kecamatan" required value="{{ old('kecamatan_perusahaan', $kecamatan) }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" id="rt_perusahaan" name="rt_perusahaan" class="form-control required-step1 angka-saja"
+                                                placeholder="RT" required maxlength="3" value="{{ old('rt_perusahaan', $rt) }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" id="rw_perusahaan" name="rw_perusahaan" class="form-control required-step1 angka-saja"
+                                                placeholder="RW" required maxlength="3" value="{{ old('rw_perusahaan', $rw) }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" id="kode_pos_perusahaan" name="kode_pos_perusahaan" class="form-control required-step1 angka-saja"
+                                                placeholder="Kode Pos" required maxlength="5" value="{{ old('kode_pos_perusahaan', $kode_pos) }}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mb-3">
+                                 <div class="col-md-6 mb-3">
+                                    <label for="tanggal_pindah" class="form-label">Tanggal Pindah</label>
+                                    <input type="date" name="tanggal_pindah" class="form-control"
+                                           required value="{{ $surat->tanggal_pindah }}">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
                                     <label for="alamat_pemilik" class="form-label">Alamat Pemilik</label>
                                     <textarea name="alamat_pemilik" class="form-control" rows="2" required>{{ $surat->alamat_pemilik }}</textarea>
                                 </div>

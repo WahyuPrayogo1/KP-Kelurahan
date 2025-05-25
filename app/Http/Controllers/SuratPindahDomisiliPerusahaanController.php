@@ -15,6 +15,9 @@ class SuratPindahDomisiliPerusahaanController extends Controller
      */
     public function index(Request $request)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         if ($request->ajax()) {
             $data = SuratPindahDomisiliPerusahaan::with('user')->get();
             return DataTables::of($data)
@@ -36,11 +39,31 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
         return view('backend.pages.surat_pindah.index');
     }
+
     public function edit($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
-        return view('backend.pages.surat_pindah.edit', compact('surat'));
+
+        // Pisahkan alamat lengkap menjadi bagian-bagian
+        $alamatParts = explode(', ', $surat->alamat_perusahaan);
+
+        $alamat = $alamatParts[0] ?? '';
+        $kelurahan = str_replace('Kel. ', '', $alamatParts[1] ?? '');
+        $kecamatan = str_replace('Kec. ', '', $alamatParts[2] ?? '');
+
+        preg_match('/RT (\d+)\/RW (\d+)/', $alamatParts[3] ?? '', $rtRwMatch);
+        $rt = $rtRwMatch[1] ?? '';
+        $rw = $rtRwMatch[2] ?? '';
+
+        $kode_pos = $alamatParts[5] ?? '';
+
+        return view('backend.pages.surat_pindah.edit', compact('surat', 'alamat', 'kelurahan', 'kecamatan', 'rt', 'rw', 'kode_pos'));
     }
+
+
 
     public function create()
     {
@@ -49,51 +72,63 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
     public function update(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
 
         $validatedData = $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_pindah_domisili_perusahaans,nik,' . $id,
-            'no_hp' => 'required|string|max:15',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
-            'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_kk' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pernyataan_pindah' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_akte_notaris' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status' => 'required|in:proses,selesai,ditolak', // tambah validasi status
+            'nama_perusahaan' => 'required|string|max:255',
+            'alamat_perusahaan' => 'required|string|max:255',
+            'nama_pemilik' => 'required|string|max:255',
+            'alamat_pemilik' => 'required|string',
+            'tanggal_pindah' => 'required|string',
+            'nomor_tdp' => 'required|string|max:50',
+            'jenis_usaha' => 'required|string|max:100',
+            'status' => 'required|in:proses,selesai,ditolak',
+            'foto_ktp' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_kk' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_pernyataan_pindah' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_akte_notaris' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_pengantar_rt_rw' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
             'catatan' => 'nullable|string',
+        ], [
+            'required' => 'Field :attribute wajib diisi',
+            'max' => 'Maksimal :max karakter',
+            'image' => 'File harus berupa gambar',
+            'mimes' => 'Format file harus jpeg, png, atau jpg',
         ]);
 
-        // Hapus dan update file jika ada upload baru
-        if ($request->hasFile('foto_ktp')) {
-            if ($surat->foto_ktp && Storage::disk('private')->exists($surat->foto_ktp)) {
-                Storage::disk('private')->delete($surat->foto_ktp);
+        // Handle upload dan hapus file lama jika ada yang baru
+        $fileFields = [
+            'foto_ktp',
+            'foto_kk',
+            'foto_pernyataan_pindah',
+            'foto_akte_notaris',
+            'foto_pengantar_rt_rw'
+        ];
+
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
+                    Storage::disk('private')->delete($surat->$field);
+                }
+
+                $validatedData[$field] = $request->file($field)->store('uploads/surat_pindah_perusahaan', 'private');
             }
-            $validatedData['foto_ktp'] = $request->file('foto_ktp')->store('uploads', 'private');
         }
 
-        if ($request->hasFile('foto_kk')) {
-            if ($surat->foto_kk && Storage::disk('private')->exists($surat->foto_kk)) {
-                Storage::disk('private')->delete($surat->foto_kk);
-            }
-            $validatedData['foto_kk'] = $request->file('foto_kk')->store('uploads', 'private');
-        }
+        // Jika kamu mau perbarui alamat lengkap seperti di store()
+        $alamatLengkap = $request->alamat_perusahaan;
+        if ($request->has(['kelurahan_perusahaan', 'kecamatan_perusahaan', 'rt_perusahaan', 'rw_perusahaan', 'kode_pos_perusahaan'])) {
+            $alamatLengkap .= ', Kel. ' . $request->kelurahan_perusahaan
+                . ', Kec. ' . $request->kecamatan_perusahaan
+                . ', RT ' . $request->rt_perusahaan
+                . '/RW ' . $request->rw_perusahaan
+                . ', Kota Sukabumi'
+                . ', ' . $request->kode_pos_perusahaan;
 
-        if ($request->hasFile('foto_akte_notaris')) {
-            if ($surat->foto_akte_notaris && Storage::disk('private')->exists($surat->foto_akte_notaris)) {
-                Storage::disk('private')->delete($surat->foto_akte_notaris);
-            }
-            $validatedData['foto_akte_notaris'] = $request->file('foto_akte_notaris')->store('uploads', 'private');
-        }
-
-        if ($request->hasFile('foto_pengantar_rt_rw')) {
-            if ($surat->foto_pengantar_rt_rw && Storage::disk('private')->exists($surat->foto_pengantar_rt_rw)) {
-                Storage::disk('private')->delete($surat->foto_pengantar_rt_rw);
-            }
-            $validatedData['foto_pengantar_rt_rw'] = $request->file('foto_pengantar_rt_rw')->store('uploads', 'private');
+            $validatedData['alamat_perusahaan'] = $alamatLengkap;
         }
 
         $surat->update($validatedData);
@@ -101,8 +136,12 @@ class SuratPindahDomisiliPerusahaanController extends Controller
         return redirect()->route('surat-pindah-perusahaan.index')->with('success', 'Data berhasil diupdate!');
     }
 
+
     public function destroy($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
 
         // Hapus semua file terkait jika ada
@@ -127,6 +166,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
             'alamat_perusahaan' => 'required|string|max:255',
             'nama_pemilik' => 'required|string|max:255',
             'alamat_pemilik' => 'required|string',
+            'tanggal_pindah' => 'required|string',
             'nomor_tdp' => 'required|string|max:50',
             'jenis_usaha' => 'required|string|max:100',
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -169,6 +209,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
             'alamat_perusahaan' => $alamatLengkap,
             'user_id' => auth()->id(),
             'nama_pemilik' => $request->nama_pemilik,
+            'tanggal_pindah' => $request->tanggal_pindah,
             'alamat_pemilik' => $request->alamat_pemilik,
             'nomor_tdp' => $request->nomor_tdp,
             'jenis_usaha' => $request->jenis_usaha,
@@ -193,13 +234,77 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
         public function previewPdf($id)
         {
-            $surat = SuratPengantarIjinKeramaian::findOrFail($id);
+             if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
+            $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
             return view('backend.pages.surat_pindah.preview-pdf', compact('surat'));
         }
 
         public function generatePdf(Request $request, $id)
         {
+             if (!auth()->user()->hasRole('Admin')) {
+              abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
+            try {
+                $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
 
+                // Validasi input
+                $validated = $request->validate([
+                    'nomor_surat' => 'required|string|max:50',
+                    'tanggal_surat' => 'required|date',
+
+                    'nomor_surat_rt_rw' => 'required|string|max:50',
+                    'tanggal_surat_rt_rw' => 'required|date',
+                    'tanggal_pernyataan' => 'required|date',
+                    'nomor_surat_lama' => 'required|string|max:50',
+                    'tanggal_surat_lama' => 'required|date',
+                    'tujuan_surat' => 'required|string|max:255',
+                    'nama_lurah' => 'required|string|max:100'
+                ]);
+
+                $data = [
+                    'surat' => $surat,
+                    'nomor_surat' => $validated['nomor_surat'] ?? '503/    /Kode Wil/'.date('Y'),
+                    'tanggal_surat' => $validated['tanggal_surat'] ?? now(),
+
+                    'nomor_surat_rt_rw' => $validated['nomor_surat_rt_rw'],
+                    'tanggal_surat_rt_rw' => $validated['tanggal_surat_rt_rw'],
+                    'tanggal_pernyataan' => $validated['tanggal_pernyataan'],
+                    'nomor_surat_lama' => $validated['nomor_surat_lama'],
+                    'tanggal_surat_lama' => $validated['tanggal_surat_lama'],
+                    'tujuan_surat' => $validated['tujuan_surat'],
+                    'nama_lurah' => $validated['nama_lurah'],
+                ];
+
+                // Konfigurasi PDF
+                $mpdf = new \Mpdf\Mpdf([
+                    'mode' => 'utf-8',
+                    'format' => 'A4',
+                    'orientation' => 'P',
+                    'default_font' => 'times',
+                    'margin_left' => 20,  // Diperkecil
+                    'margin_right' => 20,
+                    'margin_top' => 10,
+                    'margin_bottom' => 0,
+                    'margin_header' => 0,
+                    'margin_footer' => 0,
+                ]);
+
+                // Generate PDF
+                $html = view('backend.pages.surat_pindah.pdf.surat', $data)->render();
+                $mpdf->WriteHTML($html);
+
+                // Return PDF
+                $filename = 'Surat-Pindah-Perusahaan-'.$surat->id.'-'.date('YmdHis').'.pdf';
+                return $mpdf->Output($filename, \Mpdf\Output\Destination::INLINE);
+
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                abort(404, 'Data surat tidak ditemukan');
+            } catch (\Exception $e) {
+                Log::error('Error generating PDF: '.$e->getMessage());
+                return back()->withError('Terjadi kesalahan saat membuat PDF');
+            }
         }
 
 }

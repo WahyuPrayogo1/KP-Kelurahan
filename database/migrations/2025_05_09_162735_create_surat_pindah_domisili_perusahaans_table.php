@@ -16,6 +16,8 @@ return new class extends Migration
              // Data pengaju (perorangan)
             $table->string('nama_perusahaan');
             $table->string('alamat_perusahaan');
+            $table->string('tanggal_pindah');
+
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nama_pemilik');

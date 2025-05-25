@@ -103,6 +103,12 @@
                                     </div>
 
                                     <div class="col-md-12 mb-3">
+                                        <label for="tanggal_pindah" class="form-label">Tanggal Pindah</label>
+                                        <input type="date" name="tanggal_pindah" class="form-control"
+                                            required>
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
                                         <label for="alamat_pemilik" class="form-label">Alamat Pemilik</label>
                                         <textarea name="alamat_pemilik" class="form-control  required-step1" rows="2" required>{{ old('alamat_pemilik') }}</textarea>
                                     </div>
