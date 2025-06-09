@@ -9,7 +9,9 @@ use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
 use App\Models\SuratKeteranganBedaDataKependudukan;
-use App\Models\SuratPernyataanTanahTidakSengketa;
+use App\Models\SuratPernyataanTanahTidakSengketa; 
+use App\Models\SuratKeteranganBekerjaLuarNegeri;
+use App\Models\SuratKeteranganKematian;
 use App\Models\PendudukStat;
 
 class DashboardController extends Controller
@@ -76,10 +78,20 @@ class DashboardController extends Controller
         $selesaiBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'selesai')->count();
         $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')->count();
 
+        // Bekerja Luar negeri
+        $prosesBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'proses')->count();
+        $selesaiBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'selesai')->count();
+        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'ditolak')->count();
+
+        // Keterangan Kematian
+        $prosesKematian = SuratKeteranganKematian::where('status', 'proses')->count();
+        $selesaiKematian = SuratKeteranganKematian::where('status', 'selesai')->count();
+        $ditolakKematian = SuratKeteranganKematian::where('status', 'ditolak')->count();
+
         // Total semua model
-        $prosesCount = $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah + $prosesBedaPenduduk;
-        $selesaiCount = $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah + $selesaiBedaPenduduk;
-        $ditolakCount = $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah + $ditolakBedaPenduduk;
+        $prosesCount =  $prosesKematian + $prosesBekerja + $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah + $prosesBedaPenduduk;
+        $selesaiCount = $selesaiKematian + $selesaiBekerja + $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah + $selesaiBedaPenduduk;
+        $ditolakCount = $ditolakKematian + $ditolakBekerja + $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah + $ditolakBedaPenduduk;
 
 
         // Ambil semua data status "proses" dari semua model
@@ -123,12 +135,25 @@ class DashboardController extends Controller
             ->map(function ($item) {
                 $item->model_type = 'surat_pengantar_ijin_keramaian';
                 return $item;
-            });
+            }); 
 
         $prosesPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'proses')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat-pindah-perusahaan';
+                return $item;
+            });
+
+        $prosesBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'proses')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-bekerja-luar-negeri';
+                return $item;
+            });
+        $prosesKematian = SuratKeteranganKematian::where('status', 'proses')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat_keterangan_kematian';
                 return $item;
             });
 
@@ -179,6 +204,18 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat-pindah-perusahaan';
+                return $item;
+            });
+        $selesaiBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'selesai')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-bekerja-luar-negeri';
+                return $item;
+            });
+        $selesaiKematian = SuratKeteranganKematian::where('status', 'selesai')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'ssurat_keterangan_kematian';
                 return $item;
             });
 
@@ -235,12 +272,24 @@ class DashboardController extends Controller
                 $item->model_type = 'surat-pindah-perusahaan';
                 return $item;
             });
+        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat-bekerja-luar-negeri';
+                return $item;
+            });
+        $ditolakKematian = SuratKeteranganKematian::where('status', 'ditolak')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat_keterangan_kematian';
+                return $item;
+            });
 
 
         // Gabungkan semua data
-        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah)->concat($prosesBedaPenduduk);
-        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah)->concat($selesaiBedaPenduduk);
-        $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakTanah)->concat($ditolakBedaPenduduk);
+        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah)->concat($prosesBedaPenduduk)->concat($prosesBekerja)->concat($prosesKematian);
+        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah)->concat($selesaiBedaPenduduk)->concat($selesaiBekerja)->concat($selesaiKematian);
+        $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakTanah)->concat($ditolakBedaPenduduk)->concat($ditolakBekerja)->concat($ditolakKematian);
 
         return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems','ditolakItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData'));
     }

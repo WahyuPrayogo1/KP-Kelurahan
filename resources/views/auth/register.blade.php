@@ -89,7 +89,7 @@
             <div class="col-md-6 d-flex align-items-center justify-content-center register-form">
                 <div style="width: 100%; max-width: 400px;">
                     <h1 class="fw-bold fs-1">REGISTER</h1>
-                    <p>Daftar untuk bergabung di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAYI</small></p>
+                    <p>Daftar untuk bergabung di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAY!</small></p>
 
                     <!-- Laravel Register Form -->
                     <form class="mt-4" method="POST" action="{{ route('register') }}">
@@ -107,7 +107,18 @@
                         <!-- Nomor WhatsApp -->
                         <div class="mb-3">
                             <label for="whatsapp_number" class="form-label label-form">Nomor WhatsApp</label>
-                            <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number" value="{{ old('whatsapp_number') }}" required autocomplete="tel">
+                            <input 
+                                type="tel" 
+                                class="form-control" 
+                                id="whatsapp_number" 
+                                name="whatsapp_number" 
+                                value="{{ old('whatsapp_number') }}" 
+                                required 
+                                autocomplete="tel"
+                                maxlength="15" 
+                                pattern="[0-9]+" 
+                                title="Hanya boleh angka, maksimal 15 digit">
+                                
                             @error('whatsapp_number')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror

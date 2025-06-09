@@ -131,6 +131,9 @@
                                                <a class="dropdown-item" href="{{route('surat-keterangan-orang-tua.index')}}">
                                                   Surat Keterangan Orang Tua
                                               </a>
+                                              <a class="dropdown-item" href="{{route('surat-bekerja-luar-negeri.index')}}">
+                                                  Surat Keterangan Bekerja di Luar Negeri
+                                              </a>
                                           </div>
 
 
@@ -139,13 +142,16 @@
                                                   Surat Keterangan Usaha
                                               </a>
                                               <a class="dropdown-item" href="{{route('keterangan_akta_nikah.index')}}">
-                                                  Surat Keterangan Akta Nikah
+                                                  Surat Keterangan Status Nikah
                                               </a>
                                               <a class="dropdown-item" href="{{route('surat-tanah-tidak-sengketa.index')}}">
                                                   Surat Keterangan Kepemilikan Tanah Tidak Sengketa
                                               </a>
                                                 <a class="dropdown-item" href="{{route('beda-data-kependudukan.index')}}">
                                                   Surat Keterangan Beda Data Kependudukan
+                                                </a>
+                                                <a class="dropdown-item" href="{{route('surat_keterangan_kematian.index')}}">
+                                                  Surat Keterangan Kematian
                                                 </a>
                                           </div>
                                       </div>

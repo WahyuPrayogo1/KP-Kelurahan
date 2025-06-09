@@ -14,15 +14,17 @@ return new class extends Migration
         Schema::create('surat_keterangan_kematians', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('nik')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('no_hp');
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->text('alamat_lengkap');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
+            $table->string('tempat_meninggal');
             $table->date('tanggal_meninggal');
-
+            $table->string('penyebab_kematian'); // Penyebab kematian
+            $table->string('kewarganegaraan');
+            $table->string('agama');
+            
             // Dokumen lampiran
             $table->string('fc_ktp'); // 1. Fotocopy KTP
             $table->string('fc_kk'); // 2. Fotocopy KK

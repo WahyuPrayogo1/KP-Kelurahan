@@ -89,7 +89,7 @@
             <div class="col-md-6 d-flex align-items-center justify-content-center login-form">
                 <div style="width: 100%; max-width: 400px;">
                     <h1 class="fw-bold fs-1">LOGIN</h1>
-                    <p>Selamat datang di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAYI</small></p>
+                    <p>Selamat datang di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAY!</small></p>
 
                     <!-- Laravel Login Form -->
                     <form class="mt-5" method="POST" action="{{ route('login') }}">
@@ -133,6 +133,18 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Registrasi Berhasil',
+            text: '{{ session('success') }}',
+            confirmButtonColor: '#6F3A68', // warna ungu
+        });
+    </script>
+    @endif
 </body>
 
 </html>

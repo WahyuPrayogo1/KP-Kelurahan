@@ -9,26 +9,38 @@ class SuratKeteranganAktaNikah extends Model
 {
     use HasFactory;
 
-    protected $table = 'surat_keterangan_akta_nikahs'; // jamak
+    // Nama tabel (opsional, Laravel bisa mendeteksi dari nama model)
+    protected $table = 'surat_keterangan_akta_nikahs';
 
+    // Kolom yang boleh diisi (mass assignment)
     protected $fillable = [
         'nama',
         'nik',
-        'user_id', // ini perlu ada
-        'no_hp',
-        'jenis_kelamin',
-        'alamat_lengkap',
         'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'agama',
+        'status_perkawinan',
+        'pekerjaan',
+        'kewarganegaraan',
+        'alamat_lengkap',
+        'no_kk',
+        'no_pengantar_rt_rw',
+        'tanggal_pengantar_rt_rw',
+        'user_id',
         'foto_ktp',
         'foto_kartu_keluarga',
-        'foto_akta_kelahiran',
-        'foto_ijazah',
-        'foto_pengantar_na_rt_rw', // ini yang benar
-        'foto_pengantar_rt_rw',
+        'foto_surat_pernyataan_nikah',
+        'foto_surat_pengantar_rt_rw',
         'status',
         'catatan',
+        'tanggal_dikeluarkan',
     ];
 
+    /**
+     * Relasi ke tabel users.
+     * Setiap surat akta nikah dimiliki oleh satu user.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

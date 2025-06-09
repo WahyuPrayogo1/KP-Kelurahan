@@ -6,38 +6,47 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('surat_keterangan_bekerja_luar_negeris', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('nik')->unique();
+
+            // Data Pemohon
+            $table->string('nama_pemohon');
+            $table->string('nik_pemohon')->unique();
+            $table->string('tempat_lahir_pemohon');
+            $table->date('tanggal_lahir_pemohon');
+            $table->string('pekerjaan_pemohon');
+            $table->string('status_perkawinan_pemohon');
+            $table->string('agama_pemohon');
+            $table->text('alamat_pemohon');
+
+            // Data Pekerja
+            $table->enum('hubungan_dengan_pekerja', ['orang tua', 'suami', 'istri', 'anak', 'saudara']);
+            $table->string('nama_pekerja');
+            $table->string('nik_pekerja');
+            $table->string('tempat_lahir_pekerja');
+            $table->date('tanggal_lahir_pekerja');
+            $table->enum('jenis_kelamin_pekerja', ['L', 'P']);
+            $table->string('kewarganegaraan_pekerja');
+            $table->string('agama_pekerja');
+            $table->text('alamat_pekerja');
+            $table->string('negara_tujuan');
+
+            // Dokumen
+            $table->string('fc_ktp');
+            $table->string('fc_kk');
+            $table->string('surat_pernyataan_bekerja');
+            $table->string('pengantar_rt_rw');
+
+            // Metadata
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('no_hp');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->text('alamat_lengkap');
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->string('negara_tujuan')->nullable(); // opsional, bisa diisi negara kerja
-
-            // Dokumen lampiran
-            $table->string('fc_ktp'); // 1. Fotocopy KTP
-            $table->string('fc_kk'); // 2. Fotocopy KK
-            $table->string('surat_pernyataan_bekerja'); // 3. Surat Pernyataan bekerja di luar negeri dari suami/istri
-            $table->string('pengantar_rt_rw'); // 4. Surat Pengantar dari RT/RW
-
             $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
-                });
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('surat_keterangan_bekerja_luar_negeris');

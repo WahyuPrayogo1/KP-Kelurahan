@@ -10,7 +10,8 @@ use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
 use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\SuratKeteranganBedaDataKependudukan;
-
+use App\Models\SuratKeteranganKematian;
+Use App\Models\SuratKeteranganBekerjaLuarNegeri;
 
 
 
@@ -76,6 +77,20 @@ class SuratSayaController extends Controller
             $item->type = 'tanah';
             return $item;
         });
+    $keteranganKematian = SuratKeteranganKematian::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'keterangan_kematian';
+            return $item;
+        });
+    $bekerjaLuarNegeri = SuratKeteranganBekerjaLuarNegeri::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'bekerja_luar_negeri';
+            return $item;
+        });
 
 
 
@@ -87,7 +102,9 @@ class SuratSayaController extends Controller
         ->concat($usaha)
         ->concat($perusahaan)
         ->concat($tanah)
-        ->concat($bedaDataPenduduk);
+        ->concat($bedaDataPenduduk)
+        ->concat($keteranganKematian)
+        ->concat($bekerjaLuarNegeri);
 
     // Urutkan hasil penggabungan
     $suratSaya = $suratSaya->sortByDesc('created_at');

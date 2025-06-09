@@ -4,62 +4,252 @@ namespace App\Http\Controllers;
 
 use App\Models\SuratKeteranganKematian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
+use Mpdf\Mpdf;
 
 class SuratKeteranganKematianController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+public function index(Request $request)
     {
-        //
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized'); // ganti abort 404 jadi 403 sesuai contoh
+        }
+
+        if ($request->ajax()) {
+            $data = SuratKeteranganKematian::with('user')->get(); // model dari kode pertama
+            return DataTables::of($data)
+                ->addColumn('status', function($row) {
+                    $badgeClass = '';
+                    switch ($row->status) {
+                        case 'selesai':
+                            $badgeClass = 'success';
+                            break;
+                        case 'proses':
+                            $badgeClass = 'warning';
+                            break;
+                        case 'ditolak':
+                            $badgeClass = 'danger';
+                            break;
+                        default:
+                            $badgeClass = 'secondary';
+                            break;
+                    }
+                    return '<span class="text-white badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
+                })
+                ->addColumn('aksi', function ($row) {
+                    return view('backend.pages.keterangan_kematian.actions', compact('row')); // view dari kode pertama
+                })
+                ->rawColumns(['status', 'aksi'])
+                ->make(true);
+        }
+
+        return view('backend.pages.keterangan_kematian.index'); // view dari kode pertama
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('backend.pages.keterangan_kematian.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $messages = [
+            'required' => ':attribute wajib diisi.',
+            'string' => ':attribute harus berupa teks.',
+            'max' => ':attribute maksimal :max karakter.',
+            'date' => ':attribute harus berupa tanggal yang valid.',
+            'in' => ':attribute tidak valid.',
+            'image' => ':attribute harus berupa gambar.',
+            'mimes' => ':attribute harus berupa file dengan format jpeg, jpg, atau png.',
+        ];
+
+        $attributeNames = [
+            'nama' => 'Nama Lengkap',
+            'jenis_kelamin' => 'Jenis Kelamin',
+            'alamat_lengkap' => 'Alamat Lengkap',
+            'tempat_lahir' => 'Tempat Lahir',
+            'tanggal_lahir' => 'Tanggal Lahir',
+            'tempat_meninggal' => 'Tempat Meninggal',
+            'tanggal_meninggal' => 'Tanggal Meninggal',
+            'penyebab_kematian' => 'Penyebab Kematian',
+            'kewarganegaraan' => 'Kewarganegaraan',
+            'agama' => 'Agama',
+            'fc_ktp' => 'Fotokopi KTP',
+            'fc_kk' => 'Fotokopi KK',
+            'fc_buku_nikah' => 'Fotokopi Buku Nikah',
+            'pengantar_kematian_rt_rw' => 'Surat Pengantar Kematian dari RT/RW',
+            'catatan' => 'Catatan Tambahan',
+        ];
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|in:L,P',
+            'alamat_lengkap' => 'required|string|max:500',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'tempat_meninggal' => 'required|string|max:255',
+            'tanggal_meninggal' => 'required|date',
+            'penyebab_kematian' => 'required|string|max:255',
+            'kewarganegaraan' => 'required|string|max:100',
+            'agama' => 'required|string|max:100',
+
+            'fc_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'fc_kk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'fc_buku_nikah' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'pengantar_kematian_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
+            'catatan' => 'nullable|string',
+        ], $messages, $attributeNames);
+
+        foreach (['fc_ktp', 'fc_kk', 'fc_buku_nikah', 'pengantar_kematian_rt_rw'] as $fileField) {
+            $validated[$fileField] = $request->file($fileField)->store('uploads', 'private');
+        }
+
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = 'proses';
+
+        SuratKeteranganKematian::create($validated);
+
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(SuratKeteranganKematian $suratKeteranganKematian)
+    public function show($id)
     {
-        //
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+        return view('backend.pages.keterangan_kematian.show', compact('surat'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SuratKeteranganKematian $suratKeteranganKematian)
+    public function edit($id)
     {
-        //
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+        return view('backend.pages.keterangan_kematian.edit', compact('surat'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SuratKeteranganKematian $suratKeteranganKematian)
+    public function update(Request $request, $id)
     {
-        //
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|in:L,P',
+            'alamat_lengkap' => 'required|string|max:500',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'tempat_meninggal' => 'required|string|max:255',
+            'tanggal_meninggal' => 'required|date',
+            'penyebab_kematian' => 'required|string|max:255',
+            'kewarganegaraan' => 'required|string|max:100',
+            'agama' => 'required|string|max:100',
+
+            'fc_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fc_kk' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'fc_buku_nikah' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'pengantar_kematian_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
+            'status' => 'required|in:proses,selesai,ditolak',
+            'catatan' => 'nullable|string',
+        ]);
+
+        foreach (['fc_ktp', 'fc_kk', 'fc_buku_nikah', 'pengantar_kematian_rt_rw'] as $fileField) {
+            if ($request->hasFile($fileField)) {
+                if ($surat->$fileField && Storage::disk('private')->exists($surat->$fileField)) {
+                    Storage::disk('private')->delete($surat->$fileField);
+                }
+                $validated[$fileField] = $request->file($fileField)->store('uploads', 'private');
+            } else {
+                $validated[$fileField] = $surat->$fileField;
+            }
+        }
+
+        $surat->update($validated);
+
+        return redirect()->route('surat_keterangan_kematian.index')->with('success', 'Data berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SuratKeteranganKematian $suratKeteranganKematian)
+    public function destroy($id)
     {
-        //
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+
+        foreach (['fc_ktp', 'fc_kk', 'fc_buku_nikah', 'pengantar_kematian_rt_rw'] as $fileField) {
+            if ($surat->$fileField && Storage::disk('private')->exists($surat->$fileField)) {
+                Storage::disk('private')->delete($surat->$fileField);
+            }
+        }
+
+        $surat->delete();
+
+        return redirect()->route('surat_keterangan_kematian.index')->with('success', 'Data berhasil dihapus.');
     }
+
+    public function previewPdf($id)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+        return view('backend.pages.keterangan_kematian.preview-pdf', compact('surat'));
+    }
+
+    public function generatePdf(Request $request, $id)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $validatedData = $request->validate([
+            'nomor_surat' => 'required|string',
+            'tanggal_surat' => 'required|date',
+            'rt' => 'required|string',
+            'rw' => 'required|string',
+            'hari_meninggal' => 'required|string',
+            'dimakamkan_di' => 'required|string',
+            'nomor_surat_pengantar' => 'required|string',
+        ]);
+
+        $surat = SuratKeteranganKematian::findOrFail($id);
+
+        $data = [
+            'surat' => $surat,
+            'nomor_surat' => $validatedData['nomor_surat'],
+            'tanggal_surat' =>  $validatedData['tanggal_surat'],
+            'rt' =>  $validatedData['rt'],
+            'rw' =>  $validatedData['rw'],
+            'hari_meninggal' => $validatedData['hari_meninggal'],
+            'dimakamkan_di' =>  $validatedData['dimakamkan_di'],
+            'nomor_surat_pengantar' =>  $validatedData['nomor_surat_pengantar'],
+        ];
+
+        $mpdf = new Mpdf([
+            'format' => 'A4-P',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+        ]);
+
+        $html = view('backend.pages.keterangan_kematian.pdf.surat', $data)->render();
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('Surat-Keterangan-Kematian-' . $surat->nama . '.pdf', 'I');
+    }
+
 }

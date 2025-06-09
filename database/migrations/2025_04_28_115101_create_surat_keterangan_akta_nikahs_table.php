@@ -15,19 +15,27 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nik')->unique();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('no_hp');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->text('alamat_lengkap');
             $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->string('agama');
+            $table->enum('status_perkawinan', ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']);
+            $table->string('pekerjaan');
+            $table->string('kewarganegaraan');
+            $table->text('alamat_lengkap');
+            $table->string('no_kk');
+            $table->string('no_pengantar_rt_rw')->nullable();
+            $table->date('tanggal_pengantar_rt_rw')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('foto_ktp');
             $table->string('foto_kartu_keluarga');
-            $table->string('foto_akta_kelahiran');
-            $table->string('foto_ijazah');
-            $table->string('foto_pengantar_na_rt_rw');
-            $table->string('foto_pengantar_rt_rw');
+            // Tambahan kolom baru
+            $table->string('foto_surat_pernyataan_nikah');
+            $table->string('foto_surat_pengantar_rt_rw');
+            // End tambahan kolom baru
             $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
             $table->text('catatan')->nullable();
+            $table->date('tanggal_dikeluarkan')->nullable();
             $table->timestamps();
         });
     }

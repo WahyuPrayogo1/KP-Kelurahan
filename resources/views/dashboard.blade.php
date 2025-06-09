@@ -125,8 +125,8 @@
                                                         Surat Keterangan Pindah Domisili
                                                     @elseif($item->model_type == 'keterangan_usaha')
                                                         Surat Keterangan Usaha
-                                                    @elseif($item->model_type == 'keterangan_nikah')
-                                                        Surat Keterangan Akta Nikah
+                                                    @elseif($item->model_type == 'keterangan_akta_nikah')
+                                                        Surat Keterangan Status Nikah
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
@@ -135,6 +135,10 @@
                                                         Surat Tanah Tidak Sengketa
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                        Surat Keterangan Bekerja di Luar Negeri
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                        Surat Keterangan Kematian
                                                     @endif
                                                 </h1>
 
@@ -184,8 +188,8 @@
                                                         Surat Keterangan Pindah Domisili
                                                     @elseif($item->model_type == 'keterangan_usaha')
                                                         Surat Keterangan Usaha
-                                                    @elseif($item->model_type == 'keterangan_nikah')
-                                                        Surat Keterangan Akta Nikah
+                                                    @elseif($item->model_type == 'keterangan_akta_nikah')
+                                                        Surat Keterangan Status Nikah
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
@@ -194,6 +198,10 @@
                                                         Surat Tanah Sengketa
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                        Surat Keterangan Bekerja di Luar Negeri
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                        Surat Keterangan Kematian
                                                     @endif
                                                 </h1>
 
@@ -243,16 +251,20 @@
                                                         Surat Keterangan Pindah Domisili
                                                     @elseif($item->model_type == 'keterangan_usaha')
                                                         Surat Keterangan Usaha
-                                                    @elseif($item->model_type == 'keterangan_nikah')
-                                                        Surat Keterangan Akta Nikah
+                                                    @elseif($item->model_type == 'keterangan_akta_nikah')
+                                                        Surat Keterangan Status Nikah
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
                                                         Surat Tanah Sengketa
-                                                    @elseif($item->model_type == 'beda-data-kependudukan')
+                                                    @elseif($item->model_type == 'beda-data-kependudukan') 
                                                         Surat Keterangan Beda Penduduk
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                        Surat Keterangan Bekerja di Luar Negeri
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                        Surat Keterangan Kematian
                                                     @endif
                                                 </h1>
 
@@ -377,11 +389,11 @@
                 <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan akta nikah pernikahan">
                     <div class="card card-link-pop shadow-sm h-100">
                         <div class="card-header card-header-light">
-                            <h5 class="card-title mb-0">Surat Keterangan Akta Nikah</h5>
+                            <h5 class="card-title mb-0">Surat Keterangan Status Nikah</h5>
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between pt-0">
                             <p class="card-text text-muted">
-                                Surat pendukung yang digunakan untuk proses pembuatan atau pelaporan akta pernikahan.
+                                Surat pendukung yang digunakan untuk proses pembuatan atau pelaporan status pernikahan.
                             </p>
                             <div class="text-end">
                                 <a href="{{ route('keterangan_akta_nikah.create') }}" class="btn btn-outline-primary btn-sm">
@@ -478,6 +490,42 @@
                             </p>
                             <div class="text-end">
                                 <a href="{{ route('surat-keterangan-orang-tua.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan Kematian">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Kematian</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Surat Keterangan Kematian adalah surat resmi yang menyatakan bahwa seseorang telah meninggal dunia.
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('surat_keterangan_kematian.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan bekerja ke luar negeri">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Bekerja Ke Luar Negeri</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Surat pendukung yang digunakan untuk keperluan administrasi warga yang akan bekerja ke luar negeri.
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('surat-bekerja-luar-negeri.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
