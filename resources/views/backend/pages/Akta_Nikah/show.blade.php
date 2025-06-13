@@ -61,57 +61,68 @@
                 </tbody>
             </table>
 
+            <!-- Dokumen Pendukung -->
             <h5 class="mt-4">Dokumen Pendukung</h5>
             <div class="row">
+
                 <!-- Foto KTP -->
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-header">Foto KTP</div>
-                        <div class="card-body text-center p-2">
-                            <img src="{{ asset('storage/' . $surat->foto_ktp) }}" 
-                            alt="Foto KTP" class="file-preview img-thumbnail"
-                            onclick="showImageModal('{{ asset('storage/' . $surat->foto_ktp) }}', 'Foto KTP')">
+                <div class="col-md-6 mb-3">
+                    <label for="foto_ktp" class="form-label">Foto KTP</label>
+                    <input type="file" name="foto_ktp" id="foto_ktp" class="form-control mb-2" accept="image/jpeg,image/png">
+                    @if($surat->foto_ktp)
+                        <div class="text-center">
+                            <p class="small text-muted">File saat ini:</p>
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_ktp]) }}" 
+                                 alt="Foto KTP" class="img-thumbnail cursor-pointer"
+                                 onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_ktp]) }}', 'Foto KTP')">
                         </div>
-                    </div>
+                    @endif
                 </div>
 
-                <!-- Foto Kartu Keluarga -->
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-header">Foto Kartu Keluarga</div>
-                        <div class="card-body text-center p-2">
-                            <img src="{{ asset('storage/' . $surat->foto_kartu_keluarga) }}" 
-                            alt="Foto KK" class="file-preview img-thumbnail"
-                            onclick="showImageModal('{{ asset('storage/' . $surat->foto_kartu_keluarga) }}', 'foto_kartu_keluarga')">
+                <!-- Foto KK -->
+                <div class="col-md-6 mb-3">
+                    <label for="foto_kartu_keluarga" class="form-label">Foto Kartu Keluarga</label>
+                    <input type="file" name="foto_kartu_keluarga" id="foto_kartu_keluarga" class="form-control mb-2" accept="image/jpeg,image/png">
+                    @if($surat->foto_kartu_keluarga)
+                        <div class="text-center">
+                            <p class="small text-muted">File saat ini:</p>
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}" 
+                                 alt="Foto KK" class="img-thumbnail cursor-pointer"
+                                 onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}', 'Foto KK')">
                         </div>
-                    </div>
+                    @endif
                 </div>
 
-                <!-- Foto Surat Pernyataan Nikah -->
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-header">Foto Surat Pernyataan Nikah</div>
-                        <div class="card-body text-center p-2">
-                            <img src="{{ asset('storage/' . $surat->foto_surat_pernyataan_nikah) }}" 
-                                alt="Surat Pernyataan Nikah" class="file-preview img-thumbnail"
-                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_surat_pernyataan_nikah) }}', 'Surat Pernyataan Nikah')">
+                <!-- Surat Pernyataan Nikah -->
+                <div class="col-md-6 mb-3">
+                    <label for="foto_surat_pernyataan_nikah" class="form-label">Surat Pernyataan Nikah</label>
+                    <input type="file" name="foto_surat_pernyataan_nikah" id="foto_surat_pernyataan_nikah" class="form-control mb-2" accept="image/jpeg,image/png">
+                    @if($surat->foto_surat_pernyataan_nikah)
+                        <div class="text-center">
+                            <p class="small text-muted">File saat ini:</p>
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}" 
+                                 alt="Surat Pernyataan Nikah" class="img-thumbnail cursor-pointer"
+                                 onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}', 'Surat Pernyataan Nikah')">
                         </div>
-                    </div>
+                    @endif
                 </div>
 
-                <!-- Foto Surat Pengantar RT/RW -->
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-header">Foto Surat Pengantar RT/RW</div>
-                        <div class="card-body text-center p-2">
-                            <img src="{{ asset('storage/' . $surat->foto_surat_pengantar_rt_rw) }}" 
-                                alt="Surat Pengantar RT/RW" class="file-preview img-thumbnail"
-                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_surat_pengantar_rt_rw) }}', 'Surat Pengantar RT/RW')">
+                <!-- Surat Pengantar RT/RW -->
+                <div class="col-md-6 mb-3">
+                    <label for="foto_surat_pengantar_rt_rw" class="form-label">Surat Pengantar RT/RW</label>
+                    <input type="file" name="foto_surat_pengantar_rt_rw" id="foto_surat_pengantar_rt_rw" class="form-control mb-2" accept="image/jpeg,image/png">
+                    @if($surat->foto_surat_pengantar_rt_rw)
+                        <div class="text-center">
+                            <p class="small text-muted">File saat ini:</p>
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}" 
+                                 alt="Surat Pengantar RT/RW" class="img-thumbnail cursor-pointer"
+                                 onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}', 'Surat Pengantar RT/RW')">
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
+            <!-- Catatan -->
             @if($surat->catatan)
             <div class="mt-3">
                 <h5>Catatan</h5>
@@ -121,6 +132,7 @@
             </div>
             @endif
 
+            <!-- Tombol Aksi -->
             <div class="mt-4">
                 <a href="{{ route('keterangan_akta_nikah.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Kembali
@@ -134,7 +146,7 @@
     </div>
 </div>
 
-<!-- Image Preview Modal -->
+<!-- Modal Preview Gambar -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -151,6 +163,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script>
@@ -163,10 +176,10 @@
 </script>
 @endpush
 
+@push('styles')
 <style>
     .cursor-pointer {
         cursor: pointer;
     }
 </style>
-
-@endsection
+@endpush

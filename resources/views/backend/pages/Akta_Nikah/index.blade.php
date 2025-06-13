@@ -30,9 +30,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>NIK</th>
-                                    <th>Tempat Lahir</th>
                                     <th>Tanggal Lahir</th>
                                     <th>Jenis Kelamin</th>
+                                    <th>status_perkawinan</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -83,16 +83,16 @@
                         name: 'nik'
                     },
                     {
-                        data: 'tempat_lahir',
-                        name: 'tempat_lahir'
-                    },
-                    {
                         data: 'tanggal_lahir',
                         name: 'tanggal_lahir'
                     },
                     {
                         data: 'jenis_kelamin',
                         name: 'jenis_kelamin'
+                    },
+                    {
+                        data: 'status_perkawinan',
+                        name: 'status_perkawinan'
                     },
                     {
                         data: 'status',

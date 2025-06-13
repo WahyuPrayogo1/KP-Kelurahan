@@ -98,9 +98,31 @@
                   <input type="text" name="kewarganegaraan" id="kewarganegaraan" class="form-control required-step1" value="{{ old('kewarganegaraan') }}" required>
                 </div>
                 <div class="col-12 mb-3">
-                  <label for="alamat" class="form-label">Alamat Lengkap</label>
-                  <textarea name="alamat_lengkap" id="alamat" rows="3" class="form-control required-step1" required>{{ old('alamat_lengkap') }}</textarea>
+                  <label for="alamat" class="form-label">Alamat</label>
+                  <input type="text" name="alamat" id="alamat" class="form-control required-step1 @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}" required>
+                  @error('alamat')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                 </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="rt" class="form-label">RT</label>
+                    <input type="text" name="rt" id="rt" class="form-control required-step1 @error('rt') is-invalid @enderror"
+                          value="{{ old('rt') }}" placeholder="Contoh: 07" maxlength="3" required>
+                    @error('rt')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="rw" class="form-label">RW</label>
+                    <input type="text" name="rw" id="rw" class="form-control required-step1 @error('rw') is-invalid @enderror"
+                          value="{{ old('rw') }}" placeholder="Contoh: 01" maxlength="3" required>
+                    @error('rw')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>
+
                 <div class="col-12 mb-3">
                   <label for="catatan" class="form-label">Catatan Tambahan (opsional)</label>
                   <textarea name="catatan" id="catatan" rows="2" class="form-control">{{ old('catatan') }}</textarea>
@@ -113,31 +135,52 @@
 
             {{-- STEP 2 --}}
             <div id="step2" style="display: none;">
-              <div class="row">
-                @php
-                  $fileFields = [
-                    'foto_ktp' => 'Foto KTP',
-                    'foto_kartu_keluarga' => 'Foto Kartu Keluarga',
-                    'foto_surat_pernyataan_nikah' => 'Foto Surat Pernyataan Nikah',
-                    'foto_surat_pengantar_rt_rw' => 'Foto Surat Pengantar RT/RW',
-                  ];
-                @endphp
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="foto_ktp" class="form-label">Foto KTP</label>
+                        <input type="file" name="foto_ktp" class="form-control required-step1" required
+                            accept="image/jpeg, image/png">
+                        @error('foto_ktp')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="foto_kartu_keluarga" class="form-label">Foto Kartu Keluarga</label>
+                        <input type="file" name="foto_kartu_keluarga" class="form-control required-step1" required
+                            accept="image/jpeg, image/png">
+                        @error('foto_kartu_keluarga')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="foto_surat_pernyataan_nikah" class="form-label">Foto Surat Pernyataan Nikah</label>
+                        <input type="file" name="foto_surat_pernyataan_nikah" class="form-control required-step1" required
+                            accept="image/jpeg, image/png">
+                        @error('foto_surat_pernyataan_nikah')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="foto_surat_pengantar_rt_rw" class="form-label">Foto Surat Pengantar RT/RW</label>
+                        <input type="file" name="foto_surat_pengantar_rt_rw" class="form-control required-step1" required
+                            accept="image/jpeg, image/png">
+                        @error('foto_surat_pengantar_rt_rw')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="catatan" class="form-label">Catatan Tambahan</label>
+                        <textarea name="catatan" class="form-control required-step1">{{ old('catatan') }}</textarea>
+                        @error('catatan')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
 
-                @foreach ($fileFields as $field => $label)
-                  <div class="col-md-6 mb-3">
-                    <label for="{{ $field }}" class="form-label">{{ $label }}</label>
-                    <input type="file" name="{{ $field }}" id="{{ $field }}" class="form-control" required>
-                    @error($field)
-                      <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                  </div>
-                @endforeach
-              </div>
-
-              <div class="d-flex justify-content-between mt-3">
-                <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>
-                <button type="submit" class="btn btn-success">Simpan</button>
-              </div>
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
             </div>
 
           </form>

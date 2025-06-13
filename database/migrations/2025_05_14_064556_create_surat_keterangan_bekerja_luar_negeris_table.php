@@ -13,7 +13,7 @@ return new class extends Migration
 
             // Data Pemohon
             $table->string('nama_pemohon');
-            $table->string('nik_pemohon')->unique();
+            $table->string('nik_pemohon');
             $table->string('tempat_lahir_pemohon');
             $table->date('tanggal_lahir_pemohon');
             $table->string('pekerjaan_pemohon');

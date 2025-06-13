@@ -11,15 +11,7 @@
                     <h2 class="page-title pb-2">
                         Surat Keterangan Beda Data Kependudukan
                     </h2>
-
                 </div>
-                {{-- <div class="col-auto ms-auto d-print-none">
-                <div class="btn-list">
-                    <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Tambah Domisili
-                    </a>
-                </div>
-            </div> --}}
             </div>
         </div>
     </div>
@@ -27,19 +19,20 @@
     <div class="container-xl mt-5">
         <div class="row row-deck row-cards">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Daftar Data Domisili</h3>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Daftar Data Beda Data Kependudukan</h3>
+                    <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-primary">+ Tambah Surat</a>
                 </div>
                 <div class="card-body">
                     <div id="table-default" class="table-responsive">
-                        <table id="beda-data-kependudukan" class="table">
+                        <table id="table_beda_data" class="table">
                             <thead>
                                 <tr>
-                                    <th>No</th> <!-- Ganti dari ID jadi No -->
-                                    <th>Nama</th>
+                                    <th>No</th>
+                                    <th>Nama Lengkap</th>
                                     <th>NIK</th>
-                                    <th>No HP</th>
                                     <th>Jenis Kelamin</th>
+                                    <th>Lokasi Perbedaan</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -56,7 +49,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
-            var table = $('#beda-data-kependudukan').DataTable({
+            var table = $('#table_beda_data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -72,7 +65,8 @@
                         "next": "Berikutnya"
                     }
                 },
-                columns: [{
+                columns: [
+                    {
                         data: null,
                         name: 'nomor',
                         orderable: false,
@@ -82,20 +76,20 @@
                         }
                     },
                     {
-                        data: 'nama',
-                        name: 'nama'
+                        data: 'nama_lengkap',
+                        name: 'nama_lengkap'
                     },
                     {
                         data: 'nik',
                         name: 'nik'
                     },
                     {
-                        data: 'no_hp',
-                        name: 'no_hp'
-                    },
-                    {
                         data: 'jenis_kelamin',
                         name: 'jenis_kelamin'
+                    },
+                    {
+                        data: 'lokasi_perbedaan_nama',
+                        name: 'lokasi_perbedaan_nama'
                     },
                     {
                         data: 'status',
@@ -110,8 +104,8 @@
                         searchable: false
                     }
                 ]
-
             });
+
             @if (session('success'))
                 Swal.fire({
                     icon: 'success',
@@ -120,13 +114,17 @@
                     showConfirmButton: false,
                     timer: 2000
                 });
+
+                setTimeout(() => {
+                    location.reload();
+                }, 1100);
             @endif
         });
 
         function confirmDelete(id) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: "Anda tidak akan dapat mengembalikan data ini!",
+                text: "Data yang dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

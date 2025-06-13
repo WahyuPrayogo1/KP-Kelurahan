@@ -36,7 +36,7 @@ use Carbon\Carbon;
                         <label class="form-label fw-bold">Nomor Surat</label>
                         <input type="text" name="nomor_surat"
                                class="form-control form-control-sm @error('nomor_surat') is-invalid @enderror"
-                               value="{{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/____/VII/6/KEL.SBJ/' . date('Y')) }}"
+                               value="{{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/-/VII/6/KEL.SBJ/' . date('Y')) }}"
                                required>
                         @error('nomor_surat')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -61,7 +61,7 @@ use Carbon\Carbon;
                         <p class="mb-0">
                             Nomor: 
                             <span class="fw-bold">
-                                {{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/____/VII/6/KEL.SBJ/' . date('Y')) }}
+                                {{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/-/VII/6/KEL.SBJ/' . date('Y')) }}
                             </span>
                         </p>
                         <p class="mb-0">
@@ -147,7 +147,7 @@ use Carbon\Carbon;
                         <label class="form-label fw-bold">Nomor Surat Pengantar RT/RW</label>
                         <input type="text" name="nomor_surat_pengantar" 
                                class="form-control form-control-sm @error('nomor_surat_pengantar') is-invalid @enderror" 
-                               value="{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? ' /   /2025') }}" required>
+                               value="{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? ' -/-/2025') }}" required>
                         @error('nomor_surat_pengantar')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

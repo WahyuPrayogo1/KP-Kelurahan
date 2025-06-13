@@ -17,7 +17,7 @@
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Nomor Surat</label>
                         <input type="text" name="nomor_surat" class="form-control form-control-sm"
-                               value="300/    /02.1006/{{ date('Y') }}" required>
+                               value="300/-/02.1006/{{ date('Y') }}" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Tanggal Surat</label>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Nomor Surat Pengantar RT/RW</label>
-                        <input type="text" name="nomor_pengantar_rt_rw" class="form-control form-control-sm" value="  /   /2025" required>
+                        <input type="text" name="nomor_pengantar_rt_rw" class="form-control form-control-sm" value=" -/-/2025" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Tanggal Surat Pengantar RT/RW</label>

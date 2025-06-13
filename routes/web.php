@@ -102,9 +102,14 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/surat-pindah-perusahaan/{id}/generate-pdf', [SuratPindahDomisiliPerusahaanController::class, 'generatePdf'])->name('surat-pindah-perusahaan.generate-pdf');
     // End Surat Pindah Perusahaan
+
+    //start surat beda data kependudukan
+    Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
+    Route::get('/beda-data-kependudukan/{id}/preview-pdf', [SuratKeteranganBedaDataKependudukanController::class, 'previewPdf'])->name('beda-data-kependudukan.preview-pdf');
+    Route::post('/beda-data-kependudukan/{id}/generate-pdf', [SuratKeteranganBedaDataKependudukanController::class, 'generatePdf'])->name('beda-data-kependudukan.generate-pdf');
+    //end surat beda data kependudukan
     
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
-    Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
