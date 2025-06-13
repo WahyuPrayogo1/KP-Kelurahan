@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 10pt;
+            font-size: 11pt;
             line-height: 1.3;
             margin: 0;
             padding: 0;
@@ -16,7 +16,7 @@
             margin-bottom: 5mm;
         }
         .header h3 {
-            font-size: 11pt;
+            font-size: 12pt;
             text-decoration: underline;
             margin: 2mm 0;
             font-weight: bold;
@@ -37,7 +37,7 @@
             float: right;   /* Ubah dari kiri ke kanan */
             box-sizing: border-box;
             text-align: right;  /* agar teks tanda tangan rata kanan */
-}
+    }
         .signature-box {
             margin-bottom: 5mm;
             text-align: start;
@@ -53,9 +53,9 @@
             margin-bottom: 3mm;
         }
         .indent-justify {
-            text-indent: 10mm;
+            text-indent: 8mm;
             text-align: justify;
-            margin: 3mm 50px 6mm 50px;
+            margin: 1mm 50px 3mm 50px;
         }
     </style>
 </head>
@@ -83,8 +83,8 @@
 
     <!-- Judul Surat -->
     <div class="header">
-        <h3>SURAT KETERANGAN STATUS PERKAWINAN</h3>
-        <p>Nomor Surat: {{ $nomor_surat }}</p>
+        <h3 style="margin-bottom: 0;">SURAT KETERANGAN STATUS PERKAWINAN</h3>
+        <p style="margin-top: 0;">Nomor Surat: {{ $nomor_surat }}</p>
     </div>
 
     <!-- Isi Surat -->
@@ -107,11 +107,9 @@
     </div>
 
     <p class="indent-justify">
-        Diterangkan lebih lanjut berdasarkan Surat Pengantar dari Ketua RT/RW setempat Nomor <strong>{{ $nomor_surat_pengantar ?? '........' }}</strong> tanggal 
-        <strong>
-            {{ $tanggal_surat_pengantar ? \Carbon\Carbon::parse($tanggal_surat_pengantar)->translatedFormat('d F Y') : '........' }}
-        </strong>,
-        serta sampai dibuatkannya Surat Keterangan ini adalah <strong>benar</strong> bahwa yang bersangkutan sesuai Kartu Keluarga Nomor {{ $surat->no_kk ?? '........' }} dan Kartu Tanda Penduduk Nomor {{ $surat->nik }} berstatus <strong>{{ $surat->status_perkawinan }}</strong>.
+        Diterangkan lebih lanjut berdasarkan Surat Pengantar dari Ketua RT/RW setempat Nomor {{ $nomor_surat_pengantar ?? '........' }} tanggal 
+        {{ $tanggal_surat_pengantar ? \Carbon\Carbon::parse($tanggal_surat_pengantar)->translatedFormat('d F Y') : '........' }},
+        serta sampai dibuatkannya Surat Keterangan ini adalah 'benar' bahwa yang bersangkutan sesuai Kartu Keluarga Nomor {{ $surat->no_kk ?? '........' }} dan Kartu Tanda Penduduk Nomor {{ $surat->nik }} <strong>berstatus {{ $surat->status_perkawinan }}</strong>.
     </p>
 
     <p class="indent-justify">
@@ -121,7 +119,7 @@
     <p class="indent-justify">
         Demikian Surat Keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.
     </p>
-    <br><br>
+    <br>
 
     <!-- Tanda Tangan -->
     <div class="signature-container">
@@ -137,8 +135,9 @@
                         </td>
                     </tr>
                 </table>
-                <div class="signature-line" style="width: 60mm; margin-top: 20mm; margin-left: 0;"></div>
-                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An, LURAH SUBANGJAYA</strong></p>
+                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
+                <div class="signature-line" style="width: 60mm; margin-top: 30mm; margin-left: 0;"></div>
+                <p style="margin-top: 1mm;">&nbsp;&nbsp;&nbsp;&nbsp;NIP. 19720412 201001 1 001</p>
             </div>
         </div>
     </div>

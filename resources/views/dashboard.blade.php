@@ -805,10 +805,4 @@ document.addEventListener('DOMContentLoaded', function() {
             searchInput.focus();
         });
     </script>
-
-
-
-
-
-
 @endsection

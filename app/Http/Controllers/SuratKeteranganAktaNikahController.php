@@ -54,22 +54,75 @@ class SuratKeteranganAktaNikahController extends Controller
 
     public function store(Request $request)
     {
-         $messages = [
-        'foto_ktp.image' => 'Foto KTP harus berupa gambar.',
-        'foto_ktp.mimes' => 'Foto KTP harus bertipe file: jpeg, png, jpg.',
-        
-        'foto_kartu_keluarga.image' => 'Foto Kartu Keluarga harus berupa gambar.',
-        'foto_kartu_keluarga.mimes' => 'Foto Kartu Keluarga harus bertipe file: jpeg, png, jpg.',
+        $messages = [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.max' => 'Nama tidak boleh lebih dari 255 karakter.',
 
-        'foto_surat_pernyataan_nikah.image' => 'Foto Surat Pernyataan Nikah harus berupa gambar.',
-        'foto_surat_pernyataan_nikah.mimes' => 'Foto Surat Pernyataan Nikah harus bertipe file: jpeg, png, jpg.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.max' => 'NIK tidak boleh lebih dari 16 karakter.',
 
-        'foto_surat_pengantar_rt_rw.image' => 'Foto Surat Pengantar RT/RW harus berupa gambar.',
-        'foto_surat_pengantar_rt_rw.mimes' => 'Foto Surat Pengantar RT/RW harus bertipe file: jpeg, png, jpg.',
-    ];
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tempat_lahir.max' => 'Tempat lahir tidak boleh lebih dari 255 karakter.',
+
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date' => 'Tanggal lahir harus berupa format tanggal yang valid.',
+
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus berupa L atau P.',
+
+            'agama.required' => 'Agama wajib diisi.',
+            'agama.max' => 'Agama tidak boleh lebih dari 100 karakter.',
+
+            'status_perkawinan.required' => 'Status perkawinan wajib dipilih.',
+            'status_perkawinan.in' => 'Status perkawinan tidak valid.',
+
+            'pekerjaan.required' => 'Pekerjaan wajib diisi.',
+            'pekerjaan.max' => 'Pekerjaan tidak boleh lebih dari 255 karakter.',
+
+            'kewarganegaraan.required' => 'Kewarganegaraan wajib diisi.',
+            'kewarganegaraan.max' => 'Kewarganegaraan tidak boleh lebih dari 100 karakter.',
+
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.max' => 'Alamat tidak boleh lebih dari 255 karakter.',
+
+            'rt.required' => 'RT wajib diisi.',
+            'rt.digits_between' => 'RT harus berupa 1 sampai 3 digit angka.',
+
+            'rw.required' => 'RW wajib diisi.',
+            'rw.digits_between' => 'RW harus berupa 1 sampai 3 digit angka.',
+
+            'no_kk.required' => 'Nomor KK wajib diisi.',
+            'no_kk.max' => 'Nomor KK tidak boleh lebih dari 16 karakter.',
+
+            'no_pengantar_rt_rw.max' => 'Nomor surat pengantar RT/RW tidak boleh lebih dari 255 karakter.',
+            'tanggal_pengantar_rt_rw.date' => 'Tanggal surat pengantar RT/RW harus berupa tanggal yang valid.',
+
+            'foto_ktp.required' => 'Foto KTP wajib diunggah.',
+            'foto_ktp.image' => 'Foto KTP harus berupa gambar.',
+            'foto_ktp.mimes' => 'Foto KTP harus bertipe file: jpeg, png, jpg.',
+            'foto_ktp.max' => 'Ukuran Foto KTP tidak boleh lebih dari 2MB.',
+
+            'foto_kartu_keluarga.required' => 'Foto Kartu Keluarga wajib diunggah.',
+            'foto_kartu_keluarga.image' => 'Foto Kartu Keluarga harus berupa gambar.',
+            'foto_kartu_keluarga.mimes' => 'Foto Kartu Keluarga harus bertipe file: jpeg, png, jpg.',
+            'foto_kartu_keluarga.max' => 'Ukuran Foto Kartu Keluarga tidak boleh lebih dari 2MB.',
+
+            'foto_surat_pernyataan_nikah.required' => 'Foto Surat Pernyataan Nikah wajib diunggah.',
+            'foto_surat_pernyataan_nikah.image' => 'Foto Surat Pernyataan Nikah harus berupa gambar.',
+            'foto_surat_pernyataan_nikah.mimes' => 'Foto Surat Pernyataan Nikah harus bertipe file: jpeg, png, jpg.',
+            'foto_surat_pernyataan_nikah.max' => 'Ukuran Foto Surat Pernyataan Nikah tidak boleh lebih dari 2MB.',
+
+            'foto_surat_pengantar_rt_rw.required' => 'Foto Surat Pengantar RT/RW wajib diunggah.',
+            'foto_surat_pengantar_rt_rw.image' => 'Foto Surat Pengantar RT/RW harus berupa gambar.',
+            'foto_surat_pengantar_rt_rw.mimes' => 'Foto Surat Pengantar RT/RW harus bertipe file: jpeg, png, jpg.',
+            'foto_surat_pengantar_rt_rw.max' => 'Ukuran Foto Surat Pengantar RT/RW tidak boleh lebih dari 2MB.',
+
+            'catatan.string' => 'Catatan harus berupa teks.',
+        ];
+
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nik' => 'required|string|max:255|unique:surat_keterangan_akta_nikahs,nik',
+            'nik' => 'required|string|max:16',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
@@ -77,25 +130,34 @@ class SuratKeteranganAktaNikahController extends Controller
             'status_perkawinan' => 'required|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
             'pekerjaan' => 'required|string|max:255',
             'kewarganegaraan' => 'required|string|max:100',
-            'alamat_lengkap' => 'required|string',
-            'no_kk' => 'required|string|max:255',
+
+            'alamat' => 'required|string|max:255',
+            'rt' => 'required|digits_between:1,3',
+            'rw' => 'required|digits_between:1,3',
+
+            'no_kk' => 'required|string|max:16',
             'no_pengantar_rt_rw' => 'nullable|string|max:255',
             'tanggal_pengantar_rt_rw' => 'nullable|date',
+
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kartu_keluarga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_surat_pernyataan_nikah' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_surat_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
             'catatan' => 'nullable|string',
         ], $messages);
 
-        // Upload files ke storage disk 'public' (atau disk sesuai konfigurasi Anda)
+        // Gabungkan alamat_lengkap
+        $validated['alamat_lengkap'] = $request->alamat . ', RT ' . $request->rt . '/RW ' . $request->rw;
+
+        // Upload file ke storage
         foreach ([
             'foto_ktp',
             'foto_kartu_keluarga',
             'foto_surat_pernyataan_nikah',
             'foto_surat_pengantar_rt_rw'
-        ] as $fileField) {
-            $validated[$fileField] = $request->file($fileField)->store('uploads/akta_nikah', 'public');
+        ] as $field) {
+            $validated[$field] = $request->file($field)->store('uploads', 'private');
         }
 
         $validated['user_id'] = auth()->id();
@@ -138,7 +200,7 @@ class SuratKeteranganAktaNikahController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nik' => 'required|string|max:255|unique:surat_keterangan_akta_nikahs,nik,' . $surat->id,
+            'nik' => 'required|string|max:16',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
@@ -147,7 +209,7 @@ class SuratKeteranganAktaNikahController extends Controller
             'pekerjaan' => 'required|string|max:255',
             'kewarganegaraan' => 'required|string|max:100',
             'alamat_lengkap' => 'required|string',
-            'no_kk' => 'required|string|max:255',
+            'no_kk' => 'required|string|max:16',
             'no_pengantar_rt_rw' => 'nullable|string|max:255',
             'tanggal_pengantar_rt_rw' => 'nullable|date',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -165,20 +227,24 @@ class SuratKeteranganAktaNikahController extends Controller
             'foto_kartu_keluarga',
             'foto_surat_pernyataan_nikah',
             'foto_surat_pengantar_rt_rw'
-        ] as $fileField) {
-            if ($request->hasFile($fileField)) {
-                if ($surat->$fileField && Storage::disk('public')->exists($surat->$fileField)) {
-                    Storage::disk('public')->delete($surat->$fileField);
+        ] as $field) {
+            if ($request->hasFile($field)) {
+                // Delete old file if exists
+                if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
+                    Storage::disk('private')->delete($surat->$field);
                 }
-                $validated[$fileField] = $request->file($fileField)->store('uploads/akta_nikah', 'public');
+                // Store new file
+                $validated[$field] = $request->file($field)->store('uploads', 'private');
             } else {
-                $validated[$fileField] = $surat->$fileField;
+                // Keep existing file if no new file uploaded
+                $validated[$field] = $surat->$field;
             }
         }
 
         $surat->update($validated);
 
-        return redirect()->route('keterangan_akta_nikah.index')->with('success', 'Data Surat Keterangan Akta Nikah berhasil diperbarui.');
+        return redirect()->route('keterangan_akta_nikah.index')
+        ->with('success', 'Data Surat Keterangan Akta Nikah berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -194,9 +260,9 @@ class SuratKeteranganAktaNikahController extends Controller
             'foto_kartu_keluarga',
             'foto_surat_pernyataan_nikah',
             'foto_surat_pengantar_rt_rw'
-        ] as $fileField) {
-            if ($surat->$fileField && Storage::disk('public')->exists($surat->$fileField)) {
-                Storage::disk('public')->delete($surat->$fileField);
+        ] as $field) {
+            if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
+                Storage::disk('private')->delete($surat->$field);
             }
         }
 

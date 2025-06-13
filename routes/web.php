@@ -114,7 +114,6 @@ Route::middleware('auth')->group(function () {
     // End Surat Pindah Perusahaan
 
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
-    Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');

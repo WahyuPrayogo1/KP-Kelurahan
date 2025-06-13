@@ -54,40 +54,86 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
 
     public function store(Request $request)
     {
-        $customMessages = [
-            'required' => ':attribute wajib diisi.',
-            'string' => ':attribute harus berupa teks.',
-            'max' => ':attribute maksimal :max karakter.',
-            'digits' => ':attribute harus terdiri dari :digits digit.',
-            'date' => ':attribute harus berupa tanggal yang valid.',
-            'in' => ':attribute tidak valid.',
-            'file' => ':attribute harus berupa file.',
-            'mimes' => ':attribute harus berupa file dengan format jpeg, jpg, atau png.',
-        ];
+        $messages = [
+            'nama_pemohon.required' => 'Nama Pemohon wajib diisi.',
+            'nama_pemohon.max' => 'Nama Pemohon tidak boleh lebih dari 255 karakter.',
 
-        $attributeNames = [
-            'nama_pemohon' => 'Nama Pemohon',
-            'nik_pemohon' => 'NIK Pemohon',
-            'tempat_lahir_pemohon' => 'Tempat Lahir Pemohon',
-            'tanggal_lahir_pemohon' => 'Tanggal Lahir Pemohon',
-            'pekerjaan_pemohon' => 'Pekerjaan Pemohon',
-            'status_perkawinan_pemohon' => 'Status Perkawinan Pemohon',
-            'agama_pemohon' => 'Agama Pemohon',
-            'alamat_pemohon' => 'Alamat Pemohon',
-            'hubungan_dengan_pekerja' => 'Hubungan dengan Pekerja',
-            'nama_pekerja' => 'Nama Pekerja',
-            'nik_pekerja' => 'NIK Pekerja',
-            'tempat_lahir_pekerja' => 'Tempat Lahir Pekerja',
-            'tanggal_lahir_pekerja' => 'Tanggal Lahir Pekerja',
-            'jenis_kelamin_pekerja' => 'Jenis Kelamin Pekerja',
-            'kewarganegaraan_pekerja' => 'Kewarganegaraan Pekerja',
-            'agama_pekerja' => 'Agama Pekerja',
-            'alamat_pekerja' => 'Alamat Pekerja',
-            'negara_tujuan' => 'Negara Tujuan',
-            'fc_ktp' => 'Fotokopi KTP',
-            'fc_kk' => 'Fotokopi KK',
-            'surat_pernyataan_bekerja' => 'Surat Pernyataan Bekerja',
-            'pengantar_rt_rw' => 'Surat Pengantar RT/RW',
+            'nik_pemohon.required' => 'NIK Pemohon wajib diisi.',
+            'nik_pemohon.digits' => 'NIK Pemohon harus terdiri dari 16 digit.',
+
+            'tempat_lahir_pemohon.required' => 'Tempat lahir Pemohon wajib diisi.',
+            'tempat_lahir_pemohon.max' => 'Tempat lahir Pemohon tidak boleh lebih dari 255 karakter.',
+
+            'tanggal_lahir_pemohon.required' => 'Tanggal lahir Pemohon wajib diisi.',
+            'tanggal_lahir_pemohon.date' => 'Tanggal lahir Pemohon harus berupa tanggal yang valid.',
+
+            'pekerjaan_pemohon.required' => 'Pekerjaan Pemohon wajib diisi.',
+            'pekerjaan_pemohon.max' => 'Pekerjaan Pemohon tidak boleh lebih dari 255 karakter.',
+
+            'status_perkawinan_pemohon.required' => 'Status perkawinan Pemohon wajib diisi.',
+            'status_perkawinan_pemohon.max' => 'Status perkawinan Pemohon tidak boleh lebih dari 255 karakter.',
+
+            'agama_pemohon.required' => 'Agama Pemohon wajib diisi.',
+            'agama_pemohon.max' => 'Agama Pemohon tidak boleh lebih dari 100 karakter.',
+
+            'alamat_pemohon.required' => 'Alamat Pemohon wajib diisi.',
+            'alamat_pemohon.max' => 'Alamat Pemohon tidak boleh lebih dari 500 karakter.',
+
+            'hubungan_dengan_pekerja.required' => 'Hubungan dengan Pekerja wajib dipilih.',
+            'hubungan_dengan_pekerja.in' => 'Hubungan dengan Pekerja tidak valid.',
+
+            'nama_pekerja.required' => 'Nama Pekerja wajib diisi.',
+            'nama_pekerja.max' => 'Nama Pekerja tidak boleh lebih dari 255 karakter.',
+
+            'nik_pekerja.required' => 'NIK Pekerja wajib diisi.',
+            'nik_pekerja.digits' => 'NIK Pekerja harus terdiri dari 16 digit.',
+
+            'tempat_lahir_pekerja.required' => 'Tempat lahir Pekerja wajib diisi.',
+            'tempat_lahir_pekerja.max' => 'Tempat lahir Pekerja tidak boleh lebih dari 255 karakter.',
+
+            'tanggal_lahir_pekerja.required' => 'Tanggal lahir Pekerja wajib diisi.',
+            'tanggal_lahir_pekerja.date' => 'Tanggal lahir Pekerja harus berupa tanggal yang valid.',
+
+            'jenis_kelamin_pekerja.required' => 'Jenis kelamin Pekerja wajib dipilih.',
+            'jenis_kelamin_pekerja.in' => 'Jenis kelamin Pekerja harus berupa L atau P.',
+
+            'kewarganegaraan_pekerja.required' => 'Kewarganegaraan Pekerja wajib diisi.',
+            'kewarganegaraan_pekerja.max' => 'Kewarganegaraan Pekerja tidak boleh lebih dari 100 karakter.',
+
+            'agama_pekerja.required' => 'Agama Pekerja wajib diisi.',
+            'agama_pekerja.max' => 'Agama Pekerja tidak boleh lebih dari 100 karakter.',
+
+            'alamat_pekerja.required' => 'Alamat Pekerja wajib diisi.',
+            'alamat_pekerja.max' => 'Alamat Pekerja tidak boleh lebih dari 255 karakter.',
+
+            'rt_pekerja.required' => 'RT Pekerja wajib diisi.',
+            'rt_pekerja.digits_between' => 'RT Pekerja harus berupa 1 sampai 3 digit angka.',
+
+            'rw_pekerja.required' => 'RW Pekerja wajib diisi.',
+            'rw_pekerja.digits_between' => 'RW Pekerja harus berupa 1 sampai 3 digit angka.',
+
+            'negara_tujuan.required' => 'Negara Tujuan wajib diisi.',
+            'negara_tujuan.max' => 'Negara Tujuan tidak boleh lebih dari 255 karakter.',
+
+            'fc_ktp.required' => 'Fotokopi KTP wajib diunggah.',
+            'fc_ktp.image' => 'Fotokopi KTP harus berupa gambar.',
+            'fc_ktp.mimes' => 'Fotokopi KTP harus bertipe file: jpeg, png, jpg.',
+            'fc_ktp.max' => 'Ukuran Fotokopi KTP tidak boleh lebih dari 2MB.',
+
+            'fc_kk.required' => 'Fotokopi KK wajib diunggah.',
+            'fc_kk.image' => 'Fotokopi KK harus berupa gambar.',
+            'fc_kk.mimes' => 'Fotokopi KK harus bertipe file: jpeg, png, jpg.',
+            'fc_kk.max' => 'Ukuran Fotokopi KK tidak boleh lebih dari 2MB.',
+
+            'surat_pernyataan_bekerja.required' => 'Surat Pernyataan Bekerja wajib diunggah.',
+            'surat_pernyataan_bekerja.image' => 'Surat Pernyataan Bekerja harus berupa gambar.',
+            'surat_pernyataan_bekerja.mimes' => 'Surat Pernyataan Bekerja harus bertipe file: jpeg, png, jpg.',
+            'surat_pernyataan_bekerja.max' => 'Ukuran Surat Pernyataan Bekerja tidak boleh lebih dari 2MB.',
+
+            'pengantar_rt_rw.required' => 'Surat Pengantar RT/RW wajib diunggah.',
+            'pengantar_rt_rw.image' => 'Surat Pengantar RT/RW harus berupa gambar.',
+            'pengantar_rt_rw.mimes' => 'Surat Pengantar RT/RW harus bertipe file: jpeg, png, jpg.',
+            'pengantar_rt_rw.max' => 'Ukuran Surat Pengantar RT/RW tidak boleh lebih dari 2MB.',
         ];
 
         $validated = $request->validate([
@@ -107,25 +153,37 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
             'jenis_kelamin_pekerja' => 'required|in:L,P',
             'kewarganegaraan_pekerja' => 'required|string|max:100',
             'agama_pekerja' => 'required|string|max:100',
-            'alamat_pekerja' => 'required|string|max:500',
+            'alamat_pekerja' => 'required|string|max:255',
+            'rt_pekerja' => 'required|digits_between:1,3',
+            'rw_pekerja' => 'required|digits_between:1,3',
             'negara_tujuan' => 'required|string|max:255',
-            'fc_ktp' => 'required|file|mimes:jpeg,jpg,png|max:2048',
-            'fc_kk' => 'required|file|mimes:jpeg,jpg,png|max:2048',
-            'surat_pernyataan_bekerja' => 'required|file|mimes:jpeg,jpg,png|max:2048',
-            'pengantar_rt_rw' => 'required|file|mimes:jpeg,jpg,png|max:2048',
-        ], $customMessages, $attributeNames);
 
-        // Upload dokumen
-        foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_bekerja', 'pengantar_rt_rw'] as $field) {
+            'fc_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'fc_kk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'surat_pernyataan_bekerja' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], $messages);
+
+        // Gabungkan alamat lengkap pekerja
+        $validated['alamat_pekerja'] = $request->alamat_pekerja . ', RT ' . $request->rt_pekerja . '/RW ' . $request->rw_pekerja;
+
+        // Upload file
+        foreach ([
+            'fc_ktp',
+            'fc_kk',
+            'surat_pernyataan_bekerja',
+            'pengantar_rt_rw'
+        ] as $field) {
             $validated[$field] = $request->file($field)->store('uploads', 'private');
         }
 
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'proses';
 
+        // Simpan ke database
         SuratKeteranganBekerjaLuarNegeri::create($validated);
 
-        return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan Surat Keterangan Bekerja Luar Negeri berhasil dikirim.');
     }
 
     public function show($id)

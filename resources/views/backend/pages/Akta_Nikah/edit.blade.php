@@ -102,78 +102,62 @@
                         <!-- Upload Dokumen -->
                         <h5 class="section-title"><i class="fas fa-file-alt me-2"></i>Upload Dokumen</h5>
                         <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>Ukuran maksimal file 2MB. Format: JPG, PNG, PDF
+                            <i class="fas fa-info-circle me-2"></i>Ukuran maksimal file 2MB. Format: JPG, PNG
                         </div>
                         <div class="row">
+                            <!-- Foto KTP -->
                             <div class="col-md-6 mb-4">
                                 <label for="foto_ktp" class="form-label">Foto KTP</label>
-                                <input type="file" name="foto_ktp" id="foto_ktp" class="form-control mb-2" accept="image/jpeg,image/png,application/pdf">
+                                <input type="file" name="foto_ktp" id="foto_ktp" class="form-control mb-2" accept="image/jpeg,image/png">
                                 @if($surat->foto_ktp)
-                                    <div class="file-preview-container text-center">
-                                        <p class="small text-muted">File saat ini:</p>
-                                        @if(Str::endsWith($surat->foto_ktp, ['.pdf']))
-                                            <a href="{{ asset('storage/' . $surat->foto_ktp) }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-file-pdf me-1"></i>Lihat PDF</a>
-                                        @else
-                                            <img src="{{ asset('storage/' . $surat->foto_ktp) }}" 
-                                                alt="Foto KTP" class="file-preview img-thumbnail"
-                                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_ktp) }}', 'Foto KTP')">
-                                        @endif
-                                    </div>
+                                <div class="file-preview-container text-center">
+                                    <p class="small text-muted">File saat ini:</p>
+                                    <img src="{{ route('file.preview', ['path' => $surat->foto_ktp]) }}"
+                                        alt="Foto KTP" class="file-preview img-thumbnail"
+                                        onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_ktp]) }}', 'Foto KTP')">
+                                </div>
                                 @endif
                             </div>
 
+                            <!-- Foto KK -->
                             <div class="col-md-6 mb-4">
                                 <label for="foto_kartu_keluarga" class="form-label">Foto Kartu Keluarga</label>
-                                <input type="file" name="foto_kartu_keluarga" id="foto_kartu_keluarga" class="form-control mb-2" accept="image/jpeg,image/png,application/pdf">
+                                <input type="file" name="foto_kartu_keluarga" id="foto_kartu_keluarga" class="form-control mb-2" accept="image/jpeg,image/png">
                                 @if($surat->foto_kartu_keluarga)
-                                    <div class="file-preview-container text-center">
-                                        <p class="small text-muted">File saat ini:</p>
-                                        @if(Str::endsWith($surat->foto_kartu_keluarga, ['.pdf']))
-                                            <a href="{{ asset('storage/' . $surat->foto_kartu_keluarga) }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-file-pdf me-1"></i>Lihat PDF</a>
-                                        @else
-                                            <img src="{{ asset('storage/' . $surat->foto_kartu_keluarga) }}" 
-                                                alt="Foto KK" class="file-preview img-thumbnail"
-                                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_kartu_keluarga) }}', 'foto_kartu_keluarga')">
-                                        @endif
-                                    </div>
+                                <div class="file-preview-container text-center">
+                                    <p class="small text-muted">File saat ini:</p>
+                                    <img src="{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}"
+                                        alt="Foto KK" class="file-preview img-thumbnail"
+                                        onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}', 'Foto KK')">
+                                </div>
                                 @endif
                             </div>
 
+                            <!-- Surat Pernyataan Nikah -->
                             <div class="col-md-6 mb-4">
                                 <label for="foto_surat_pernyataan_nikah" class="form-label">Surat Pernyataan Nikah</label>
-                                <input type="file" name="foto_surat_pernyataan_nikah" id="foto_surat_pernyataan_nikah" class="form-control mb-2" accept="image/jpeg,image/png,application/pdf">
+                                <input type="file" name="foto_surat_pernyataan_nikah" id="foto_surat_pernyataan_nikah" class="form-control mb-2" accept="image/jpeg,image/png">
                                 @if($surat->foto_surat_pernyataan_nikah)
-                                    <div class="file-preview-container text-center">
-                                        <p class="small text-muted">File saat ini:</p>
-                                        @if(Str::endsWith($surat->foto_surat_pernyataan_nikah, ['.pdf']))
-                                            <a href="{{ asset('storage/' . $surat->foto_surat_pernyataan_nikah) }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-file-pdf me-1"></i>Lihat PDF</a>
-                                        @else
-                                            <img src="{{ asset('storage/' . $surat->foto_surat_pernyataan_nikah) }}" 
-                                                alt="Surat Pernyataan Nikah" class="file-preview img-thumbnail"
-                                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_surat_pernyataan_nikah) }}', 'Surat Pernyataan Nikah')">
-                                        @endif
-                                    </div>
+                                <div class="file-preview-container text-center">
+                                    <p class="small text-muted">File saat ini:</p>
+                                    <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}"
+                                        alt="Surat Pernyataan Nikah" class="file-preview img-thumbnail"
+                                        onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}', 'Surat Pernyataan Nikah')">
+                                </div>
                                 @endif
                             </div>
 
+                            <!-- Surat Pengantar RT/RW -->
                             <div class="col-md-6 mb-4">
                                 <label for="foto_surat_pengantar_rt_rw" class="form-label">Surat Pengantar RT/RW</label>
-                                <input type="file" name="foto_surat_pengantar_rt_rw" id="foto_surat_pengantar_rt_rw" class="form-control mb-2" accept="image/jpeg,image/png,application/pdf">
+                                <input type="file" name="foto_surat_pengantar_rt_rw" id="foto_surat_pengantar_rt_rw" class="form-control mb-2" accept="image/jpeg,image/png">
                                 @if($surat->foto_surat_pengantar_rt_rw)
-                                    <div class="file-preview-container text-center">
-                                        <p class="small text-muted">File saat ini:</p>
-                                        @if(Str::endsWith($surat->foto_surat_pengantar_rt_rw, ['.pdf']))
-                                            <a href="{{ asset('storage/' . $surat->foto_surat_pengantar_rt_rw) }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-file-pdf me-1"></i>Lihat PDF</a>
-                                        @else
-                                            <img src="{{ asset('storage/' . $surat->foto_surat_pengantar_rt_rw) }}" 
-                                                alt="Surat Pengantar RT/RW" class="file-preview img-thumbnail"
-                                                onclick="showImageModal('{{ asset('storage/' . $surat->foto_surat_pengantar_rt_rw) }}', 'Surat Pengantar RT/RW')">
-                                        @endif
-                                    </div>
+                                <div class="file-preview-container text-center">
+                                    <p class="small text-muted">File saat ini:</p>
+                                    <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}"
+                                        alt="Surat Pengantar RT/RW" class="file-preview img-thumbnail"
+                                        onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}', 'Surat Pengantar RT/RW')">
+                                </div>
                                 @endif
                             </div>
                         </div>

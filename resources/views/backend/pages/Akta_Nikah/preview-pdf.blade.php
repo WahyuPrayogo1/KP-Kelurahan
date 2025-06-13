@@ -33,7 +33,7 @@ use Carbon\Carbon;
                         <label class="form-label fw-bold">Nomor Surat</label>
                         <input type="text" name="nomor_surat"
                             class="form-control form-control-sm @error('nomor_surat') is-invalid @enderror"
-                            value="{{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/____/VII/6/KEL.SBJ/' . date('Y')) }}"
+                            value="{{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/-/VII/6/KEL.SBJ/' . date('Y')) }}"
                             required>
                         @error('nomor_surat')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -50,6 +50,30 @@ use Carbon\Carbon;
                     </div>
                 </div>
 
+                <!-- Input Nomor Surat Pengantar RT/RW dan Tanggal Surat Pengantar RT/RW -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Nomor Surat Pengantar RT/RW</label>
+                        <input type="text" name="nomor_surat_pengantar"
+                            class="form-control form-control-sm @error('nomor_surat_pengantar') is-invalid @enderror"
+                            value="{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? '-/-/' . date('Y')) }}"
+                            required>
+                        @error('nomor_surat_pengantar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Tanggal Surat Pengantar RT/RW</label>
+                        <input type="date" name="tanggal_surat_pengantar"
+                            class="form-control form-control-sm @error('tanggal_surat_pengantar') is-invalid @enderror"
+                            value="{{ old('tanggal_surat_pengantar', $surat->tanggal_surat_pengantar ?? date('Y-m-d')) }}"
+                            required>
+                        @error('tanggal_surat_pengantar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
                 <!-- Preview Surat -->
                 <div class="border p-4 mb-4">
                     <!-- Kop Surat -->
@@ -60,7 +84,7 @@ use Carbon\Carbon;
                         <p class="mb-0">
                             Nomor : 
                             <span class="fw-bold">
-                                {{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/____/VII/6/KEL.SBJ/' . date('Y')) }}
+                                {{ old('nomor_surat', $surat->nomor_surat ?? 'PD.PU.08.02.02/-/VII/6/KEL.SBJ/' . date('Y')) }}
                             </span>
                         </p>
                         <p class="mb-0">
@@ -99,41 +123,19 @@ use Carbon\Carbon;
                             <tr>
                                 <td>Nomor Surat Pengantar RT/RW</td>
                                 <td>:</td>
-                                <td>{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? '  /   /2025') }}</td>
+                                <td>{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? '-/-/' . date('Y')) }}</td>
                             </tr>
                             <tr>
                                 <td>Tanggal Surat Pengantar RT/RW</td>
                                 <td>:</td>
                                 <td>
-                                    {{ old('tanggal_surat_pengantar', isset($surat->tanggal_surat_pengantar) ? Carbon::parse($surat->tanggal_surat_pengantar)->format('d-m-Y') : '-') }}
+                                    {{ old('tanggal_surat_pengantar', isset($surat->tanggal_surat_pengantar) ? \Carbon\Carbon::parse($surat->tanggal_surat_pengantar)->format('d-m-Y') : '-') }}
                                 </td>
                             </tr>
                         </table>
                     </div>
 
                     <p class="mb-3">Surat keterangan ini dipergunakan untuk : <strong>Melengkapi persyaratan administrasi.</strong></p>
-                </div>
-
-                <!-- Input Nomor Surat Pengantar RT/RW dan Tanggal Surat Pengantar RT/RW -->
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <label for="nomor_surat_pengantar" class="form-label fw-bold">Nomor Surat Pengantar RT/RW</label>
-                        <input type="text" name="nomor_surat_pengantar" id="nomor_surat_pengantar"
-                            class="form-control form-control-sm @error('nomor_surat_pengantar') is-invalid @enderror"
-                            value="{{ old('nomor_surat_pengantar', $surat->nomor_surat_pengantar ?? ' /   /2025') }}" required>
-                        @error('nomor_surat_pengantar')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="tanggal_surat_pengantar" class="form-label fw-bold">Tanggal Surat Pengantar RT/RW</label>
-                        <input type="date" name="tanggal_surat_pengantar" id="tanggal_surat_pengantar"
-                            class="form-control form-control-sm @error('tanggal_surat_pengantar') is-invalid @enderror"
-                            value="{{ old('tanggal_surat_pengantar', $surat->tanggal_surat_pengantar ?? '') }}" required>
-                        @error('tanggal_surat_pengantar')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
                 </div>
 
                 <!-- Tombol Aksi -->

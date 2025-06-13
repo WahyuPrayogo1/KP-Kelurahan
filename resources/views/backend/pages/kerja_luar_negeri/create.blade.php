@@ -25,7 +25,7 @@
             <div class="col-lg-10">
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Tambah Surat Keterangan Contoh</h4>
+                        <h4 class="mb-0">Tambah Surat Keterangan Bekerja di Luar Negeri</h4>
                     </div>
                     <div class="card-body">
 
@@ -127,9 +127,26 @@
                                         <option value="saudara">Saudara</option>
                                     </select>
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Alamat Pekerja</label>
-                                    <textarea name="alamat_pekerja" class="form-control required-step1" rows="2" required>{{ old('alamat_pekerja') }}</textarea>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Alamat Jalan Pekerja</label>
+                                    <input type="text" name="alamat_pekerja" class="form-control required-step1"
+                                        value="{{ old('alamat_pekerja', $alamat_only ?? '') }}" required>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">RT</label>
+                                    <input type="text" name="rt_pekerja" class="form-control required-step1"
+                                        value="{{ old('rt_pekerja', $rt_only ?? '') }}"
+                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" required>
+                                    <small class="text-muted">Contoh: 07</small>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">RW</label>
+                                    <input type="text" name="rw_pekerja" class="form-control required-step1"
+                                        value="{{ old('rw_pekerja', $rw_only ?? '') }}"
+                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" required>
+                                    <small class="text-muted">Contoh: 07</small>
                                 </div>
                             </div>
 

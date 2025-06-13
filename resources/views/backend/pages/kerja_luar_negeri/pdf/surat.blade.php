@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 10pt;
+            font-size: 11pt;
             line-height: 1.3;
             margin: 0;
             padding: 0;
@@ -16,7 +16,7 @@
             margin-bottom: 5mm;
         }
         .header h3 {
-            font-size: 11pt;
+            font-size: 12pt;
             text-decoration: underline;
             margin: 2mm 0;
             font-weight: bold;
@@ -31,16 +31,13 @@
         }
         .signature-container {
             display: flex; 
-            justify-content: flex-end;
-            margin-top: 20mm;
-            padding-right: 50px;
         }
         .signature-column {
             width: 40%;
-            float: right;
+            float: right;   /* Ubah dari kiri ke kanan */
             box-sizing: border-box;
-            text-align: right;
-        }
+            text-align: right;  /* agar teks tanda tangan rata kanan */
+    }
         .signature-box {
             margin-bottom: 5mm;
             text-align: start;
@@ -90,8 +87,8 @@
 
     <!-- Judul Surat -->
     <div class="header">
-        <h3>SURAT KETERANGAN BEKERJA DI LUAR NEGERI</h3>
-        <p>Nomor: {{ $nomor_surat }}</p>
+        <h3 style="margin-bottom: 0;">SURAT KETERANGAN BEKERJA DI LUAR NEGERI</h3>
+        <p style="margin-top: 0;">Nomor Surat: {{ $nomor_surat }}</p>
     </div>
 
     <!-- Isi Surat -->
@@ -169,8 +166,9 @@
                         </td>
                     </tr>
                 </table>
-                <div class="signature-line" style="width: 60mm; margin-top: 20mm; margin-left: 0;"></div>
-                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An, LURAH SUBANGJAYA</strong></p>
+                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
+                <div class="signature-line" style="width: 60mm; margin-top: 30mm; margin-left: 0;"></div>
+                <p style="margin-top: 1mm;">&nbsp;&nbsp;&nbsp;&nbsp;NIP. 19720412 201001 1 001</p>
             </div>
         </div>
     </div>
