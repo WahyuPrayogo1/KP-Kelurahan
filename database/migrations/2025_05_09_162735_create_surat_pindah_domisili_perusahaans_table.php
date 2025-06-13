@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('surat_pindah_domisili_perusahaans', function (Blueprint $table) {
-            $table->id();
+            $table->id();                                                                                                                                                                                                                                                                                                                 
              // Data pengaju (perorangan)
             $table->string('nama_perusahaan');
             $table->string('alamat_perusahaan');

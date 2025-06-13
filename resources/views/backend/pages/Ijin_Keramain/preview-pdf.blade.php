@@ -15,7 +15,7 @@
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Nomor Surat</label>
                         <input type="text" name="nomor_surat" class="form-control form-control-sm"
-                               value="300/    /02.1006/{{ date('Y') }}" required>
+                             required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Tanggal Surat</label>
@@ -98,7 +98,7 @@
                         <div class="mb-2">
                             <label class="form-label small fw-bold">Dengan catatan</label>
                             <textarea name="kapolsek_catatan" class="form-control form-control-sm" rows="3"
-                                    placeholder="Masukkan catatan (pisahkan dengan enter)&#10;Contoh:&#10;1. Wajib melapor ke Polsek sebelum acara&#10;2. Dilarang menggunakan sound system setelah pukul 22.00&#10;3. Harus menyediakan petugas keamanan"></textarea>
+                                    placeholder="Masukkan catatan (pisahkan dengan enter)&#10;Contoh:&#10;1. Wajib melapor ke Polsek sebelum acara&#10;2. Dilarang menggunakan sound system setelah pukul 22.00&#10;3. Harus menyediakan petugas keamanan" required></textarea>
                         </div>
                     </div>
 

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SuratKeteranganPindahDomisili;
+use App\Models\SuratKeteranganTidakMampu;
+use App\Models\SuratKeteranganMiskin;
 use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
 use App\Models\SuratKeteranganBedaDataKependudukan;
-use App\Models\SuratPernyataanTanahTidakSengketa; 
+use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\SuratKeteranganBekerjaLuarNegeri;
 use App\Models\SuratKeteranganKematian;
 use App\Models\PendudukStat;
@@ -43,10 +44,16 @@ class DashboardController extends Controller
             'perempuan' => $pendudukTahunan->pluck('perempuan')->toArray(),
         ];
 
-        // Hitung dari SuratKeteranganPindahDomisili
-        $prosesPindah = SuratKeteranganPindahDomisili::where('status', 'proses')->count();
-        $selesaiPindah = SuratKeteranganPindahDomisili::where('status', 'selesai')->count();
-        $ditolakPindah = SuratKeteranganPindahDomisili::where('status', 'ditolak')->count();
+        // Hitung dari SuratKeteranganTidakMampu
+        $prosesPindah = SuratKeteranganTidakMampu::where('status', 'proses')->count();
+        $selesaiPindah = SuratKeteranganTidakMampu::where('status', 'selesai')->count();
+        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'ditolak')->count();
+
+        // Hitung dari SuratKeteranganMiskin
+        $prosesMiskin = SuratKeteranganMiskin::where('status', 'proses')->count();
+        $selesaiMiskin = SuratKeteranganMiskin::where('status', 'selesai')->count();
+        $ditolakMiskin = SuratKeteranganMiskin::where('status', 'ditolak')->count();
+
 
         // Hitung dari SuratKeteranganUsaha
         $prosesUsaha = SuratKeteranganUsaha::where('status', 'proses')->count();
@@ -89,9 +96,9 @@ class DashboardController extends Controller
         $ditolakKematian = SuratKeteranganKematian::where('status', 'ditolak')->count();
 
         // Total semua model
-        $prosesCount =  $prosesKematian + $prosesBekerja + $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah + $prosesBedaPenduduk;
-        $selesaiCount = $selesaiKematian + $selesaiBekerja + $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah + $selesaiBedaPenduduk;
-        $ditolakCount = $ditolakKematian + $ditolakBekerja + $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah + $ditolakBedaPenduduk;
+        $prosesCount =    $prosesMiskin + $prosesKematian + $prosesBekerja + $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesTanah + $prosesBedaPenduduk;
+        $selesaiCount =  $selesaiMiskin + $selesaiKematian + $selesaiBekerja + $selesaiPindah + $selesaiUsaha + $selesaiNikah + $selesaiKeramaian + $selesaiPerusahaan + $selesaiTanah + $selesaiBedaPenduduk;
+        $ditolakCount =   $ditolakMiskin + $ditolakKematian + $ditolakBekerja + $ditolakPindah + $ditolakUsaha + $ditolakNikah + $ditolakKeramaian + $ditolakPerusahaan + $ditolakTanah + $ditolakBedaPenduduk;
 
 
         // Ambil semua data status "proses" dari semua model
@@ -108,18 +115,24 @@ class DashboardController extends Controller
                 $item->model_type = 'surat-tanah-tidak-sengketa';
                 return $item;
             });
-
-        $prosesPindah = SuratKeteranganPindahDomisili::where('status', 'proses')
+        $prosesMiskin = SuratKeteranganMiskin::where('status', 'proses')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_domisili';
+                $item->model_type = 'surat_keterangan_miskin';
+                return $item;
+        });
+
+        $prosesPindah = SuratKeteranganTidakMampu::where('status', 'proses')
+            ->get()
+            ->map(function ($item) {
+                $item->model_type = 'surat_keterangan_tidak_mampu';
                 return $item;
             });
 
         $prosesUsaha = SuratKeteranganUsaha::where('status', 'proses')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_usaha';
+                $item->model_type = 'surat_keterangan_usahas';
                 return $item;
             });
 
@@ -135,7 +148,7 @@ class DashboardController extends Controller
             ->map(function ($item) {
                 $item->model_type = 'surat_pengantar_ijin_keramaian';
                 return $item;
-            }); 
+            });
 
         $prosesPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'proses')
             ->get()
@@ -159,6 +172,13 @@ class DashboardController extends Controller
 
 
          // Ambil semua data status "selesai" dari semua model
+             $selesaiMiskin = SuratKeteranganMiskin::where('status', 'selesai')
+                ->get()
+                ->map(function ($item) {
+                    $item->model_type = 'surat_keterangan_miskin';
+                    return $item;
+            });
+
         $selesaiBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'selesai')
             ->get()
             ->map(function ($item) {
@@ -166,10 +186,10 @@ class DashboardController extends Controller
                 return $item;
             });
 
-        $selesaiPindah = SuratKeteranganPindahDomisili::where('status', 'selesai')
+        $selesaiPindah = SuratKeteranganTidakMampu::where('status', 'selesai')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_domisili';
+                $item->model_type = 'surat_keterangan_tidak_mampu';
                 return $item;
             });
 
@@ -183,7 +203,7 @@ class DashboardController extends Controller
         $selesaiUsaha = SuratKeteranganUsaha::where('status', 'selesai')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_usaha';
+                $item->model_type = 'surat_keterangan_usahas';
                 return $item;
             });
 
@@ -225,6 +245,13 @@ class DashboardController extends Controller
             // DITOLAK
 
              // Ambil semua data status "ditolak" dari semua model
+
+               $ditolakMiskin = SuratKeteranganMiskin::where('status', 'ditolak')
+                ->get()
+                ->map(function ($item) {
+                    $item->model_type = 'surat_keterangan_miskin';
+                    return $item;
+            });
         $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')
             ->get()
             ->map(function ($item) {
@@ -232,10 +259,10 @@ class DashboardController extends Controller
                 return $item;
             });
 
-        $ditolakPindah = SuratKeteranganPindahDomisili::where('status', 'ditolak')
+        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'ditolak')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_domisili';
+                $item->model_type = 'surat_keterangan_tidak_mampu';
                 return $item;
             });
 
@@ -249,7 +276,7 @@ class DashboardController extends Controller
         $ditolakUsaha = SuratKeteranganUsaha::where('status', 'ditolak')
             ->get()
             ->map(function ($item) {
-                $item->model_type = 'keterangan_usaha';
+                $item->model_type = 'surat_keterangan_usahas';
                 return $item;
             });
 
@@ -287,9 +314,9 @@ class DashboardController extends Controller
 
 
         // Gabungkan semua data
-        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah)->concat($prosesBedaPenduduk)->concat($prosesBekerja)->concat($prosesKematian);
-        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah)->concat($selesaiBedaPenduduk)->concat($selesaiBekerja)->concat($selesaiKematian);
-        $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakTanah)->concat($ditolakBedaPenduduk)->concat($ditolakBekerja)->concat($ditolakKematian);
+        $prosesItems = $prosesPindah->concat($prosesUsaha)->concat($prosesNikah)->concat($prosesKeramaian)->concat($prosesPerusahaan)->concat($prosesTanah)->concat($prosesBedaPenduduk)->concat($prosesBekerja)->concat($prosesKematian)->concat($prosesMiskin);
+        $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiTanah)->concat($selesaiBedaPenduduk)->concat($selesaiBekerja)->concat($selesaiKematian)->concat($selesaiMiskin);
+        $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakTanah)->concat($ditolakBedaPenduduk)->concat($ditolakBekerja)->concat($ditolakKematian)->concat($ditolakMiskin);
 
         return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems','ditolakItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData'));
     }

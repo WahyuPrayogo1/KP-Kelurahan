@@ -1,6 +1,6 @@
-<a href="{{ route('keterangan_usaha.edit', $row->id) }}" class="btn btn-sm btn-success">Edit</a>
+<a href="{{ route('surat_keterangan_usahas.edit', $row->id) }}" class="btn btn-sm btn-success">Edit</a>
 <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $row->id }})">Hapus</button>
-<form id="delete-form-{{ $row->id }}" action="{{ route('keterangan_usaha.destroy', $row->id) }}" method="POST" style="display: none;">
+<form id="delete-form-{{ $row->id }}" action="{{ route('surat_keterangan_usahas.destroy', $row->id) }}" method="POST" style="display: none;">
     @csrf
     @method('DELETE')
 </form>

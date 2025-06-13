@@ -18,14 +18,30 @@ class SuratKeteranganUsaha extends Model
         'no_hp',
         'jenis_kelamin',
         'alamat_lengkap',
-        'tempat_lahir',
+        'kewarganegaraan',
+        'pekerjaan',
+        'status_perkawinan',
+        'agama',
+        'nama_usaha',
+        'jenis_usaha',
+        'alamat_usaha',
+        'status_bangunan',
+        'no_sppt',
+        'akta_pendirian_usaha',
+        'jumlah_karyawan',
+        'pimpinan_usaha',
         'foto_ktp',
         'foto_kartu_keluarga',
-        'foto_pernyataan_rt_rw',
-        'foto_pengantar_rt_rw',
+        'foto_surat_pernyataan_tetangga',
+        'foto_surat_pernyataan_usaha',
         'foto_usaha',
+        'foto_pengantar_rt_rw',
         'status',
         'catatan',
+    ];
+
+    protected $casts = [
+        'jenis_kelamin' => 'string', // or you could create a custom cast if needed
     ];
 
     public function user()

@@ -53,7 +53,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route('keterangan_usaha.index') }}',
+                url: '{{ route('surat_keterangan_usahas.index') }}',
             },
             language: {
                 "emptyTable": "Tidak ada data yang tersedia",
@@ -66,10 +66,10 @@
                 }
             },
             columns: [
-    { 
-        data: null, 
-        name: 'nomor', 
-        orderable: false, 
+    {
+        data: null,
+        name: 'nomor',
+        orderable: false,
         searchable: false,
         render: function (data, type, row, meta) {
             return meta.row + meta.settings._iDisplayStart + 1;

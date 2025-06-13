@@ -11,6 +11,9 @@ class SuratKeteranganUsahaController extends Controller
 {
     public function index(Request $request)
     {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
         if ($request->ajax()) {
             $data = SuratKeteranganUsaha::with('user')->get();
             return DataTables::of($data)
@@ -40,41 +43,125 @@ class SuratKeteranganUsahaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
+            // Data Pemohon
             'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_keterangan_usahas,nik',
-            'no_hp' => 'required|string|max:15',
+            'nik' => 'required|digits:16',
+            'no_hp' => ['required', 'regex:/^08[0-9]{8,11}$/'],
             'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+            'kewarganegaraan' => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'status_perkawinan' => 'required|string|max:255',
+            'agama' => 'required|string|max:255',
+
+            // Alamat (split fields)
+            'tempat' => 'required|string|max:255',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|digits:5',
+
+            // Data Usaha
+            'nama_usaha' => 'required|string|max:255',
+            'jenis_usaha' => 'required|string|max:255',
+            'alamat_usaha' => 'required|string|max:255',
+            'status_bangunan' => 'required|string|max:255',
+            'no_sppt' => 'nullable|string|max:255',
+            'akta_pendirian_usaha' => 'nullable|string|max:255',
+            'jumlah_karyawan' => 'required|integer|min:0',
+            'pimpinan_usaha' => 'required|string|max:255',
+
+            // Dokumen
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kartu_keluarga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pernyataan_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_surat_pernyataan_tetangga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_surat_pernyataan_usaha' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_usaha' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_pengantar_rt_rw' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
             'catatan' => 'nullable|string',
+        ], [
+            // Custom error messages
+            'nama.required' => 'Nama lengkap wajib diisi.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.digits' => 'NIK harus terdiri dari 16 digit.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'no_hp.regex' => 'Nomor HP harus dimulai dengan 08 dan terdiri dari 10-13 digit.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'kewarganegaraan.required' => 'Kewarganegaraan wajib diisi.',
+            'pekerjaan.required' => 'Pekerjaan wajib diisi.',
+            'status_perkawinan.required' => 'Status perkawinan wajib diisi.',
+            'agama.required' => 'Agama wajib diisi.',
+
+            'tempat.required' => 'Alamat jalan wajib diisi.',
+            'kelurahan.required' => 'Kelurahan wajib diisi.',
+            'kecamatan.required' => 'Kecamatan wajib diisi.',
+            'kode_pos.required' => 'Kode pos wajib diisi.',
+            'kode_pos.digits' => 'Kode pos harus 5 digit.',
+            'alamat_usaha'=> 'Nama usaha wajib diisi.',
+
+            'nama_usaha.required' => 'Nama usaha wajib diisi.',
+            'jenis_usaha.required' => 'Jenis usaha wajib diisi.',
+            'status_bangunan.required' => 'Status bangunan wajib diisi.',
+            'jumlah_karyawan.required' => 'Jumlah karyawan wajib diisi.',
+            'pimpinan_usaha.required' => 'Pimpinan usaha wajib diisi.',
+
+            'foto_ktp.required' => 'Foto KTP wajib diunggah.',
+            'foto_kartu_keluarga.required' => 'Foto Kartu Keluarga wajib diunggah.',
+            'foto_surat_pernyataan_tetangga.required' => 'Foto Surat Pernyataan Tetangga wajib diunggah.',
+            'foto_surat_pernyataan_usaha.required' => 'Foto Surat Pernyataan Usaha wajib diunggah.',
+            'foto_usaha.required' => 'Foto Usaha wajib diunggah.',
+            'foto_pengantar_rt_rw.required' => 'Foto Pengantar RT/RW wajib diunggah.',
+
+            'foto_ktp.image' => 'File KTP harus berupa gambar.',
+            'foto_kartu_keluarga.image' => 'File KK harus berupa gambar.',
+            'foto_surat_pernyataan_tetangga.image' => 'File pernyataan tetangga harus berupa gambar.',
+            'foto_surat_pernyataan_usaha.image' => 'File pernyataan usaha harus berupa gambar.',
+            'foto_usaha.image' => 'File foto usaha harus berupa gambar.',
+            'foto_pengantar_rt_rw.image' => 'File pengantar RT/RW harus berupa gambar.',
+
+            'foto_ktp.mimes' => 'Format KTP harus jpeg, jpg, atau png.',
+            'foto_kartu_keluarga.mimes' => 'Format KK harus jpeg, jpg, atau png.',
+            'foto_surat_pernyataan_tetangga.mimes' => 'Format pernyataan tetangga harus jpeg, jpg, atau png.',
+            'foto_surat_pernyataan_usaha.mimes' => 'Format pernyataan usaha harus jpeg, jpg, atau png.',
+            'foto_usaha.mimes' => 'Format foto usaha harus jpeg, jpg, atau png.',
+            'foto_pengantar_rt_rw.mimes' => 'Format pengantar RT/RW harus jpeg, jpg, atau png.',
+
+            'foto_ktp.max' => 'Ukuran KTP tidak boleh lebih dari 2MB.',
+            'foto_kartu_keluarga.max' => 'Ukuran KK tidak boleh lebih dari 2MB.',
+            'foto_surat_pernyataan_tetangga.max' => 'Ukuran pernyataan tetangga tidak boleh lebih dari 2MB.',
+            'foto_surat_pernyataan_usaha.max' => 'Ukuran pernyataan usaha tidak boleh lebih dari 2MB.',
+            'foto_usaha.max' => 'Ukuran foto usaha tidak boleh lebih dari 2MB.',
+            'foto_pengantar_rt_rw.max' => 'Ukuran pengantar RT/RW tidak boleh lebih dari 2MB.',
         ]);
 
-        $data = [];
-        foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_rt_rw', 'foto_pengantar_rt_rw', 'foto_usaha'] as $field) {
-            $data[$field] = $request->file($field)->store('uploads', 'private');
+        // Gabungkan alamat lengkap
+        $validated['alamat_lengkap'] = $request->tempat
+            . ', Kel. ' . $request->kelurahan
+            . ', Kec. ' . $request->kecamatan
+            . ', Kota Sukabumi'
+            . ', ' . $request->kode_pos;
+
+        // Simpan file ke folder private
+        $fileFields = [
+            'foto_ktp',
+            'foto_kartu_keluarga',
+            'foto_surat_pernyataan_tetangga',
+            'foto_surat_pernyataan_usaha',
+            'foto_usaha',
+            'foto_pengantar_rt_rw'
+        ];
+
+        foreach ($fileFields as $field) {
+            $validated[$field] = $request->file($field)->store('uploads', 'private');
         }
 
-        SuratKeteranganUsaha::create(array_merge([
-            'nama' => $request->nama,
-            'nik' => $request->nik,
-            'user_id' => auth()->id(),
-            'no_hp' => $request->no_hp,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'alamat_lengkap' => $request->alamat_lengkap,
-            'tempat_lahir' => $request->tempat_lahir,
-            'status' => 'proses',
-            'catatan' => $request->catatan,
-        ], $data));
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = 'proses';
 
-        return redirect()->route('/dashboard')->with('success', 'Pengajuan surat berhasil dikirim.');
+        SuratKeteranganUsaha::create($validated);
+
+        return redirect()->route('/dashboard')->with('success', 'Pengajuan surat keterangan usaha berhasil dikirim.');
     }
-
     public function edit($id)
     {
         $surat = SuratKeteranganUsaha::findOrFail($id);
@@ -83,49 +170,165 @@ class SuratKeteranganUsahaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $surat = SuratKeteranganUsaha::findOrFail($id);
-
-        $validatedData = $request->validate([
+        $validated = $request->validate([
+            // Data Pemohon
             'nama' => 'required|string|max:255',
-            'nik' => 'required|string|unique:surat_keterangan_usahas,nik,' . $id,
-            'no_hp' => 'required|string|max:15',
+            'nik' => 'required|digits:16',
+            'no_hp' => ['required', 'regex:/^08[0-9]{8,11}$/'],
             'jenis_kelamin' => 'required|in:L,P',
-            'alamat_lengkap' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+            'kewarganegaraan' => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'status_perkawinan' => 'required|string|max:255',
+            'agama' => 'required|string|max:255',
+
+            // Alamat (split fields will be combined)
+            'tempat' => 'required|string|max:255',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|digits:5',
+
+            // Data Usaha
+            'nama_usaha' => 'required|string|max:255',
+            'jenis_usaha' => 'required|string|max:255',
+            'alamat_usaha' => 'required|string|max:500',
+            'status_bangunan' => 'required|string|max:255',
+            'no_sppt' => 'nullable|string|max:255',
+            'akta_pendirian_usaha' => 'nullable|string|max:255',
+            'jumlah_karyawan' => 'required|integer|min:0',
+            'pimpinan_usaha' => 'required|string|max:255',
+
+            // Dokumen
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kartu_keluarga' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pernyataan_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_surat_pernyataan_tetangga' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_surat_pernyataan_usaha' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_usaha' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status' => 'required|in:proses,selesai,ditolak', // tambah validasi status
+            'foto_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
+            'status' => 'required|in:proses,selesai,ditolak',
             'catatan' => 'nullable|string',
+        ], [
+            // Custom error messages
+            'nama.required' => 'Nama lengkap wajib diisi.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.digits' => 'NIK harus terdiri dari 16 digit.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'no_hp.regex' => 'Nomor HP harus dimulai dengan 08 dan terdiri dari 10-13 digit.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'kewarganegaraan.required' => 'Kewarganegaraan wajib diisi.',
+            'pekerjaan.required' => 'Pekerjaan wajib diisi.',
+            'status_perkawinan.required' => 'Status perkawinan wajib diisi.',
+            'agama.required' => 'Agama wajib diisi.',
+
+            'tempat.required' => 'Alamat jalan wajib diisi.',
+            'kelurahan.required' => 'Kelurahan wajib diisi.',
+            'kecamatan.required' => 'Kecamatan wajib diisi.',
+            'kode_pos.required' => 'Kode pos wajib diisi.',
+            'kode_pos.digits' => 'Kode pos harus 5 digit.',
+
+            'nama_usaha.required' => 'Nama usaha wajib diisi.',
+            'jenis_usaha.required' => 'Jenis usaha wajib diisi.',
+            'alamat_usaha.required' => 'Alamat usaha wajib diisi.',
+            'status_bangunan.required' => 'Status bangunan wajib diisi.',
+            'jumlah_karyawan.required' => 'Jumlah karyawan wajib diisi.',
+            'pimpinan_usaha.required' => 'Pimpinan usaha wajib diisi.',
+
+            'foto_ktp.image' => 'File KTP harus berupa gambar.',
+            'foto_kartu_keluarga.image' => 'File KK harus berupa gambar.',
+            'foto_surat_pernyataan_tetangga.image' => 'File pernyataan tetangga harus berupa gambar.',
+            'foto_surat_pernyataan_usaha.image' => 'File pernyataan usaha harus berupa gambar.',
+            'foto_usaha.image' => 'File foto usaha harus berupa gambar.',
+            'foto_pengantar_rt_rw.image' => 'File pengantar RT/RW harus berupa gambar.',
+
+            'foto_ktp.mimes' => 'Format KTP harus jpeg, jpg, atau png.',
+            'foto_kartu_keluarga.mimes' => 'Format KK harus jpeg, jpg, atau png.',
+            'foto_surat_pernyataan_tetangga.mimes' => 'Format pernyataan tetangga harus jpeg, jpg, atau png.',
+            'foto_surat_pernyataan_usaha.mimes' => 'Format pernyataan usaha harus jpeg, jpg, atau png.',
+            'foto_usaha.mimes' => 'Format foto usaha harus jpeg, jpg, atau png.',
+            'foto_pengantar_rt_rw.mimes' => 'Format pengantar RT/RW harus jpeg, jpg, atau png.',
+
+            'foto_ktp.max' => 'Ukuran KTP tidak boleh lebih dari 2MB.',
+            'foto_kartu_keluarga.max' => 'Ukuran KK tidak boleh lebih dari 2MB.',
+            'foto_surat_pernyataan_tetangga.max' => 'Ukuran pernyataan tetangga tidak boleh lebih dari 2MB.',
+            'foto_surat_pernyataan_usaha.max' => 'Ukuran pernyataan usaha tidak boleh lebih dari 2MB.',
+            'foto_usaha.max' => 'Ukuran foto usaha tidak boleh lebih dari 2MB.',
+            'foto_pengantar_rt_rw.max' => 'Ukuran pengantar RT/RW tidak boleh lebih dari 2MB.',
         ]);
 
-        foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_rt_rw', 'foto_pengantar_rt_rw', 'foto_usaha'] as $field) {
+        // Combine address components
+        $validated['alamat_lengkap'] = $request->tempat
+            . ', Kel. ' . $request->kelurahan
+            . ', Kec. ' . $request->kecamatan
+            . ', Kota Sukabumi'
+            . ', ' . $request->kode_pos;
+
+        // Find the existing record
+        $surat = SuratKeteranganUsaha::findOrFail($id);
+
+        // Handle file uploads - only update if new file is uploaded
+        $fileFields = [
+            'foto_ktp',
+            'foto_kartu_keluarga',
+            'foto_surat_pernyataan_tetangga',
+            'foto_surat_pernyataan_usaha',
+            'foto_usaha',
+            'foto_pengantar_rt_rw'
+        ];
+
+        foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
+                // Delete old file if exists
                 if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
                     Storage::disk('private')->delete($surat->$field);
                 }
-                $validatedData[$field] = $request->file($field)->store('uploads', 'private');
+                // Store new file
+                $validated[$field] = $request->file($field)->store('uploads', 'private');
+            } else {
+                // Keep existing file if no new upload
+                $validated[$field] = $surat->$field;
             }
         }
 
-        $surat->update($validatedData);
-        return redirect()->route('keterangan_usaha.index')->with('success', 'Data berhasil diupdate.');
+        // Update the record
+        $surat->update($validated);
+
+        return redirect()->route('surat_keterangan_usahas.index')
+            ->with('success', 'Data surat keterangan usaha berhasil diperbarui.');
     }
 
-    public function destroy($id)
+   public function destroy($id)
     {
-        $surat = SuratKeteranganUsaha::findOrFail($id);
+        try {
+            // Find the record
+            $surat = SuratKeteranganUsaha::findOrFail($id);
 
-        foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_rt_rw', 'foto_pengantar_rt_rw', 'foto_usaha'] as $field) {
-            if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
-                Storage::disk('private')->delete($surat->$field);
+            // List of file fields to delete
+            $fileFields = [
+                'foto_ktp',
+                'foto_kartu_keluarga',
+                'foto_surat_pernyataan_tetangga',
+                'foto_surat_pernyataan_usaha',
+                'foto_usaha',
+                'foto_pengantar_rt_rw'
+            ];
+
+            // Delete all associated files
+            foreach ($fileFields as $field) {
+                if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
+                    Storage::disk('private')->delete($surat->$field);
+                }
             }
-        }
 
-        $surat->delete();
-        return redirect()->route('keterangan_usaha.index')->with('success', 'Data berhasil dihapus.');
+            // Delete the record
+            $surat->delete();
+
+            return redirect()->route('surat_keterangan_usahas.index')
+                ->with('success', 'Surat Keterangan Usaha berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal menghapus data. Error: ' . $e->getMessage());
+        }
     }
 
     // Untuk User

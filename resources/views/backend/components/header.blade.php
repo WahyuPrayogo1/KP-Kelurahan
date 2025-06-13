@@ -122,31 +122,35 @@
                                           <div class="dropdown-menu-column">
                                               <a class="dropdown-item" href="{{route('surat_pengantar_ijin_keramaian.index')}}">
                                                 Surat Pengantar Ijin Keramaian                                               </a>
-                                              <a class="dropdown-item" href="{{route('keterangan_domisili.index')}}">
-                                                  Surat Keterangan Pindah Domisili
+                                              <a class="dropdown-item" href="{{route('surat_keterangan_tidak_mampu.index')}}">
+                                                  Surat Keterangan Tidak Mampu
                                               </a>
-                                              <a class="dropdown-item" href="{{route('surat-pindah-perusahaan.index')}}">
+                                               <a class="dropdown-item" href="{{route('surat_keterangan_miskin.index')}}">
+                                                  Surat Keterangan Miskin
+                                              </a>
+                                                <a class="dropdown-item" href="{{route('surat-pindah-perusahaan.index')}}">
                                                   Surat Pindah Perusahaan / Yayasan
                                               </a>
-                                               <a class="dropdown-item" href="{{route('surat-keterangan-orang-tua.index')}}">
-                                                  Surat Keterangan Orang Tua
+
+                                               <a class="dropdown-item" href="{{route('surat_keterangan_usahas.index')}}">
+                                                  Surat Keterangan Usaha
                                               </a>
-                                              <a class="dropdown-item" href="{{route('surat-bekerja-luar-negeri.index')}}">
-                                                  Surat Keterangan Bekerja di Luar Negeri
-                                              </a>
+
                                           </div>
 
 
                                           <div class="dropdown-menu-column">
-                                              <a class="dropdown-item" href="{{route('keterangan_usaha.index')}}">
-                                                  Surat Keterangan Usaha
+                                              <a class="dropdown-item" href="{{route('surat-bekerja-luar-negeri.index')}}">
+                                                  Surat Keterangan Bekerja di Luar Negeri
                                               </a>
+
                                               <a class="dropdown-item" href="{{route('keterangan_akta_nikah.index')}}">
                                                   Surat Keterangan Status Nikah
                                               </a>
-                                              <a class="dropdown-item" href="{{route('surat-tanah-tidak-sengketa.index')}}">
-                                                  Surat Keterangan Kepemilikan Tanah Tidak Sengketa
+                                            <a class="dropdown-item" href="{{route('surat-keterangan-orang-tua.index')}}">
+                                                  Surat Keterangan Orang Tua
                                               </a>
+
                                                 <a class="dropdown-item" href="{{route('beda-data-kependudukan.index')}}">
                                                   Surat Keterangan Beda Data Kependudukan
                                                 </a>

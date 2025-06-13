@@ -121,9 +121,9 @@
                                             </div>
                                             <div class="col">
                                                 <h1 class="mb-0 fs-3 fw-bold text-body">
-                                                    @if ($item->model_type == 'keterangan_domisili')
-                                                        Surat Keterangan Pindah Domisili
-                                                    @elseif($item->model_type == 'keterangan_usaha')
+                                                    @if ($item->model_type == 'surat_keterangan_tidak_mampu')
+                                                        Surat Keterangan Tidak Mampu
+                                                    @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
                                                         Surat Keterangan Status Nikah
@@ -135,9 +135,9 @@
                                                         Surat Tanah Tidak Sengketa
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
-                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri')
                                                         Surat Keterangan Bekerja di Luar Negeri
-                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian')
                                                         Surat Keterangan Kematian
                                                     @endif
                                                 </h1>
@@ -184,9 +184,9 @@
                                             </div>
                                             <div class="col">
                                                 <h1 class="mb-0 fs-3 fw-bold text-body">
-                                                    @if ($item->model_type == 'keterangan_domisili')
+                                                    @if ($item->model_type == 'surat_keterangan_tidak_mampu')
                                                         Surat Keterangan Pindah Domisili
-                                                    @elseif($item->model_type == 'keterangan_usaha')
+                                                    @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
                                                         Surat Keterangan Status Nikah
@@ -198,10 +198,12 @@
                                                         Surat Tanah Sengketa
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
-                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri')
                                                         Surat Keterangan Bekerja di Luar Negeri
-                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian')
                                                         Surat Keterangan Kematian
+                                                    @elseif($item->model_type == 'surat_keterangan_miskin')
+                                                        Surat Keterangan Miskin
                                                     @endif
                                                 </h1>
 
@@ -247,9 +249,9 @@
                                             </div>
                                             <div class="col">
                                                 <h1 class="mb-0 fs-3 fw-bold text-body">
-                                                    @if ($item->model_type == 'keterangan_domisili')
+                                                    @if ($item->model_type == 'surat_keterangan_tidak_mampu')
                                                         Surat Keterangan Pindah Domisili
-                                                    @elseif($item->model_type == 'keterangan_usaha')
+                                                    @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
                                                         Surat Keterangan Status Nikah
@@ -259,12 +261,14 @@
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-tanah-tidak-sengketa')
                                                         Surat Tanah Sengketa
-                                                    @elseif($item->model_type == 'beda-data-kependudukan') 
+                                                    @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
-                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri') 
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri')
                                                         Surat Keterangan Bekerja di Luar Negeri
-                                                    @elseif($item->model_type == 'surat_keterangan_kematian') 
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian')
                                                         Surat Keterangan Kematian
+                                                    @elseif($item->model_type == 'surat_keterangan_miskin')
+                                                        Surat Keterangan Miskin
                                                     @endif
                                                 </h1>
 
@@ -348,17 +352,34 @@
 
             <div class="row g-4 mt-3" id="cardsContainer">
                 <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan pindah domisili pindah alamat">
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat tidak mampu">
                     <div class="card card-link-pop shadow-sm h-100">
                         <div class="card-header card-header-light">
-                            <h5 class="card-title mb-0">Surat Keterangan Pindah Domisili</h5>
+                            <h5 class="card-title mb-0">Surat Keterangan Tidak Mampu</h5>
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between pt-0">
                             <p class="card-text text-muted">
-                                Digunakan untuk mengurus kepindahan warga dari satu alamat ke alamat lainnya secara resmi.
+                                Digunakan untuk mengurus Surat Tidak Mampu.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('keterangan_domisili.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_tidak_mampu.create') }}" class="btn btn-outline-primary btn-sm">
+                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 col-lg-4 searchable-card" data-search="surat miskin">
+                    <div class="card card-link-pop shadow-sm h-100">
+                        <div class="card-header card-header-light">
+                            <h5 class="card-title mb-0">Surat Keterangan Miskin</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between pt-0">
+                            <p class="card-text text-muted">
+                                Digunakan untuk mengurus Surat Miskin
+                            </p>
+                            <div class="text-end">
+                                <a href="{{ route('surat_keterangan_miskin.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -377,7 +398,7 @@
                                 Dibutuhkan sebagai bukti legalitas usaha yang dimiliki oleh warga di wilayah setempat.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('keterangan_usaha.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_usahas.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -590,15 +611,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: 'Laki-laki',
                     data: chartData.laki,
-                    backgroundColor: '#FF7043', 
-                    borderColor: '#E64A19',    
+                    backgroundColor: '#FF7043',
+                    borderColor: '#E64A19',
                     borderWidth: 1
                 },
                 {
                     label: 'Perempuan',
                     data: chartData.perempuan,
-                    backgroundColor: '#6F3A68', 
-                    borderColor: '#4A2B45',    
+                    backgroundColor: '#6F3A68',
+                    borderColor: '#4A2B45',
                     borderWidth: 1
                 }
 

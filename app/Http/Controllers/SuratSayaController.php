@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SuratKeteranganPindahDomisili;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratKeteranganUsaha;
+use App\Models\SuratKeteranganMiskin;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
 use App\Models\SuratPernyataanTanahTidakSengketa;
@@ -22,6 +23,14 @@ class SuratSayaController extends Controller
     public function index()
 {
     $user = auth()->user();
+
+     $miskin = SuratKeteranganMiskin::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'miskin';
+            return $item;
+        });
 
      $bedaDataPenduduk = SuratKeteranganBedaDataKependudukan::where('user_id', $user->id)
         ->orderByDesc('created_at')
@@ -104,6 +113,7 @@ class SuratSayaController extends Controller
         ->concat($tanah)
         ->concat($bedaDataPenduduk)
         ->concat($keteranganKematian)
+        ->concat($miskin)
         ->concat($bekerjaLuarNegeri);
 
     // Urutkan hasil penggabungan

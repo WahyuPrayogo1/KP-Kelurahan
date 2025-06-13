@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratKeteranganPindahDomisiliController;
 use App\Http\Controllers\SuratKeteranganUsahaController;
+use App\Http\Controllers\SuratKeteranganTidakMampuController;
+use App\Http\Controllers\SuratKeteranganMiskinController;
 use App\Http\Controllers\SuratKeteranganAktaNikahController;
 use App\Http\Controllers\SaranController;
 use App\Models\Artikel;
@@ -69,7 +71,15 @@ Route::middleware('auth')->group(function () {
 
     // admin
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
-    Route::resource('keterangan_usaha', SuratKeteranganUsahaController::class);
+    Route::resource('surat_keterangan_usahas', SuratKeteranganUsahaController::class);
+
+    // Start Ketarangan Tidak Mampu
+        Route::resource('surat_keterangan_tidak_mampu', SuratKeteranganTidakMampuController::class);
+    //END
+
+    // Start Keterangan Miskin
+        Route::resource('surat_keterangan_miskin', SuratKeteranganMiskinController::class);
+    // END
 
     //start akta nikah
         Route::resource('keterangan_akta_nikah', SuratKeteranganAktaNikahController::class);
@@ -82,12 +92,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/surat-bekerja-luar-negeri/{id}/preview-pdf', [SuratKeteranganBekerjaLuarNegeriController::class, 'previewPdf'])->name('surat-bekerja-luar-negeri.preview-pdf');
         Route::post('/surat-bekerja-luar-negeri/{id}/generate-pdf', [SuratKeteranganBekerjaLuarNegeriController::class, 'generatePdf'])->name('surat-bekerja-luar-negeri.generate-pdf');
     // end Bekerja luar negeri
-    
+
     //start surat keterangan kematian
         Route::resource('surat_keterangan_kematian', \App\Http\Controllers\SuratKeteranganKematianController::class);
         Route::get('/surat-keterangan-kematian/{id}/preview-pdf', [\App\Http\Controllers\SuratKeteranganKematianController::class, 'previewPdf'])->name('surat_keterangan_kematian.preview-pdf');
         Route::post('/surat-keterangan-kematian/{id}/generate-pdf', [\App\Http\Controllers\SuratKeteranganKematianController::class, 'generatePdf'])->name('surat_keterangan_kematian.generate-pdf');
-    //end surat keterangan kematian 
+    //end surat keterangan kematian
 
     // Start Ijin Keramain
         Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
@@ -102,7 +112,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/surat-pindah-perusahaan/{id}/generate-pdf', [SuratPindahDomisiliPerusahaanController::class, 'generatePdf'])->name('surat-pindah-perusahaan.generate-pdf');
     // End Surat Pindah Perusahaan
-    
+
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
     Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);

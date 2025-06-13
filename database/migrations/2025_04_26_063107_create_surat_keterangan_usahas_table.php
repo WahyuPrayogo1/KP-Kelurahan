@@ -35,14 +35,12 @@ return new class extends Migration
             $table->string('jumlah_karyawan');
             $table->string('pimpinan_usaha');
 
-
-
-
             $table->string('foto_ktp');
             $table->string('foto_kartu_keluarga');
-            $table->string('foto_pernyataan_rt_rw');
-            $table->string('foto_pengantar_rt_rw');
+            $table->string('foto_surat_pernyataan_tetangga');
+            $table->string('foto_surat_pernyataan_usaha');
             $table->string('foto_usaha');
+            $table->string('foto_pengantar_rt_rw');
             $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
