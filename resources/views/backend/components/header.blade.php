@@ -132,9 +132,7 @@
                                                   Surat Pindah Perusahaan / Yayasan
                                               </a>
 
-                                               <a class="dropdown-item" href="{{route('surat_keterangan_usahas.index')}}">
-                                                  Surat Keterangan Usaha
-                                              </a>
+
 
                                           </div>
 
@@ -143,15 +141,16 @@
                                               <a class="dropdown-item" href="{{route('surat-bekerja-luar-negeri.index')}}">
                                                   Surat Keterangan Bekerja di Luar Negeri
                                               </a>
+                                               <a class="dropdown-item" href="{{route('surat_keterangan_usahas.index')}}">
+                                                  Surat Keterangan Usaha
+                                              </a>
 
                                               <a class="dropdown-item" href="{{route('keterangan_akta_nikah.index')}}">
                                                   Surat Keterangan Status Nikah
                                               </a>
-                                            <a class="dropdown-item" href="{{route('surat-keterangan-orang-tua.index')}}">
-                                                  Surat Keterangan Orang Tua
-                                              </a>
 
-                                                <a class="dropdown-item" href="{{route('beda-data-kependudukan.index')}}">
+
+                                                <a class="dropdown-item" href="#">
                                                   Surat Keterangan Beda Data Kependudukan
                                                 </a>
                                                 <a class="dropdown-item" href="{{route('surat_keterangan_kematian.index')}}">

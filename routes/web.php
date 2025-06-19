@@ -75,6 +75,11 @@ Route::middleware('auth')->group(function () {
 
     // Start Ketarangan Tidak Mampu
         Route::resource('surat_keterangan_tidak_mampu', SuratKeteranganTidakMampuController::class);
+        Route::prefix('sktm')->group(function () {
+            // ... existing routes ...
+            Route::get('/{id}/preview-pdf', [SuratKeteranganTidakMampuController::class, 'previewPdf'])->name('sktm.preview-pdf');
+            Route::post('/{id}/generate-pdf', [SuratKeteranganTidakMampuController::class, 'generatePdf'])->name('sktm.generate-pdf');
+        });
     //END
 
     // Start Keterangan Miskin
@@ -102,7 +107,6 @@ Route::middleware('auth')->group(function () {
     // Start Ijin Keramain
         Route::resource('surat_pengantar_ijin_keramaian', SuratPengantarIjinKeramaianController::class);
         Route::get('/surat-pengantar-ijin-keramaian/{id}/preview-pdf', [SuratPengantarIjinKeramaianController::class, 'previewPdf'])->name('surat.preview-pdf');
-
         Route::post('/surat-pengantar-ijin-keramaian/{id}/generate-pdf', [SuratPengantarIjinKeramaianController::class, 'generatePdf'])->name('surat.generate-pdf');
     // End Ijin Keramain
 
@@ -114,7 +118,6 @@ Route::middleware('auth')->group(function () {
     // End Surat Pindah Perusahaan
 
     Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
-    Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
     Route::resource('penduduk', PendudukController::class);
