@@ -30,7 +30,7 @@
             vertical-align: top;
         }
         .signature-container {
-            display: flex; 
+            display: flex;
         }
         .signature-column {
             width: 40%;
@@ -113,7 +113,7 @@
         @endphp
 
         <p class="indent-justify">
-            Menyatakan dengan sesungguhnya dan berani diangkat sumpah bahwa 
+            Menyatakan dengan sesungguhnya dan berani diangkat sumpah bahwa
             @foreach ($hubunganEnums as $index => $hubungan)
                 @php
                     $isSelected = ($hubungan === $userChoice);
@@ -140,12 +140,12 @@
     </div>
 
     <p class="indent-justify">
-        Diterangkan lebih lanjut bahwa berdasarkan surat pengantar RT <strong>{{ $rt }}</strong> RW <strong>{{ $rw }}</strong> nomor: <strong>{{ $nomor_pengantar_rt_rw }}</strong> dan Pernyataan yang bersangkutan diatas materai tanggal <strong>{{ \Carbon\Carbon::parse($tanggal_pengantar_rt_rw)->translatedFormat('d F Y') }}</strong>, 
+        Diterangkan lebih lanjut bahwa berdasarkan surat pengantar RT {{ $rt }} RW {{ $rw }} nomor: <strong>{{ $nomor_pengantar_rt_rw }}</strong> dan Pernyataan yang bersangkutan diatas materai tanggal <strong>{{ \Carbon\Carbon::parse($tanggal_pengantar_rt_rw)->translatedFormat('d F Y') }}</strong>,
         serta sampai dengan  dibuatkannya Surat keterangan ini bahwa pada saat ini <strong>{{ $surat->hubungan_dengan_pekerja }}</strong> saya sedang bekerja di <strong>{{ $surat->negara_tujuan }}</strong>.
     </p>
 
     <p class="indent-justify">
-        Surat keterangan ini di pergunakan untuk: <strong><u> melengkapi persyaratan administrasi </u></strong> 
+        Surat keterangan ini di pergunakan untuk: <strong><u> melengkapi persyaratan administrasi </u></strong>
     </p>
 
     <p class="indent-justify">
@@ -161,7 +161,7 @@
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dikeluarkan di &nbsp;&nbsp;: Sukabumi</td>
                     </tr>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pada Tanggal &nbsp;&nbsp;&nbsp; : 
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pada Tanggal &nbsp;&nbsp;&nbsp; :
                             {{ $tanggal_surat ? \Carbon\Carbon::parse($tanggal_surat)->translatedFormat('d-m-Y') : date('d-m-Y') }}
                         </td>
                     </tr>

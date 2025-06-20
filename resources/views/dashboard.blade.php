@@ -125,6 +125,8 @@
                                                         Surat Keterangan Tidak Mampu
                                                     @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
+                                                    @elseif($item->model_type == 'surat_keterangan_miskin')
+                                                        Surat Keterangan Miskin
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
                                                         Surat Keterangan Status Nikah
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')

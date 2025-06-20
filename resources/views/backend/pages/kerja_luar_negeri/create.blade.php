@@ -66,7 +66,13 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Status Perkawinan</label>
-                                    <input type="text" name="status_perkawinan_pemohon" class="form-control required-step1" required value="{{ old('status_perkawinan_pemohon') }}">
+                                    <select name="status_perkawinan_pemohon" class="form-select required-step1" required>
+                                            <option value="">Pilih Status</option>
+                                            <option value="Belum Kawin" {{ old('status_perkawinan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                                            <option value="Kawin" {{ old('status_perkawinan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+                                            <option value="Cerai Hidup" {{ old('status_perkawinan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                                            <option value="Cerai Mati" {{ old('status_perkawinan') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+                                        </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Agama</label>
@@ -154,7 +160,7 @@
                                 <button type="button" class="btn btn-primary" onclick="nextStep()">Lanjut</button>
                             </div>
                         </div>
-                    
+
                             {{-- STEP 2 --}}
                             <div id="step2" style="display: none;">
                             <div class="row">

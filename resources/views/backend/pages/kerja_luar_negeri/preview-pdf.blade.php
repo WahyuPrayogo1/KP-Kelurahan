@@ -34,15 +34,30 @@
                     </div>
                 </div>
 
+               @php
+                    $alamat = $surat->alamat_pekerja;
+
+                    // Tangkap dua digit (atau tiga) sebagai string supaya 03 tetap 03
+                    preg_match_all('/RT[.\s]*([0-9]{2,3})/i', $alamat, $matchRT);
+                    $rtDariAlamat = $matchRT[1][0] ?? '';
+
+                    preg_match_all('/RW[.\s]*([0-9]{2,3})/i', $alamat, $matchRW);
+                    $rwDariAlamat = $matchRW[1][0] ?? '';
+                @endphp
+
+
+
                 <!-- Tambahan Field RT, RW, Nomor dan Tanggal Surat Pengantar -->
                 <div class="row mb-4">
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">RT</label>
-                        <input type="text" name="rt" class="form-control form-control-sm" value="{{ old('rt') }}" required>
+                       <input type="text" name="rt" class="form-control form-control-sm"
+    value="{{ old('rt', $rtDariAlamat) }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">RW</label>
-                        <input type="text" name="rw" class="form-control form-control-sm" value="{{ old('rw') }}" required>
+                        <input type="text" name="rw" class="form-control form-control-sm"
+    value="{{ old('rw', $rwDariAlamat) }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Berlaku Sampai Tanggal</label>

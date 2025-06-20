@@ -73,6 +73,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
     Route::resource('surat_keterangan_usahas', SuratKeteranganUsahaController::class);
 
+    // Start beda-data-kependudukan
+    Route::resource('beda-data-kependudukan', SuratKeteranganUsahaController::class);
+    // END
+
+    // Start surat-keterangan-orang-tua
+    Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
+    // END
+
     // Start Ketarangan Tidak Mampu
         Route::resource('surat_keterangan_tidak_mampu', SuratKeteranganTidakMampuController::class);
         Route::prefix('sktm')->group(function () {
@@ -84,6 +92,11 @@ Route::middleware('auth')->group(function () {
 
     // Start Keterangan Miskin
         Route::resource('surat_keterangan_miskin', SuratKeteranganMiskinController::class);
+          Route::prefix('miskin')->group(function () {
+            // ... existing routes ...
+            Route::get('/{id}/preview-pdf', [SuratKeteranganMiskinController::class, 'previewPdf'])->name('miskin.preview-pdf');
+            Route::post('/{id}/generate-pdf', [SuratKeteranganMiskinController::class, 'generatePdf'])->name('miskin.generate-pdf');
+        });
     // END
 
     //start akta nikah
