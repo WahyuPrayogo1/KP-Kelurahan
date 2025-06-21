@@ -79,6 +79,12 @@
             color: white;
             border: none;
         }
+
+        .small-placeholder::placeholder {
+            font-size: 0.85rem; 
+            color: #6c757d; 
+        }
+
     </style>
 </head>
 
@@ -108,17 +114,20 @@
                         <div class="mb-3">
                             <label for="whatsapp_number" class="form-label label-form">Nomor WhatsApp</label>
                             <input 
-                                type="tel" 
-                                class="form-control" 
+                                type="text" 
+                                class="form-control small-placeholder" 
                                 id="whatsapp_number" 
                                 name="whatsapp_number" 
                                 value="{{ old('whatsapp_number') }}" 
                                 required 
                                 autocomplete="tel"
-                                maxlength="15" 
-                                pattern="[0-9]+" 
-                                title="Hanya boleh angka, maksimal 15 digit">
-                                
+                                maxlength="15"
+                                inputmode="numeric"
+                                pattern="08[0-9]{7,13}"
+                                placeholder="Contoh: 08xxxxxxxxxx"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                title="Nomor harus diawali 08 dan maksimal 15 digit angka.">
+
                             @error('whatsapp_number')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror

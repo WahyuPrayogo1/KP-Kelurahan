@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Spatie\Permission\Models\Role; // Tambahkan ini
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Tampilkan halaman registrasi.
      */
     public function create(): View
     {
@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
+     * Proses registrasi pengguna baru.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -33,7 +33,13 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'whatsapp_number' => ['required', 'string', 'max:15', 'unique:'.User::class],
+            'whatsapp_number' => [
+                'required',
+                'string',
+                'max:15',
+                'unique:'.User::class,
+                 'regex:/^08\d{8,13}$/'
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -43,7 +49,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assign Role "User"
+        // Berikan role "User"
         $user->assignRole('User');
 
         event(new Registered($user));

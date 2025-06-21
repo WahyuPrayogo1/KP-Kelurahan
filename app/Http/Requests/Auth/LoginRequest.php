@@ -16,8 +16,13 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'whatsapp_number' => ['required', 'string'],
-            'password' => ['required', 'string'],
+            'whatsapp_number' => [
+                'required',
+                'string',
+                'max:15',
+                'regex:/^08\d{8,13}$/'
+            ],
+            'password' => ['required'],
         ];
     }
 
@@ -28,11 +33,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt($this->only('whatsapp_number', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt([
+            'whatsapp_number' => $this->whatsapp_number,
+            'password' => $this->password,
+        ], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'whatsapp_number' => __('auth.failed'),
+                'whatsapp_number' => __('Nomor WhatsApp atau password salah.'),
             ]);
         }
 
