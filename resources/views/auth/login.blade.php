@@ -92,6 +92,12 @@
             color: #6c757d;
             margin-top: 0.25rem;
         }
+
+        .small-placeholder::placeholder {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
     </style>
 </head>
 
@@ -113,20 +119,8 @@
 
                         <!-- Nomor WhatsApp -->
                         <div class="mb-3">
-                            <label for="whatsapp_number" class="form-label label-form">Nomor WhatsApp</label>
-                            <div class="input-group">
-                                <span class="input-group-text">+62</span>
-                                <input type="tel"
-                                       class="form-control phone-input"
-                                       id="whatsapp_number"
-                                       name="whatsapp_number"
-                                       value="{{ old('whatsapp_number') }}"
-                                       required
-                                       placeholder="8123456789"
-                                       pattern="[0-9]*"
-                                       inputmode="numeric">
-                            </div>
-                            <div class="input-hint">Masukkan nomor tanpa 0 di depan (contoh: 8123456789)</div>
+                            <label for="whatsapp_number" class="form-label label-form">No. Telepon</label>
+                            <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number" value="{{ old('whatsapp_number') }}" required>
                             @error('whatsapp_number')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
                             @enderror
