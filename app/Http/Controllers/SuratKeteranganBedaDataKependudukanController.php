@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Mpdf\Mpdf;
+use Illuminate\Support\Facades\Http;
 
 class SuratKeteranganBedaDataKependudukanController extends Controller
 {

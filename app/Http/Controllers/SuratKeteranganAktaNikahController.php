@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Mpdf\Mpdf;
+use Illuminate\Support\Facades\Http;
 
 class SuratKeteranganAktaNikahController extends Controller
 {
@@ -197,6 +198,7 @@ class SuratKeteranganAktaNikahController extends Controller
         }
 
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
+        $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -242,9 +244,46 @@ class SuratKeteranganAktaNikahController extends Controller
         }
 
         $surat->update($validated);
+         // Kirim notifikasi jika status berubah menjadi 'ditolak'
+        if ($request->status == 'ditolak' && $previousStatus != 'ditolak') {
+            $this->sendRejectionNotification($surat);
+        }
 
         return redirect()->route('keterangan_akta_nikah.index')
         ->with('success', 'Data Surat Keterangan Akta Nikah berhasil diperbarui.');
+    }
+
+    protected function sendRejectionNotification(SuratKeteranganAktaNikah $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Mohon maaf, pengajuan Surat Keterangan Akta Nikah Anda *ditolak*.\n";
+        $message .= "Alasan penolakan: {$surat->catatan}\n\n";
+        $message .= "Silakan perbaiki dan ajukan kembali.\n\n";
+        $message .= "Salam,\nAdmin";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)
