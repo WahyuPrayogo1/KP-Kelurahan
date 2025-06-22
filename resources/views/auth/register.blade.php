@@ -92,12 +92,6 @@
             color: #6c757d;
             margin-top: 0.25rem;
         }
-
-        .small-placeholder::placeholder {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
     </style>
 </head>
 

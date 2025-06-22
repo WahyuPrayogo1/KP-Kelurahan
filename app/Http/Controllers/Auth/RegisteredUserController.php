@@ -35,13 +35,6 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'whatsapp_number' => ['required', 'string', 'max:15'],
             'formatted_whatsapp_number' => ['required', 'string', 'starts_with:628', 'min:10', 'unique:users,whatsapp_number'],
-            'whatsapp_number' => [
-                'required',
-                'string',
-                'max:15',
-                'unique:'.User::class,
-                 'regex:/^08\d{8,13}$/'
-            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
