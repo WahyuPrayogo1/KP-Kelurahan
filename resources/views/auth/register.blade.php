@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         body {
@@ -43,7 +43,6 @@
             color: #4F4F4F;
         }
 
-        /* Warna border saat input aktif (focus) */
         .form-control:focus {
             border-color: #6F3A68;
             box-shadow: 0 0 5px rgba(111, 58, 104, 0.5);
@@ -53,12 +52,10 @@
             border: none;
         }
 
-        /* Warna label input */
         .label-form {
             color: #6F3A68;
         }
 
-        /* Warna link */
         .link {
             color: #6F3A68;
             text-decoration: none;
@@ -72,12 +69,28 @@
             background-color: #6F3A68;
             color: white;
             border: none;
+            transition: all 0.3s;
         }
 
         .btn-custom:hover {
-            background-color: #6F3A68;
+            background-color: #5a2d53;
             color: white;
-            border: none;
+        }
+
+        .input-group-text {
+            background-color: white;
+            border-right: none;
+        }
+
+        .phone-input {
+            border-left: none;
+            padding-left: 0.5rem;
+        }
+
+        .input-hint {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
@@ -92,8 +105,11 @@
                     <p>Daftar untuk bergabung di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAY!</small></p>
 
                     <!-- Laravel Register Form -->
-                    <form class="mt-4" method="POST" action="{{ route('register') }}">
+                    <form class="mt-4" method="POST" action="{{ route('register') }}" id="registerForm">
                         @csrf
+
+                        <!-- Hidden field for formatted number -->
+                        <input type="hidden" name="formatted_whatsapp_number" id="formattedWhatsappNumber">
 
                         <!-- Nama -->
                         <div class="mb-3">
@@ -107,20 +123,25 @@
                         <!-- Nomor WhatsApp -->
                         <div class="mb-3">
                             <label for="whatsapp_number" class="form-label label-form">Nomor WhatsApp</label>
-                            <input 
-                                type="tel" 
-                                class="form-control" 
-                                id="whatsapp_number" 
-                                name="whatsapp_number" 
-                                value="{{ old('whatsapp_number') }}" 
-                                required 
-                                autocomplete="tel"
-                                maxlength="15" 
-                                pattern="[0-9]+" 
-                                title="Hanya boleh angka, maksimal 15 digit">
-                                
+                            <div class="input-group">
+                                <span class="input-group-text">+62</span>
+                                <input type="tel"
+                                       class="form-control phone-input"
+                                       id="whatsapp_number"
+                                       name="whatsapp_number"
+                                       value="{{ old('whatsapp_number') }}"
+                                       required
+                                       autocomplete="tel"
+                                       placeholder="8123456789"
+                                       pattern="[0-9]*"
+                                       inputmode="numeric">
+                            </div>
+                            <div class="input-hint">Masukkan nomor tanpa 0 di depan (contoh: 8123456789)</div>
                             @error('whatsapp_number')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger d-block mt-1">{{ $message }}</small>
+                            @enderror
+                            @error('formatted_whatsapp_number')
+                                <small class="text-danger d-block mt-1">{{ $message }}</small>
                             @enderror
                         </div>
 
@@ -143,7 +164,7 @@
                         </div>
 
                         <!-- Tombol Register -->
-                        <button type="submit" class="btn btn-primary w-100 btn-custom">REGISTER</button>
+                        <button type="submit" class="btn btn-custom w-100 py-2">REGISTER</button>
                     </form>
 
                     <div class="mt-3 text-center">
@@ -159,6 +180,39 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Format nomor WhatsApp sebelum submit
+            const phoneInput = document.getElementById('whatsapp_number');
+            let phoneNumber = phoneInput.value.replace(/\D/g, '');
+
+            // Hilangkan leading 0 jika ada
+            if (phoneNumber.startsWith('0')) {
+                phoneNumber = phoneNumber.substring(1);
+            }
+
+            // Pastikan nomor dimulai dengan 8
+            if (!phoneNumber.startsWith('8')) {
+                phoneNumber = '8' + phoneNumber;
+            }
+
+            // Format ke 628 untuk dikirim ke server
+            const formattedNumber = '62' + phoneNumber;
+
+            // Set nilai ke hidden field
+            document.getElementById('formattedWhatsappNumber').value = formattedNumber;
+
+            // Submit form
+            this.submit();
+        });
+
+        // Validasi input hanya angka
+        document.getElementById('whatsapp_number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    </script>
+</body>
 </html>

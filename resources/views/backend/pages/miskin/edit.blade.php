@@ -155,6 +155,7 @@
                                 </div>
                             </div>
 
+                            @role('Admin')
                             <!-- Status dan Catatan Section -->
                             <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
                             <div class="row">
@@ -171,6 +172,7 @@
                                     <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
                                 </div>
                             </div>
+                            @endrole
 
                             <!-- Action Buttons -->
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,13 +22,27 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    // Di AuthenticatedSessionController.php
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'formatted_whatsapp_number' => ['required', 'string', 'starts_with:628'],
+            'password' => ['required'],
+        ]);
 
-        $request->session()->regenerate();
+        $credentials = [
+            'whatsapp_number' => $request->formatted_whatsapp_number,
+            'password' => $request->password
+        ];
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
+        return back()->withErrors([
+            'formatted_whatsapp_number' => 'Nomor WhatsApp atau password salah.',
+        ])->onlyInput('whatsapp_number');
     }
 
     /**

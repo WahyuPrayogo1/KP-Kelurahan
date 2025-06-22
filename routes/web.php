@@ -24,6 +24,9 @@ use App\Http\Controllers\SektorPekerjaanController;
 use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\SuratKeteranganBekerjaLuarNegeriController;
 use App\Http\Controllers\SuratKeteranganKematianController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -38,11 +41,37 @@ use Illuminate\Support\Facades\Storage;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
     $artikels = Artikel::latest()->take(5)->get(); // Ambil 5 artikel terbaru
     return view('welcome', compact('artikels'));
 });
+
+Route::get('/test-wa', function () {
+    $phone = '6281212823970'; // ganti dengan nomor WA kamu
+    $message = "Halo Wahyu!\n\nIni adalah tes kirim WhatsApp dari Laravel pakai Wablas.";
+
+    $response = Http::withHeaders([
+        'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+        'Content-Type' => 'application/x-www-form-urlencoded',
+    ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+        'phone' => $phone,
+        'message' => $message,
+    ]);
+
+    return $response->body();
+});
+
+// Reset Password Routes
+Route::get('/lupa-password', [ForgotPasswordController::class, 'showForm'])
+     ->name('password.request');
+Route::post('/lupa-password', [ForgotPasswordController::class, 'sendResetLink'])
+     ->name('password.send');
+Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])
+     ->name('password.reset');
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])
+     ->name('password.update');
 
 // Berita
 Route::get('/berita/{id}', [ArtikelController::class, 'detail'])->name('berita.detail');
@@ -62,6 +91,12 @@ Route::get('/persyaratan', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('/dashboard');
+
+    // Start Lupa Password
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showForm'])->name('password.request');
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.send');
+    // END
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);

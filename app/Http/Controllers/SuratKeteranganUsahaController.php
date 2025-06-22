@@ -164,12 +164,18 @@ class SuratKeteranganUsahaController extends Controller
     }
     public function edit($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $surat = SuratKeteranganUsaha::findOrFail($id);
         return view('backend.pages.Usaha.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $validated = $request->validate([
             // Data Pemohon
             'nama' => 'required|string|max:255',
@@ -298,6 +304,9 @@ class SuratKeteranganUsahaController extends Controller
 
    public function destroy($id)
     {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         try {
             // Find the record
             $surat = SuratKeteranganUsaha::findOrFail($id);
@@ -329,16 +338,5 @@ class SuratKeteranganUsahaController extends Controller
             return redirect()->back()
                 ->with('error', 'Gagal menghapus data. Error: ' . $e->getMessage());
         }
-    }
-
-    // Untuk User
-    public function createUser()
-    {
-        return view('pages.keterangan_usaha.index');
-    }
-
-    public function storeUser(Request $request)
-    {
-        $this->store($request); // Reuse fungsi store
     }
 }

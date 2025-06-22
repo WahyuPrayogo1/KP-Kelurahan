@@ -29,17 +29,18 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+   public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'whatsapp_number' => ['required', 'string', 'max:15', 'unique:'.User::class],
+            'whatsapp_number' => ['required', 'string', 'max:15'],
+            'formatted_whatsapp_number' => ['required', 'string', 'starts_with:628', 'min:10', 'unique:users,whatsapp_number'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
-            'whatsapp_number' => $request->whatsapp_number,
+            'whatsapp_number' => $request->formatted_whatsapp_number,
             'password' => Hash::make($request->password),
         ]);
 

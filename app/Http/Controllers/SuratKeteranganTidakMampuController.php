@@ -152,6 +152,9 @@ class SuratKeteranganTidakMampuController extends Controller
      */
     public function show($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $surat = SuratKeteranganTidakMampu::findOrFail($id);
         return view('backend.pages.tidak_mampu.show', compact('surat'));
     }
@@ -173,6 +176,9 @@ class SuratKeteranganTidakMampuController extends Controller
      */
     public function update(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $validated = $request->validate(
             [
                 // Data Pemohon
@@ -257,6 +263,9 @@ class SuratKeteranganTidakMampuController extends Controller
      */
     public function destroy($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         try {
             // Find the record
             $sktm = SuratKeteranganTidakMampu::findOrFail($id);

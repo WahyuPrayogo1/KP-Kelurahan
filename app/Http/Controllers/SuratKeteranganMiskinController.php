@@ -150,6 +150,9 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function show($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $surat = SuratKeteranganMiskin::findOrFail($id);
         return view('backend.pages.miskin.show', compact('surat'));
     }
@@ -171,6 +174,9 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function update(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         $validated = $request->validate(
             [
                 // Data Pemohon
@@ -255,6 +261,9 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function destroy($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         try {
             // Find the record
             $sktm = SuratKeteranganMiskin::findOrFail($id);
@@ -282,6 +291,9 @@ class SuratKeteranganMiskinController extends Controller
 
     public function previewPdf($id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         if (!auth()->user()->hasRole('Admin')) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
@@ -291,6 +303,9 @@ class SuratKeteranganMiskinController extends Controller
 
     public function generatePdf(Request $request, $id)
     {
+         if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'Unauthorized');
+        }
         if (!auth()->user()->hasRole('Admin')) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
