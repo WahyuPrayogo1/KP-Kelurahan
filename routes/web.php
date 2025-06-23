@@ -109,7 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('surat_keterangan_usahas', SuratKeteranganUsahaController::class);
 
     // Start beda-data-kependudukan
-    Route::resource('beda-data-kependudukan', SuratKeteranganUsahaController::class);
+    Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     // END
 
     // Start surat-keterangan-orang-tua

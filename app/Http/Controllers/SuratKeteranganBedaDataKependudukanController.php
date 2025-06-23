@@ -18,27 +18,27 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
         }
 
         if ($request->ajax()) {
-        $data = SuratKeteranganBedaDataKependudukan::with('user')->get();
+            $data = SuratKeteranganBedaDataKependudukan::with('user')->get();
 
-        return DataTables::of($data)
-            ->addColumn('status', function ($row) {
-                $badgeClass = match ($row->status) {
-                    'selesai' => 'success',
-                    'proses' => 'warning',
-                    'ditolak' => 'danger',
-                    default => 'secondary',
-                };
-                return '<span class="text-white badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
-            })
-            ->editColumn('lokasi_perbedaan_nama', function ($row) {
-                return $row->lokasi_perbedaan_nama;
-            })
-            ->addColumn('aksi', function ($row) {
-                return view('backend.pages.beda_data_kependudukan.actions', compact('row'));
-            })
-            ->rawColumns(['status', 'aksi'])
-            ->make(true);
-    }
+            return DataTables::of($data)
+                ->addColumn('status', function ($row) {
+                    $badgeClass = match ($row->status) {
+                        'selesai' => 'success',
+                        'proses' => 'warning',
+                        'ditolak' => 'danger',
+                        default => 'secondary',
+                    };
+                    return '<span class="text-white badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
+                })
+                ->editColumn('lokasi_perbedaan_nama', function ($row) {
+                    return $row->lokasi_perbedaan_nama;
+                })
+                ->addColumn('aksi', function ($row) {
+                    return view('backend.pages.beda_data_kependudukan.actions', compact('row'));
+                })
+                ->rawColumns(['status', 'aksi'])
+                ->make(true);
+        }
         return view('backend.pages.beda_data_kependudukan.index');
     }
 
@@ -52,7 +52,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
         // Jika user memilih "Lainnya" dan mengisi nilai manual, pakai nilai tersebut
         if ($request->lokasi_perbedaan_nama === 'Lainnya' && $request->filled('lokasi_perbedaan_nama_lainnya')) {
             $request->merge([
-                'lokasi_perbedaan_nama' => $request->lokasi_perbedaan_nama_lainnya
+                'lokasi_perbedaan_nama' => $request->lokasi_perbedaan_nama_lainnya,
             ]);
         }
 
@@ -77,13 +77,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
             'pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        foreach ([
-            'fc_ktp',
-            'fc_kk',
-            'surat_pernyataan_beda_data',
-            'bukti_beda_data',
-            'pengantar_rt_rw'
-        ] as $fileField) {
+        foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_beda_data', 'bukti_beda_data', 'pengantar_rt_rw'] as $fileField) {
             if ($request->hasFile($fileField)) {
                 $validated[$fileField] = $request->file($fileField)->store('uploads', 'private');
             }
@@ -124,10 +118,10 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
         }
 
         $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
-
+        $previousStatus = $surat->status; // Simpan status sebelumnya
         if ($request->lokasi_perbedaan_nama === 'Lainnya' && $request->filled('lokasi_perbedaan_nama_lainnya')) {
             $request->merge([
-                'lokasi_perbedaan_nama' => $request->lokasi_perbedaan_nama_lainnya
+                'lokasi_perbedaan_nama' => $request->lokasi_perbedaan_nama_lainnya,
             ]);
         }
 
@@ -154,13 +148,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
             'pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        foreach ([
-            'fc_ktp',
-            'fc_kk',
-            'surat_pernyataan_beda_data',
-            'bukti_beda_data',
-            'pengantar_rt_rw'
-        ] as $field) {
+        foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_beda_data', 'bukti_beda_data', 'pengantar_rt_rw'] as $field) {
             if ($request->hasFile($field)) {
                 if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
                     Storage::disk('private')->delete($surat->$field);
@@ -172,10 +160,82 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
         }
 
         $surat->update($validatedData);
+        // Kirim notifikasi hanya jika status berubah
+        if ($previousStatus != $request->status) {
+            if ($request->status == 'ditolak') {
+                $this->sendRejectionNotification($surat);
+            } elseif ($request->status == 'selesai') {
+                $this->sendSelesaiNotification($surat);
+            }
+        }
 
-        return redirect()->route('beda-data-kependudukan.index')
-            ->with('success', 'Data berhasil diperbarui!');
-}
+        return redirect()->route('beda-data-kependudukan.index')->with('success', 'Data berhasil diperbarui!');
+    }
+
+        protected function sendRejectionNotification(SuratKeteranganBedaDataKependudukan $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Mohon maaf, pengajuan Surat Keterangan Beda Data Kependudukan Anda *ditolak*.\n";
+        $message .= "Alasan penolakan: {$surat->catatan}\n\n";
+        $message .= "Silakan perbaiki dan ajukan kembali.\n\n";
+        $message .= "Salam,\nAdmin";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
+    }
+
+    protected function sendSelesaiNotification(SuratKeteranganBedaDataKependudukan $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Pengajuan Surat Keterangan Beda Data Kependudukan Anda telah *SELESAI*.\n";
+        $message .= "Silakan datang ke Kelurahan Subang Jaya untuk mengambil surat tersebut\n\n";
+        $message .= "Salam,\nAdmin Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
+    }
 
     public function destroy($id)
     {
@@ -185,20 +245,14 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
 
         $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
 
-        foreach ([
-            'fc_ktp',
-            'fc_kk',
-            'surat_pernyataan_beda_data',
-            'bukti_beda_data',
-            'pengantar_rt_rw'
-        ] as $fileField) {
+        foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_beda_data', 'bukti_beda_data', 'pengantar_rt_rw'] as $fileField) {
             if ($surat->$fileField && Storage::disk('private')->exists($surat->$fileField)) {
                 Storage::disk('private')->delete($surat->$fileField);
             }
         }
         $surat->delete();
 
-         return redirect()->route('beda-data-kependudukan.index')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('beda-data-kependudukan.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function previewPdf($id)
@@ -248,4 +302,3 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
         return $mpdf->Output('Surat-Beda-Data-' . $surat->id . '.pdf', \Mpdf\Output\Destination::INLINE);
     }
 }
-

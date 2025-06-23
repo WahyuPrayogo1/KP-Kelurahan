@@ -6,7 +6,7 @@ use App\Models\SuratKeteranganUsaha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Support\Facades\Http;
 class SuratKeteranganUsahaController extends Controller
 {
     public function index(Request $request)
@@ -270,6 +270,7 @@ class SuratKeteranganUsahaController extends Controller
 
         // Find the existing record
         $surat = SuratKeteranganUsaha::findOrFail($id);
+        $previousStatus = $surat->status; // Simpan status sebelumnya
 
         // Handle file uploads - only update if new file is uploaded
         $fileFields = [
@@ -297,10 +298,82 @@ class SuratKeteranganUsahaController extends Controller
 
         // Update the record
         $surat->update($validated);
+        if ($previousStatus != $request->status) {
+            if ($request->status == 'ditolak') {
+                $this->sendRejectionNotification($surat);
+            } elseif ($request->status == 'selesai') {
+                $this->sendSelesaiNotification($surat);
+            }
+        }
 
         return redirect()->route('surat_keterangan_usahas.index')
             ->with('success', 'Data surat keterangan usaha berhasil diperbarui.');
     }
+        protected function sendRejectionNotification(SuratKeteranganUsaha $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Mohon maaf, pengajuan Surat Keterangan Usaha Anda *ditolak*.\n";
+        $message .= "Alasan penolakan: {$surat->catatan}\n\n";
+        $message .= "Silakan perbaiki dan ajukan kembali.\n\n";
+        $message .= "Salam,\nAdmin Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
+    }
+
+    protected function sendSelesaiNotification(SuratKeteranganUsaha $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Pengajuan Surat Keterangan Usaha Anda telah *SELESAI*.\n";
+        $message .= "Silakan datang ke Kelurahan Subang Jaya untuk mengambil surat tersebut\n\n";
+        $message .= "Salam,\nAdmin Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
+    }
+
 
    public function destroy($id)
     {

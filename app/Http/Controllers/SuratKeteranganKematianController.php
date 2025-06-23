@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use Mpdf\Mpdf;
+use Illuminate\Support\Facades\Http;
 
 class SuratKeteranganKematianController extends Controller
 {
@@ -142,6 +143,7 @@ public function index(Request $request)
         }
 
         $surat = SuratKeteranganKematian::findOrFail($id);
+        $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -176,8 +178,81 @@ public function index(Request $request)
         }
 
         $surat->update($validated);
+        // Kirim notifikasi hanya jika status berubah
+        if ($previousStatus != $request->status) {
+            if ($request->status == 'ditolak') {
+                $this->sendRejectionNotification($surat);
+            } elseif ($request->status == 'selesai') {
+                $this->sendSelesaiNotification($surat);
+            }
+        }
 
         return redirect()->route('surat_keterangan_kematian.index')->with('success', 'Data berhasil diperbarui.');
+    }
+
+    protected function sendRejectionNotification(SuratKeteranganKematian $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Mohon maaf, pengajuan Surat Keterangan Kematian *ditolak*.\n";
+        $message .= "Alasan penolakan: {$surat->catatan}\n\n";
+        $message .= "Silakan perbaiki dan ajukan kembali.\n\n";
+        $message .= "Salam,\nAdmin Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
+    }
+
+    protected function sendSelesaiNotification(SuratKeteranganKematian $surat)
+    {
+        $user = $surat->user;
+        $whatsappNumber = $user->whatsapp_number;
+
+        $message = "Halo {$user->name},\n\n";
+        $message .= "Pengajuan Surat Keterangan Kematian telah *SELESAI*.\n";
+        $message .= "Silakan datang ke Kelurahan Subang Jaya untuk mengambil surat tersebut\n\n";
+        $message .= "Salam,\nAdmin Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $whatsappNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi penolakan', [
+                    'response' => $response->body(),
+                    'user_id' => $user->id,
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)
