@@ -66,6 +66,26 @@
         </div>
         <div class="container-xl mt-5">
             <div class="row row-deck row-cards">
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Jumlah Surat per Bulan</h4>
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Jumlah Surat per Jenis</h4>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-xl mt-5">
+            <div class="row row-deck row-cards">
                 <div class="col-sm-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
@@ -302,16 +322,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Mata Pencaharian -->
-            <div class="row mb-5 text-center px-3" style="padding-top: 50px;">
-                <div class="col-12 text-center px-3">
-                    <h3 class="card-title">Statistik Sektor Mata Pencaharian</h3>
-                    <canvas id="sektorPekerjaanChart" style="max-width: 75%; height: 500px; max-height: 600px; margin: 0 auto;"></canvas>
-                </div>
-            </div>
-
-
-
             {{-- <div class="row mt-5">
                 <div class="col-lg-12">
                     <div class="card">
@@ -323,9 +333,6 @@
                 </div>
             </div> --}}
         </div>
-
-
-
         </div>
     @endrole
 
@@ -473,24 +480,6 @@
                             </p>
                             <div class="text-end">
                                 <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-outline-primary btn-sm">
-                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan beda data kependudukan">
-                    <div class="card card-link-pop shadow-sm h-100">
-                        <div class="card-header card-header-light">
-                            <h5 class="card-title mb-0">Surat Keterangan Data Orang Tua</h5>
-                        </div>
-                        <div class="card-body d-flex flex-column justify-content-between pt-0">
-                            <p class="card-text text-muted">
-                                Orang Tua
-                            </p>
-                            <div class="text-end">
-                                <a href="{{ route('surat-keterangan-orang-tua.create') }}" class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -712,77 +701,156 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const cardsContainer = document.getElementById('cardsContainer');
-            const cards = Array.from(document.querySelectorAll('.searchable-card'));
-            const noResultsTemplate = document.getElementById('noResultsTemplate');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const cards = Array.from(document.querySelectorAll('.searchable-card'));
+        const noResultsTemplate = document.getElementById('noResultsTemplate');
 
-            // Fungsi untuk menampilkan/menyembunyikan kartu berdasarkan pencarian
-            function filterCards(searchTerm) {
-                searchTerm = searchTerm.toLowerCase().trim();
-                let hasMatches = false;
+        // Fungsi untuk menampilkan/menyembunyikan kartu berdasarkan pencarian
+        function filterCards(searchTerm) {
+            searchTerm = searchTerm.toLowerCase().trim();
+            let hasMatches = false;
 
-                // Sembunyikan semua kartu terlebih dahulu
+            // Sembunyikan semua kartu terlebih dahulu
+            cards.forEach(card => {
+                card.classList.add('d-none');
+            });
+
+            // Jika pencarian kosong, tampilkan semua kartu
+            if (searchTerm === '') {
                 cards.forEach(card => {
-                    card.classList.add('d-none');
+                    card.classList.remove('d-none');
                 });
-
-                // Jika pencarian kosong, tampilkan semua kartu
-                if (searchTerm === '') {
-                    cards.forEach(card => {
-                        card.classList.remove('d-none');
-                    });
-                    return;
-                }
-
-                // Cari kartu yang sesuai
-                cards.forEach(card => {
-                    const searchData = card.getAttribute('data-search').toLowerCase();
-                    const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
-                    const cardText = card.querySelector('.card-text').textContent.toLowerCase();
-
-                    if (searchData.includes(searchTerm) ||
-                        cardTitle.includes(searchTerm) ||
-                        cardText.includes(searchTerm)) {
-                        card.classList.remove('d-none');
-                        hasMatches = true;
-                    }
-                });
-
-                // Tampilkan pesan jika tidak ada hasil
-                const existingNoResults = document.getElementById('noResultsDisplay');
-                if (!hasMatches) {
-                    if (!existingNoResults) {
-                        const noResultsClone = noResultsTemplate.cloneNode(true);
-                        noResultsClone.id = 'noResultsDisplay';
-                        noResultsClone.classList.remove('d-none');
-                        cardsContainer.appendChild(noResultsClone);
-                    }
-                } else if (existingNoResults) {
-                    existingNoResults.remove();
-                }
+                return;
             }
 
-            // Fungsi debounce untuk optimasi performa
-            function debounce(func, timeout = 300) {
-                let timer;
-                return function(...args) {
-                    clearTimeout(timer);
-                    timer = setTimeout(() => {
-                        func.apply(this, args);
-                    }, timeout);
-                };
+            // Cari kartu yang sesuai
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-search').toLowerCase();
+                const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+                const cardText = card.querySelector('.card-text').textContent.toLowerCase();
+
+                if (searchData.includes(searchTerm) ||
+                    cardTitle.includes(searchTerm) ||
+                    cardText.includes(searchTerm)) {
+                    card.classList.remove('d-none');
+                    hasMatches = true;
+                }
+            });
+
+            // Tampilkan pesan jika tidak ada hasil
+            const existingNoResults = document.getElementById('noResultsDisplay');
+            if (!hasMatches) {
+                if (!existingNoResults) {
+                    const noResultsClone = noResultsTemplate.cloneNode(true);
+                    noResultsClone.id = 'noResultsDisplay';
+                    noResultsClone.classList.remove('d-none');
+                    cardsContainer.appendChild(noResultsClone);
+                }
+            } else if (existingNoResults) {
+                existingNoResults.remove();
             }
+        }
 
-            // Event listener dengan debounce
-            searchInput.addEventListener('input', debounce(function() {
-                filterCards(this.value);
-            }));
+        // Fungsi debounce untuk optimasi performa
+        function debounce(func, timeout = 300) {
+            let timer;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
 
-            // Fokus ke input search saat halaman dimuat
-            searchInput.focus();
-        });
-    </script>
+        // Event listener dengan debounce
+        searchInput.addEventListener('input', debounce(function() {
+            filterCards(this.value);
+        }));
+
+        // Fokus ke input search saat halaman dimuat
+        searchInput.focus();
+    });
+</script>
+
+<script>
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: @json($monthlyLabels),
+            datasets: [{
+                label: 'Jumlah Surat',
+                data: @json($monthlyCounts),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : null;
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + Math.round(context.parsed.y);
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: @json($jenisLabels),
+            datasets: [{
+                label: 'Jumlah Surat',
+                data: @json($jenisCounts),
+                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // membuat bar horizontal
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1, // langkah angka
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : null;
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + Math.round(context.parsed.x);
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection

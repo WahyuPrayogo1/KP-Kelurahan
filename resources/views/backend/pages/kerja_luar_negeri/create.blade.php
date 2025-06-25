@@ -67,7 +67,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Status Perkawinan</label>
                                     <select name="status_perkawinan_pemohon" class="form-select required-step1" required>
-                                            <option value="">Pilih Status</option>
+                                            <option value="">Pilih status perkawinan</option>
                                             <option value="Belum Kawin" {{ old('status_perkawinan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
                                             <option value="Kawin" {{ old('status_perkawinan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
                                             <option value="Cerai Hidup" {{ old('status_perkawinan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
@@ -76,7 +76,15 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Agama</label>
-                                    <input type="text" name="agama_pemohon" class="form-control required-step1" required value="{{ old('agama_pemohon') }}">
+                                    <select name="agama_pemohon" class="form-select required-step1" required>
+                                        <option value="">Pilih Agama</option>
+                                        <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                        <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                        <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                                        <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                        <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                        <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">Alamat</label>
@@ -105,7 +113,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Jenis Kelamin</label>
                                     <select name="jenis_kelamin_pekerja" class="form-control required-step1" required>
-                                        <option value="">-- Pilih --</option>
+                                        <option value="">Pilih jenis kelamin</option>
                                         <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
                                     </select>
@@ -116,7 +124,15 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Agama Pekerja</label>
-                                    <input type="text" name="agama_pekerja" class="form-control required-step1" required value="{{ old('agama_pekerja') }}">
+                                    <select name="agama_pekerja" class="form-select required-step1" required>
+                                        <option value="">Pilih Agama</option>
+                                        <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                        <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                        <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                                        <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                        <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                        <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Negara Tujuan</label>
@@ -125,7 +141,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Hubungan dengan Pekerja</label>
                                     <select name="hubungan_dengan_pekerja" class="form-control required-step1" required>
-                                        <option value="">-- Pilih --</option>
+                                        <option value="">Pilih hubungan dengan pekerja</option>
                                         <option value="orang tua">Orang Tua</option>
                                         <option value="suami">Suami</option>
                                         <option value="istri">Istri</option>
@@ -143,16 +159,14 @@
                                     <label class="form-label">RT</label>
                                     <input type="text" name="rt_pekerja" class="form-control required-step1"
                                         value="{{ old('rt_pekerja', $rt_only ?? '') }}"
-                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" required>
-                                    <small class="text-muted">Contoh: 07</small>
+                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="contoh: 07" required>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">RW</label>
                                     <input type="text" name="rw_pekerja" class="form-control required-step1"
                                         value="{{ old('rw_pekerja', $rw_only ?? '') }}"
-                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" required>
-                                    <small class="text-muted">Contoh: 07</small>
+                                        maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="contoh: 07" required>
                                 </div>
                             </div>
 
@@ -188,7 +202,7 @@
 
                             <div class="d-flex justify-content-between mt-3">
                                 <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="submit" class="btn btn-success">Kirim Pengajuan</button>
                             </div>
                         </div>
                         </form>

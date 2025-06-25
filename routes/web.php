@@ -16,15 +16,14 @@ use App\Http\Controllers\SuratSayaController;
 use App\Http\Controllers\SuratPengantarIjinKeramaianController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\SuratPindahDomisiliPerusahaanController;
-use App\Http\Controllers\SuratPernyataanTanahTidakSengketaController;
 use App\Http\Controllers\SuratKeteranganBedaDataKependudukanController;
-use App\Http\Controllers\SuratKeteranganTentangOrangTuaController;
 use App\Http\Controllers\TentangKamiController;
 use App\Http\Controllers\SektorPekerjaanController;
 use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\SuratKeteranganBekerjaLuarNegeriController;
 use App\Http\Controllers\SuratKeteranganKematianController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\RekapSuratController;
 
 
 
@@ -110,10 +109,8 @@ Route::middleware('auth')->group(function () {
 
     // Start beda-data-kependudukan
     Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
-    // END
-
-    // Start surat-keterangan-orang-tua
-    Route::resource('surat-keterangan-orang-tua', SuratKeteranganTentangOrangTuaController::class);
+    Route::get('/beda-data-kependudukan/{id}/preview-pdf', [SuratKeteranganBedaDataKependudukanController::class, 'previewPdf'])->name('beda-data-kependudukan.preview-pdf');
+    Route::post('/beda-data-kependudukan/{id}/generate-pdf', [SuratKeteranganBedaDataKependudukanController::class, 'generatePdf'])->name('beda-data-kependudukan.generate-pdf');
     // END
 
     // Start Ketarangan Tidak Mampu
@@ -159,13 +156,11 @@ Route::middleware('auth')->group(function () {
     // End Ijin Keramain
 
     // Start Surat Pindah Perusahaan
-        Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
-        Route::get('/surat-pindah-perusahaan/{id}/preview-pdf', [SuratPindahDomisiliPerusahaanController::class, 'previewPdf'])->name('surat-pindah-perusahaan.preview-pdf');
+    Route::resource('surat-pindah-perusahaan', SuratPindahDomisiliPerusahaanController::class);
+    Route::get('/surat-pindah-perusahaan/{id}/preview-pdf', [SuratPindahDomisiliPerusahaanController::class, 'previewPdf'])->name('surat-pindah-perusahaan.preview-pdf');
 
-        Route::post('/surat-pindah-perusahaan/{id}/generate-pdf', [SuratPindahDomisiliPerusahaanController::class, 'generatePdf'])->name('surat-pindah-perusahaan.generate-pdf');
+    Route::post('/surat-pindah-perusahaan/{id}/generate-pdf', [SuratPindahDomisiliPerusahaanController::class, 'generatePdf'])->name('surat-pindah-perusahaan.generate-pdf');
     // End Surat Pindah Perusahaan
-
-    Route::resource('surat-tanah-tidak-sengketa', SuratPernyataanTanahTidakSengketaController::class);
 
     Route::get('/penduduk/export', [PendudukController::class, 'export'])->name('penduduk.export');
     Route::resource('penduduk', PendudukController::class);
@@ -174,6 +169,10 @@ Route::middleware('auth')->group(function () {
 
     // Surat Saya
     Route::get('/surat-saya', [SuratSayaController::class, 'index'])->name('surat.saya');
+
+    //rekap surat
+    Route::get('/rekap', [RekapSuratController::class, 'index'])->name('rekap');
+    Route::get('/rekap/export', [RekapSuratController::class, 'export'])->name('rekap.export');
 
     // Artikel
     Route::resource('artikel', ArtikelController::class);

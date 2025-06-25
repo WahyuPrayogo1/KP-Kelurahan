@@ -161,7 +161,7 @@
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary"
                                         onclick="prevStep()">Kembali</button>
-                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                    <button type="submit" class="btn btn-success">Kirim Pengajuan</button>
                                 </div>
                             </div>
 
