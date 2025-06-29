@@ -232,7 +232,7 @@
                 </div>
             </div>
             <div class="row mt-5">
-                 <div class="col-md-12">
+           <div class="col-md-12">
                     <h1>Di Tolak</h1>
                     <div class="card" style="height: 28rem">
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">
@@ -306,7 +306,7 @@
             <div class="row mb-5 text-center px-3" style="padding-top: 50px;">
                 <div class="col-12 text-center px-3">
                     <h3 class="card-title">Statistik Sektor Mata Pencaharian</h3>
-                    <canvas id="sektorPekerjaanChart" style="max-width: 75%; height: 500px; max-height: 600px; margin: 0 auto;"></canvas>
+                    <canvas id="sektorPekerjaanChart"style="max-width: 75%; height: 500px; max-height: 600px; margin: 0 auto;"></canvas>
                 </div>
             </div>
 
@@ -358,14 +358,15 @@
                                 Digunakan untuk mengurus Surat Tidak Mampu.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat_keterangan_tidak_mampu.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_tidak_mampu.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-6 col-lg-4 searchable-card" data-search="surat miskin">
+                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat miskin">
                     <div class="card card-link-pop shadow-sm h-100">
                         <div class="card-header card-header-light">
                             <h5 class="card-title mb-0">Surat Keterangan Miskin</h5>
@@ -375,7 +376,8 @@
                                 Digunakan untuk mengurus Surat Miskin
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat_keterangan_miskin.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_miskin.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -394,7 +396,8 @@
                                 Dibutuhkan sebagai bukti legalitas usaha yang dimiliki oleh warga di wilayah setempat.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat_keterangan_usahas.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_usahas.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -452,7 +455,8 @@
                                 Surat resmi dari kelurahan sebagai bukti bahwa perusahaan telah pindah domisili ke alamat baru.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat-pindah-perusahaan.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat-pindah-perusahaan.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -469,10 +473,12 @@
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between pt-0">
                             <p class="card-text text-muted">
-                                Surat resmi yang menyatakan adanya perbedaan data kependudukan antara dokumen yang dimiliki dengan data di Dinas Kependudukan dan Catatan Sipil.
+                                Surat resmi yang menyatakan adanya perbedaan data kependudukan antara dokumen yang dimiliki
+                                dengan data di Dinas Kependudukan dan Catatan Sipil.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('beda-data-kependudukan.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('beda-data-kependudukan.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -490,7 +496,8 @@
                                 Orang Tua
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat-keterangan-orang-tua.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat-keterangan-orang-tua.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -505,10 +512,12 @@
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between pt-0">
                             <p class="card-text text-muted">
-                                Surat Keterangan Kematian adalah surat resmi yang menyatakan bahwa seseorang telah meninggal dunia.
+                                Surat Keterangan Kematian adalah surat resmi yang menyatakan bahwa seseorang telah meninggal
+                                dunia.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat_keterangan_kematian.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat_keterangan_kematian.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -523,10 +532,12 @@
                         </div>
                         <div class="card-body d-flex flex-column justify-content-between pt-0">
                             <p class="card-text text-muted">
-                                Surat pendukung yang digunakan untuk keperluan administrasi warga yang akan bekerja ke luar negeri.
+                                Surat pendukung yang digunakan untuk keperluan administrasi warga yang akan bekerja ke luar
+                                negeri.
                             </p>
                             <div class="text-end">
-                                <a href="{{ route('surat-bekerja-luar-negeri.create') }}" class="btn btn-outline-primary btn-sm">
+                                <a href="{{ route('surat-bekerja-luar-negeri.create') }}"
+                                    class="btn btn-outline-primary btn-sm">
                                     Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
                                 </a>
                             </div>
@@ -557,11 +568,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     @endrole
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -577,139 +583,6 @@
         @endif
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('pendudukChart').getContext('2d');
-    const chartData = @json($chartData);
-
-    new Chart(ctx, {
-        type: 'bar', // bisa diganti 'line' untuk grafik garis
-        data: {
-            labels: chartData.labels,
-            datasets: [
-                {
-                    label: 'Laki-laki',
-                    data: chartData.laki,
-                    backgroundColor: '#FF7043',
-                    borderColor: '#E64A19',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Perempuan',
-                    data: chartData.perempuan,
-                    backgroundColor: '#6F3A68',
-                    borderColor: '#4A2B45',
-                    borderWidth: 1
-                }
-
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Jumlah Penduduk'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tahun'
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        afterBody: function(context) {
-                            const total = context[0].parsed.y + context[1].parsed.y;
-                            return `Total: ${total}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-});
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const cardsContainer = document.getElementById('cardsContainer');
-        const cards = Array.from(document.querySelectorAll('.searchable-card'));
-        const noResultsTemplate = document.getElementById('noResultsTemplate');
-
-        // Fungsi untuk menampilkan/menyembunyikan kartu berdasarkan pencarian
-        function filterCards(searchTerm) {
-            searchTerm = searchTerm.toLowerCase().trim();
-            let hasMatches = false;
-
-            // Sembunyikan semua kartu terlebih dahulu
-            cards.forEach(card => {
-                card.classList.add('d-none');
-            });
-
-            // Jika pencarian kosong, tampilkan semua kartu
-            if (searchTerm === '') {
-                cards.forEach(card => {
-                    card.classList.remove('d-none');
-                });
-                return;
-            }
-
-            // Cari kartu yang sesuai
-            cards.forEach(card => {
-                const searchData = card.getAttribute('data-search').toLowerCase();
-                const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
-                const cardText = card.querySelector('.card-text').textContent.toLowerCase();
-
-                if (searchData.includes(searchTerm) ||
-                    cardTitle.includes(searchTerm) ||
-                    cardText.includes(searchTerm)) {
-                    card.classList.remove('d-none');
-                    hasMatches = true;
-                }
-            });
-
-            // Tampilkan pesan jika tidak ada hasil
-            const existingNoResults = document.getElementById('noResultsDisplay');
-            if (!hasMatches) {
-                if (!existingNoResults) {
-                    const noResultsClone = noResultsTemplate.cloneNode(true);
-                    noResultsClone.id = 'noResultsDisplay';
-                    noResultsClone.classList.remove('d-none');
-                    cardsContainer.appendChild(noResultsClone);
-                }
-            } else if (existingNoResults) {
-                existingNoResults.remove();
-            }
-        }
-
-        // Fungsi debounce untuk optimasi performa
-        function debounce(func, timeout = 300) {
-            let timer;
-            return function(...args) {
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    func.apply(this, args);
-                }, timeout);
-            };
-        }
-
-        // Event listener dengan debounce
-        searchInput.addEventListener('input', debounce(function() {
-            filterCards(this.value);
-        }));
-
-        // Fokus ke input search saat halaman dimuat
-        searchInput.focus();
-    });
-</script>
 
 
     <script>
