@@ -503,23 +503,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan beda data kependudukan">
-                    <div class="card card-link-pop shadow-sm h-100">
-                        <div class="card-header card-header-light">
-                            <h5 class="card-title mb-0">Surat Keterangan Data Orang Tua</h5>
-                        </div>
-                        <div class="card-body d-flex flex-column justify-content-between pt-0">
-                            <p class="card-text text-muted">
-                                Orang Tua
-                            </p>
-                            <div class="text-end">
-                                <a href="{{ route('surat-keterangan-orang-tua.create') }}" class="btn btn-outline-primary btn-sm">
-                                    Buat Surat <i class="bi bi-arrow-right-circle-fill ms-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="col-md-6 col-lg-4 searchable-card" data-search="surat keterangan Kematian">
                     <div class="card card-link-pop shadow-sm h-100">

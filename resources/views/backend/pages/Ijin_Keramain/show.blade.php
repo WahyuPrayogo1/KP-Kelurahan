@@ -132,16 +132,17 @@
                 </div>
             </div>
             @endif
-
             <div class="mt-4">
-                <a href="{{ route('surat_pengantar_ijin_keramaian.index') }}" class="btn btn-secondary">
+                <a href="{{ url()->previous() }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"> </i> Kembali
                 </a>
+
+                @role('Admin')
                 <a href="{{ route('surat.preview-pdf', $surat->id) }}" class="btn btn-info">
                     <i class="fas fa-file-pdf"></i> Buat PDF
                 </a>
+                @endrole
             </div>
-
         </div>
     </div>
 </div>
