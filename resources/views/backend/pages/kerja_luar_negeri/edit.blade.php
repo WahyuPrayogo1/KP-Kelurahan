@@ -4,6 +4,12 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
+              @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
             <div class="card">
                 <div class="card-header bg-primary text-white">
@@ -179,31 +185,46 @@
 
 
                          <!-- Status dan Catatan Section -->
-                            <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                         @role('Admin')
+                         <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
+                                <!-- Jika Admin, tampilkan dropdown status -->
+                                <div class="col-md-12 mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <select name="status" id="status" class="form-select" required>
-                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses
+                                        </option>
+                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                        </option>
                                     </select>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="catatan" class="form-label">Catatan Tambahan</label>
                                     <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
                                 </div>
-                            </div>
+                            @else
 
-                        <!-- Action Buttons -->
+                                <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
+                                <input type="hidden" name="status" value="proses">
+                            @endrole
+
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-                                <a href="{{ route('surat-bekerja-luar-negeri.index') }}" class="btn btn-secondary">
-                                    <i class="fas fa-arrow-left me-2"></i>Kembali
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Simpan Perubahan
-                                </button>
-                            </div>
+    @role('Admin')
+        <a href="{{ route('surat-bekerja-luar-negeri.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Kembali
+        </a>
+    @else
+        <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Kembali
+        </a>
+    @endrole
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save me-2"></i>Simpan Perubahan
+    </button>
+</div>
+
                     </form>
 
                 </div>

@@ -113,10 +113,7 @@
                                         <textarea name="alamat_lengkap" class="form-control required-step1" rows="3" placeholder="Contoh: Jl. Raya Cibeureum No. 123"  required>{{ old('alamat_lengkap') }}</textarea>
                                     </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label for="catatan" class="form-label">Catatan Tambahan (Opsional)</label>
-                                        <textarea name="catatan" class="form-control">{{ old('catatan') }}</textarea>
-                                    </div>
+
                                 </div>
                                 <div class="d-flex justify-content-end mt-3">
                                     <button type="button" class="btn btn-primary" onclick="nextStep()">Lanjut</button>

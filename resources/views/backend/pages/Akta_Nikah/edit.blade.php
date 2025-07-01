@@ -34,12 +34,19 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
+            @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Surat Keterangan Status Nikah</h4>
                 </div>
+
                 <div class="card-body">
-                    <form action="{{ route('keterangan_akta_nikah.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
+<form id="suratForm" action="{{ route('keterangan_akta_nikah.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -162,29 +169,44 @@
                             </div>
                         </div>
 
-                        <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                            @role('Admin')
+                                <!-- Jika Admin, tampilkan dropdown status -->
+                                <div class="col-md-12 mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select name="status" id="status" class="form-select" required>
+                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses
+                                        </option>
+                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                        </option>
                                     </select>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="catatan" class="form-label">Catatan Tambahan</label>
+                                    <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
+                                </div>
+                            @else
+                                <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
+                                <input type="hidden" name="status" value="proses">
+                            @endrole
 
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="catatan" class="form-label">Catatan</label>
-                                <textarea name="catatan" id="catatan" class="form-control" rows="2">{{ old('catatan', $surat->catatan) }}</textarea>
-                            </div>
-                        </div>
 
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="{{ route('keterangan_akta_nikah.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-1"></i> Kembali
-                            </a>
+
+                            <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            @role('Admin')
+                                <a href="{{ route('surat_pengantar_ijin_keramaian.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </a>
+                            @else
+                                <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </a>
+                            @endrole
+
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-1"></i> Simpan Perubahan
+                                <i class="fas fa-save me-2"></i>Simpan Perubahan
                             </button>
                         </div>
                     </form>
@@ -218,5 +240,46 @@
         const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
         modal.show();
     }
+
+    // Real-time input validation for NIK and KK
+    document.getElementById('nik').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);
+    });
+
+    document.getElementById('no_kk').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);
+    });
+
+
+     document.getElementById('suratForm').addEventListener('submit', function(e) {
+        const nik = document.getElementById('nik').value;
+        const noKK = document.getElementById('no_kk').value;
+
+        // Validate NIK (16 digits)
+        if (!/^\d{16}$/.test(nik)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'NIK Tidak Valid',
+                text: 'NIK harus terdiri dari 16 digit angka',
+                confirmButtonColor: '#d33'
+            });
+            document.getElementById('nik').focus();
+            return false;
+        }
+
+        // Validate No KK (16 digits)
+        if (!/^\d{16}$/.test(noKK)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Nomor KK Tidak Valid',
+                text: 'Nomor KK harus terdiri dari 16 digit angka',
+                confirmButtonColor: '#d33'
+            });
+            document.getElementById('no_kk').focus();
+            return false;
+        }
+    })
 </script>
 @endsection

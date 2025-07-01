@@ -159,11 +159,11 @@ class SuratPengantarIjinKeramaianController extends Controller
     public function edit($id)
     {
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
-
         // Cek apakah user adalah Admin ATAU user_id yang membuat surat sama dengan id user yang login
         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
+
 
         return view('backend.pages.Ijin_Keramain.edit', compact('surat'));
     }
@@ -303,9 +303,9 @@ class SuratPengantarIjinKeramaianController extends Controller
     public function destroy($id)
     {
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
-       if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
-            abort(404, 'Maaf, halaman ini tidak tersedia.');
-        }
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
 
         foreach (['foto_ktp', 'foto_kartu_keluarga', 'foto_pernyataan_tetangga', 'foto_pengantar_rt_rw'] as $field) {
             if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {

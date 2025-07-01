@@ -72,7 +72,7 @@
                     @if($surat->foto_ktp)
                         <div class="text-center">
                             <p class="small text-muted">File saat ini:</p>
-                            <img src="{{ route('file.preview', ['path' => $surat->foto_ktp]) }}" 
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_ktp]) }}"
                                  alt="Foto KTP" class="img-thumbnail cursor-pointer"
                                  onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_ktp]) }}', 'Foto KTP')">
                         </div>
@@ -86,7 +86,7 @@
                     @if($surat->foto_kartu_keluarga)
                         <div class="text-center">
                             <p class="small text-muted">File saat ini:</p>
-                            <img src="{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}" 
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}"
                                  alt="Foto KK" class="img-thumbnail cursor-pointer"
                                  onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_kartu_keluarga]) }}', 'Foto KK')">
                         </div>
@@ -100,7 +100,7 @@
                     @if($surat->foto_surat_pernyataan_nikah)
                         <div class="text-center">
                             <p class="small text-muted">File saat ini:</p>
-                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}" 
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}"
                                  alt="Surat Pernyataan Nikah" class="img-thumbnail cursor-pointer"
                                  onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pernyataan_nikah]) }}', 'Surat Pernyataan Nikah')">
                         </div>
@@ -114,7 +114,7 @@
                     @if($surat->foto_surat_pengantar_rt_rw)
                         <div class="text-center">
                             <p class="small text-muted">File saat ini:</p>
-                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}" 
+                            <img src="{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}"
                                  alt="Surat Pengantar RT/RW" class="img-thumbnail cursor-pointer"
                                  onclick="showImageModal('{{ route('file.preview', ['path' => $surat->foto_surat_pengantar_rt_rw]) }}', 'Surat Pengantar RT/RW')">
                         </div>
@@ -123,23 +123,26 @@
             </div>
 
             <!-- Catatan -->
-            @if($surat->catatan)
-            <div class="mt-3">
-                <h5>Catatan</h5>
-                <div class="alert alert-info">
-                    {{ $surat->catatan }}
-                </div>
-            </div>
-            @endif
+           @if($surat->status === 'ditolak' && $surat->catatan)
+    <div class="mt-3">
+        <h5>Catatan</h5>
+        <div class="alert alert-info">
+            {{ $surat->catatan }}
+        </div>
+    </div>
+@endif
 
-            <!-- Tombol Aksi -->
-            <div class="mt-4">
-                <a href="{{ route('keterangan_akta_nikah.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Kembali
+
+           <div class="mt-4">
+                <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"> </i> Kembali
                 </a>
-                <a href="{{ route('keterangan_akta_nikah.preview-pdf', $surat->id) }}" class="btn btn-info">
+
+                @role('Admin')
+                <a href="{{ route('surat.preview-pdf', $surat->id) }}" class="btn btn-info">
                     <i class="fas fa-file-pdf"></i> Buat PDF
                 </a>
+                @endrole
             </div>
 
         </div>

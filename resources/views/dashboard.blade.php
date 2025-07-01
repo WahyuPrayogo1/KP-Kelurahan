@@ -585,79 +585,7 @@
 
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const cardsContainer = document.getElementById('cardsContainer');
-        const cards = Array.from(document.querySelectorAll('.searchable-card'));
-        const noResultsTemplate = document.getElementById('noResultsTemplate');
 
-        // Fungsi untuk menampilkan/menyembunyikan kartu berdasarkan pencarian
-        function filterCards(searchTerm) {
-            searchTerm = searchTerm.toLowerCase().trim();
-            let hasMatches = false;
-
-            // Sembunyikan semua kartu terlebih dahulu
-            cards.forEach(card => {
-                card.classList.add('d-none');
-            });
-
-            // Jika pencarian kosong, tampilkan semua kartu
-            if (searchTerm === '') {
-                cards.forEach(card => {
-                    card.classList.remove('d-none');
-                });
-                return;
-            }
-
-            // Cari kartu yang sesuai
-            cards.forEach(card => {
-                const searchData = card.getAttribute('data-search').toLowerCase();
-                const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
-                const cardText = card.querySelector('.card-text').textContent.toLowerCase();
-
-                if (searchData.includes(searchTerm) ||
-                    cardTitle.includes(searchTerm) ||
-                    cardText.includes(searchTerm)) {
-                    card.classList.remove('d-none');
-                    hasMatches = true;
-                }
-            });
-
-            // Tampilkan pesan jika tidak ada hasil
-            const existingNoResults = document.getElementById('noResultsDisplay');
-            if (!hasMatches) {
-                if (!existingNoResults) {
-                    const noResultsClone = noResultsTemplate.cloneNode(true);
-                    noResultsClone.id = 'noResultsDisplay';
-                    noResultsClone.classList.remove('d-none');
-                    cardsContainer.appendChild(noResultsClone);
-                }
-            } else if (existingNoResults) {
-                existingNoResults.remove();
-            }
-        }
-
-        // Fungsi debounce untuk optimasi performa
-        function debounce(func, timeout = 300) {
-            let timer;
-            return function(...args) {
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    func.apply(this, args);
-                }, timeout);
-            };
-        }
-
-        // Event listener dengan debounce
-        searchInput.addEventListener('input', debounce(function() {
-            filterCards(this.value);
-        }));
-
-        // Fokus ke input search saat halaman dimuat
-        searchInput.focus();
-    });
-</script>
 
 <script>
     const lineCtx = document.getElementById('lineChart').getContext('2d');

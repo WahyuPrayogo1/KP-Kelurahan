@@ -151,10 +151,10 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function show($id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
         $surat = SuratKeteranganMiskin::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
         return view('backend.pages.miskin.show', compact('surat'));
     }
 
@@ -163,10 +163,10 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganMiskin::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
-        $surat = SuratKeteranganMiskin::findOrFail($id);
         return view('backend.pages.miskin.edit', compact('surat'));
     }
 
@@ -175,9 +175,12 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function update(Request $request, $id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
+        $surat = SuratKeteranganMiskin::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
+        $previousStatus = $surat->status; // Simpan status sebelumnya
+
         $validated = $request->validate(
             [
                 // Data Pemohon
@@ -233,27 +236,26 @@ class SuratKeteranganMiskinController extends Controller
             ],
         );
 
-        $sktm = SuratKeteranganMiskin::findOrFail($id);
-        $previousStatus = $surat->status; // Simpan status sebelumnya
+
 
         // Handle file uploads
         $fileFields = ['foto_ktp', 'foto_kk', 'foto_pengantar_rt_rw'];
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
                 // Delete old file if exists
-                if ($sktm->$field && Storage::disk('private')->exists($sktm->$field)) {
-                    Storage::disk('private')->delete($sktm->$field);
+                if ($surat->$field && Storage::disk('private')->exists($surat->$field)) {
+                    Storage::disk('private')->delete($surat->$field);
                 }
                 // Store new file
                 $validated[$field] = $request->file($field)->store('uploads/miskin', 'private');
             } else {
                 // Keep existing file if no new upload
-                $validated[$field] = $sktm->$field;
+                $validated[$field] = $surat->$field;
             }
         }
 
         // Update the record
-        $sktm->update($validated);
+        $surat->update($validated);
         // Kirim notifikasi hanya jika status berubah
         if ($previousStatus != $request->status) {
             if ($request->status == 'ditolak') {
@@ -262,8 +264,12 @@ class SuratKeteranganMiskinController extends Controller
                 $this->sendSelesaiNotification($surat);
             }
         }
-
-        return redirect()->route('surat_keterangan_miskin.index')->with('success', 'Data surat keterangan tidak mampu berhasil diperbarui.');
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat_keterangan_miskin.index')
+                ->with('success', 'Surat Keterangan Miskin berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
     }
 
         protected function sendRejectionNotification(SuratKeteranganMiskin $surat)
@@ -338,12 +344,13 @@ class SuratKeteranganMiskinController extends Controller
      */
     public function destroy($id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
+
         try {
             // Find the record
             $sktm = SuratKeteranganMiskin::findOrFail($id);
+             if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $sktm->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
 
             // List of file fields to delete
             $fileFields = ['foto_ktp', 'foto_kk', 'foto_pengantar_rt_rw'];
@@ -357,8 +364,14 @@ class SuratKeteranganMiskinController extends Controller
 
             // Delete the record
             $sktm->delete();
+                if (auth()->user()->hasRole('Admin')) {
+                return redirect()->route('surat_keterangan_miskin.index')
+                    ->with('success', 'Surat Keterangan Miskin berhasil diperbarui.');
+                } else {
+                    return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+                }
 
-            return redirect()->route('surat_keterangan_tidak_mampu.index')->with('success', 'Surat Keterangan Tidak Mampu berhasil dihapus.');
+
         } catch (\Exception $e) {
             return redirect()
                 ->back()

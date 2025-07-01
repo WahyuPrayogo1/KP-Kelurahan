@@ -73,7 +73,7 @@
                                         <input type="text" id="tanggal_lahir" name="tanggal_lahir" class="form-control required-step1" required
                                             placeholder="Pilih tanggal" value="{{ old('tanggal_lahir') }}">
                                     </div>
-                                
+
                                     <div class="col-md-6 mb-3">
                                         <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                                         <select name="jenis_kelamin" class="form-select required-step1" required>
@@ -166,10 +166,7 @@
                                             accept="image/jpeg, image/png" onchange="previewImage(this, 'previewPengantar')">
                                         <img id="previewPengantar" class="file-preview" />
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="catatan" class="form-label">Catatan Tambahan</label>
-                                        <textarea name="catatan" class="form-control">{{ old('catatan') }}</textarea>
-                                    </div>
+                                
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>

@@ -153,10 +153,6 @@
                                         <input type="file" name="foto_pengantar_rt_rw" class="form-control  required-step1" required
                                            accept="image/jpeg, image/png">
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="catatan" class="form-label">Catatan Tambahan</label>
-                                        <textarea name="catatan" class="form-control  required-step1">{{ old('catatan') }}</textarea>
-                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary"

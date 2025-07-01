@@ -132,10 +132,6 @@
                   </div>
                 </div>
 
-                <div class="col-12 mb-3">
-                  <label for="catatan" class="form-label">Catatan Tambahan (opsional)</label>
-                  <textarea name="catatan" id="catatan" rows="2" class="form-control">{{ old('catatan') }}</textarea>
-                </div>
               </div>
               <div class="d-flex justify-content-end mt-3">
                 <button type="button" class="btn btn-primary" onclick="if(validateStep1()) nextStep()">Lanjut</button>
@@ -177,13 +173,7 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="catatan" class="form-label">Catatan Tambahan</label>
-                        <textarea name="catatan" class="form-control required-step1">{{ old('catatan') }}</textarea>
-                        @error('catatan')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+
                 </div>
 
                 <div class="d-flex justify-content-between mt-3">

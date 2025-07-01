@@ -174,8 +174,10 @@
                                 </div>
                             </div>
                             @role('Admin')
+                            <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
+
                                 <!-- Jika Admin, tampilkan dropdown status -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <select name="status" id="status" class="form-select" required>
                                         <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses
@@ -186,11 +188,12 @@
                                         </option>
                                     </select>
                                 </div>
-                            @else
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="catatan" class="form-label">Catatan Tambahan</label>
                                     <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
                                 </div>
+                            @else
+
                                 <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
                                 <input type="hidden" name="status" value="proses">
                             @endrole

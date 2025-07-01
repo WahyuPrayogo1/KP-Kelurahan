@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SuratKeteranganPindahDomisili;
 use App\Models\SuratKeteranganAktaNikah;
 use App\Models\SuratKeteranganUsaha;
 use App\Models\SuratKeteranganMiskin;
+use App\Models\SuratKeteranganTidakMampu;
 use App\Models\SuratPengantarIjinKeramaian;
 use App\Models\SuratPindahDomisiliPerusahaan;
-use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\SuratKeteranganBedaDataKependudukan;
 use App\Models\SuratKeteranganKematian;
 Use App\Models\SuratKeteranganBekerjaLuarNegeri;
@@ -24,6 +23,14 @@ class SuratSayaController extends Controller
 {
     $user = auth()->user();
 
+
+     $tidakMampu = SuratKeteranganTidakMampu::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->get()
+        ->map(function ($item) {
+            $item->type = 'tidak_mampu';
+            return $item;
+        });
      $miskin = SuratKeteranganMiskin::where('user_id', $user->id)
         ->orderByDesc('created_at')
         ->get()
@@ -37,15 +44,6 @@ class SuratSayaController extends Controller
         ->get()
         ->map(function ($item) {
             $item->type = 'beda_penduduk';
-            return $item;
-        });
-
-    // Ambil semua surat dengan cara yang lebih baik
-    $pindahDomisili = SuratKeteranganPindahDomisili::where('user_id', $user->id)
-        ->orderByDesc('created_at')
-        ->get()
-        ->map(function ($item) {
-            $item->type = 'pindah_domisili';
             return $item;
         });
 
@@ -79,13 +77,7 @@ class SuratSayaController extends Controller
             $item->type = 'perusahaan';
             return $item;
         });
-        $tanah = SuratPernyataanTanahTidakSengketa::where('user_id', $user->id)
-        ->orderByDesc('created_at')
-        ->get()
-        ->map(function ($item) {
-            $item->type = 'tanah';
-            return $item;
-        });
+
     $keteranganKematian = SuratKeteranganKematian::where('user_id', $user->id)
         ->orderByDesc('created_at')
         ->get()
@@ -105,16 +97,15 @@ class SuratSayaController extends Controller
 
     // Gabungkan dengan concatenate bukan merge
     $suratSaya = collect([])
-        ->concat($pindahDomisili)
         ->concat($aktaNikah)
         ->concat($keramain)
         ->concat($usaha)
         ->concat($perusahaan)
-        ->concat($tanah)
         ->concat($bedaDataPenduduk)
         ->concat($keteranganKematian)
         ->concat($miskin)
-        ->concat($bekerjaLuarNegeri);
+        ->concat($bekerjaLuarNegeri)
+        ->concat($tidakMampu);
 
     // Urutkan hasil penggabungan
     $suratSaya = $suratSaya->sortByDesc('created_at');

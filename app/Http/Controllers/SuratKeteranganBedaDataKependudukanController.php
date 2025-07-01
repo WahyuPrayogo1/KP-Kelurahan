@@ -93,31 +93,31 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
 
     public function show($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
         return view('backend.pages.beda_data_kependudukan.show', compact('surat'));
     }
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
         return view('backend.pages.beda_data_kependudukan.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
         $previousStatus = $surat->status; // Simpan status sebelumnya
         if ($request->lokasi_perbedaan_nama === 'Lainnya' && $request->filled('lokasi_perbedaan_nama_lainnya')) {
             $request->merge([
@@ -168,8 +168,13 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
                 $this->sendSelesaiNotification($surat);
             }
         }
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('beda-data-kependudukan.index')
+                ->with('success', 'Surat Keterangan Beda Kependudukan berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
 
-        return redirect()->route('beda-data-kependudukan.index')->with('success', 'Data berhasil diperbarui!');
     }
 
         protected function sendRejectionNotification(SuratKeteranganBedaDataKependudukan $surat)
@@ -239,11 +244,11 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
 
     public function destroy($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
+        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBedaDataKependudukan::findOrFail($id);
 
         foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_beda_data', 'bukti_beda_data', 'pengantar_rt_rw'] as $fileField) {
             if ($surat->$fileField && Storage::disk('private')->exists($surat->$fileField)) {
@@ -251,8 +256,13 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
             }
         }
         $surat->delete();
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('beda-data-kependudukan.index')
+                ->with('success', 'Surat Beda Kependudukan berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
 
-        return redirect()->route('beda-data-kependudukan.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function previewPdf($id)

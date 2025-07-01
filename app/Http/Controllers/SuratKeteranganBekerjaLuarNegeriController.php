@@ -189,31 +189,31 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
 
     public function show($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(404);
+        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
         return view('backend.pages.kerja_luar_negeri.show', compact('surat'));
     }
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(404);
+        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
         return view('backend.pages.kerja_luar_negeri.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(404);
+        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
         $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validated = $request->validate([
@@ -265,9 +265,14 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
                 $this->sendSelesaiNotification($surat);
             }
         }
+          if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat-bekerja-luar-negeri.index')
+                ->with('success', 'Surat Bekerja di Luar Negeri berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
 
-        return redirect()->route('surat-bekerja-luar-negeri.index')
-            ->with('success', 'Data surat berhasil diperbarui.');
+
     }
 
         protected function sendRejectionNotification(SuratKeteranganBekerjaLuarNegeri $surat)
@@ -337,11 +342,11 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
 
     public function destroy($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(404);
-        }
-
         $surat = SuratKeteranganBekerjaLuarNegeri::findOrFail($id);
+       if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
+
 
         foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_bekerja', 'pengantar_rt_rw'] as $file) {
             if ($surat->$file && Storage::disk('private')->exists($surat->$file)) {

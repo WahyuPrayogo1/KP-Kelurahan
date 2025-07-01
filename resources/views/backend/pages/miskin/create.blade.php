@@ -166,10 +166,6 @@
                                             accept="image/jpeg, image/png" onchange="previewImage(this, 'previewPengantar')">
                                         <img id="previewPengantar" class="file-preview" />
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="catatan" class="form-label">Catatan Tambahan</label>
-                                        <textarea name="catatan" class="form-control">{{ old('catatan') }}</textarea>
-                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>

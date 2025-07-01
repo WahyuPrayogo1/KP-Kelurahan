@@ -171,33 +171,32 @@ class SuratKeteranganAktaNikahController extends Controller
 
     public function show($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
 
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
 
         return view('backend.pages.akta_nikah.show', compact('surat'));
     }
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
-
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
 
         return view('backend.pages.akta_nikah.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
 
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
         $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validated = $request->validate([
@@ -253,8 +252,12 @@ class SuratKeteranganAktaNikahController extends Controller
             }
         }
 
-        return redirect()->route('keterangan_akta_nikah.index')
-        ->with('success', 'Data Surat Keterangan Akta Nikah berhasil diperbarui.');
+       if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('keterangan_akta_nikah.index')
+                ->with('success', 'Surat Keterangan Akta Nikah berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
     }
 
     protected function sendRejectionNotification(SuratKeteranganAktaNikah $surat)
@@ -324,11 +327,11 @@ class SuratKeteranganAktaNikahController extends Controller
 
     public function destroy($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
 
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
 
         foreach ([
             'foto_ktp',
@@ -342,8 +345,13 @@ class SuratKeteranganAktaNikahController extends Controller
         }
 
         $surat->delete();
+         if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('keterangan_akta_nikah.index')
+                ->with('success', 'Surat pengantar ijin keramaian berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
 
-        return redirect()->route('keterangan_akta_nikah.index')->with('success', 'Data berhasil dihapus.');
     }
 
     public function previewPdf($id)

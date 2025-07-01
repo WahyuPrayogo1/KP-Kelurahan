@@ -122,22 +122,23 @@
                 </div>
             </div>
 
-            @if($surat->catatan)
-            <div class="mt-3">
-                <h5>Catatan</h5>
-                <div class="alert alert-info">
-                    {{ $surat->catatan }}
-                </div>
-            </div>
-            @endif
-
+            @if ($surat->status === 'ditolak' && $surat->catatan)
+                    <div class="mt-3">
+                        <h5>Catatan</h5>
+                        <div class="alert alert-info">
+                            {{ $surat->catatan }}
+                        </div>
+                    </div>
+                @endif
             <div class="mt-4">
-                <a href="{{ route('surat_keterangan_kematian.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
-                <a href="{{ route('surat_keterangan_kematian.preview-pdf', $surat->id) }}" class="btn btn-info">
-                    <i class="fas fa-file-pdf"></i> Buat PDF
-                </a>
+               <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"> </i> Kembali
+                    </a>
+                 @role('Admin')
+                    <a href="{{ route('surat_keterangan_kematian.preview-pdf', $surat->id) }}" class="btn btn-info">
+                        <i class="fas fa-file-pdf"></i> Buat PDF
+                    </a>
+                @endrole
             </div>
 
         </div>

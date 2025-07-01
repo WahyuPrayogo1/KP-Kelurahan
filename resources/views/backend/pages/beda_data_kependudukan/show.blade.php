@@ -75,13 +75,16 @@
                 @endforeach
             </div>
 
-            <div class="mt-4">
-                <a href="{{ route('beda-data-kependudukan.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Kembali
+          <div class="mt-4">
+                <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"> </i> Kembali
                 </a>
-                <a href="{{ route('beda-data-kependudukan.preview-pdf', $surat->id) }}" class="btn btn-info">
+
+                @role('Admin')
+                <a href="{{ route('surat.preview-pdf', $surat->id) }}" class="btn btn-info">
                     <i class="fas fa-file-pdf"></i> Buat PDF
                 </a>
+                @endrole
             </div>
 
         </div>

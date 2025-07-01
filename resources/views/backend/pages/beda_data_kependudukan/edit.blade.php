@@ -36,8 +36,14 @@
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Surat Keterangan Beda Data Kependudukan</h4>
                 </div>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="card-body">
-                    <form action="{{ route('beda-data-kependudukan.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
+                    <form id="suratForm" action="{{ route('beda-data-kependudukan.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -49,7 +55,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">NIK</label>
-                                <input type="text" name="nik" class="form-control" value="{{ $surat->nik }}" required>
+                                <input id="nik" type="text" name="nik" class="form-control" value="{{ $surat->nik }}" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Tempat Lahir</label>
@@ -110,10 +116,10 @@
 
                                 <select name="lokasi_perbedaan_nama" class="form-select" required onchange="toggleLainnya(this)">
                                     @foreach ($lokasiList as $lokasi)
-                                        <option value="{{ $lokasi }}" 
-                                            {{ 
-                                                ($isLainnya && $lokasi == 'Lainnya') ? 'selected' : 
-                                                ($surat->lokasi_perbedaan_nama == $lokasi ? 'selected' : '') 
+                                        <option value="{{ $lokasi }}"
+                                            {{
+                                                ($isLainnya && $lokasi == 'Lainnya') ? 'selected' :
+                                                ($surat->lokasi_perbedaan_nama == $lokasi ? 'selected' : '')
                                             }}>
                                             {{ $lokasi }}
                                         </option>
@@ -202,30 +208,45 @@
 
                         <!-- Status dan Catatan Section -->
                             <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                             @role('Admin')
+                                <!-- Jika Admin, tampilkan dropdown status -->
+                                <div class="col-md-12 mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <select name="status" id="status" class="form-select" required>
-                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses
+                                        </option>
+                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                        </option>
                                     </select>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="catatan" class="form-label">Catatan Tambahan</label>
                                     <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
                                 </div>
-                            </div>
+                            @else
+                                <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
+                                <input type="hidden" name="status" value="proses">
+                            @endrole
 
-                            <!-- Action Buttons -->
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-                                <a href="{{ route('surat_pengantar_ijin_keramaian.index') }}" class="btn btn-secondary">
-                                    <i class="fas fa-arrow-left me-2"></i>Kembali
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Simpan Perubahan
-                                </button>
-                            </div>
+    @role('Admin')
+        <a href="{{ route('beda-data-kependudukan.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Kembali
+        </a>
+    @else
+        <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Kembali
+        </a>
+    @endrole
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save me-2"></i>Simpan Perubahan
+    </button>
+</div>
+
+
                     </form>
                 </div>
             </div>
@@ -301,6 +322,27 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('lokasiInput').value = select.value;
         }
     });
+
+         document.getElementById('suratForm').addEventListener('submit', function(e) {
+        const nik = document.getElementById('nik').value;
+        const noKK = document.getElementById('no_kk').value;
+
+        // Validate NIK (16 digits)
+        if (!/^\d{16}$/.test(nik)) {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'NIK Tidak Valid',
+                text: 'NIK harus terdiri dari 16 digit angka',
+                confirmButtonColor: '#d33'
+            });
+            document.getElementById('nik').focus();
+            return false;
+        }
+
+        // Validate No KK (16 digits)
+
+    })
 </script>
 @endpush
 

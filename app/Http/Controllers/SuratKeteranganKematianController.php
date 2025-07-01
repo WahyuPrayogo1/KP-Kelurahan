@@ -118,31 +118,31 @@ public function index(Request $request)
 
     public function show($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganKematian::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganKematian::findOrFail($id);
         return view('backend.pages.keterangan_kematian.show', compact('surat'));
     }
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganKematian::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganKematian::findOrFail($id);
         return view('backend.pages.keterangan_kematian.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
+        $surat = SuratKeteranganKematian::findOrFail($id);
+         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        $surat = SuratKeteranganKematian::findOrFail($id);
         $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validated = $request->validate([
@@ -186,8 +186,13 @@ public function index(Request $request)
                 $this->sendSelesaiNotification($surat);
             }
         }
+         if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat_keterangan_kematian.index')
+                ->with('success', 'Surat Keterangan Kematian berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
 
-        return redirect()->route('surat_keterangan_kematian.index')->with('success', 'Data berhasil diperbarui.');
     }
 
     protected function sendRejectionNotification(SuratKeteranganKematian $surat)
@@ -257,11 +262,11 @@ public function index(Request $request)
 
     public function destroy($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(404, 'Maaf, halaman ini tidak tersedia.');
-        }
-
         $surat = SuratKeteranganKematian::findOrFail($id);
+       if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
+
 
         foreach (['fc_ktp', 'fc_kk', 'fc_buku_nikah', 'pengantar_kematian_rt_rw'] as $fileField) {
             if ($surat->$fileField && Storage::disk('private')->exists($surat->$fileField)) {
@@ -270,8 +275,12 @@ public function index(Request $request)
         }
 
         $surat->delete();
-
-        return redirect()->route('surat_keterangan_kematian.index')->with('success', 'Data berhasil dihapus.');
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat_keterangan_kematian.index')
+                ->with('success', 'Surat pengantar ijin keramaian berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
     }
 
     public function previewPdf($id)
