@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Http;
+use Mpdf\Mpdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 class SuratKeteranganUsahaController extends Controller
 {
     public function index(Request $request)
@@ -421,5 +424,94 @@ class SuratKeteranganUsahaController extends Controller
             return redirect()->back()
                 ->with('error', 'Gagal menghapus data. Error: ' . $e->getMessage());
         }
+    }
+
+     public function show($id)
+    {
+        $surat = SuratKeteranganUsaha::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+        return view('backend.pages.Usaha.show', compact('surat'));
+    }
+
+    public function previewPdf($id)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganUsaha::findOrFail($id);
+
+        // Provide default values for preview
+        $data = [
+            'surat' => $surat,
+            'nomor_surat' => 'PP.01/07.04.44/     /IV/KEL.SBJ/'.date('Y'),
+            'tanggal_surat' => now(),
+            'nomor_pengantar' => '...',
+            'nomor_pengantar2' => '...',
+            'tanggal_pernyataan' => now(),
+            'no_sppt' => $surat->no_sppt ?? '-',
+            'keperluan' => 'Melengkapi Persyaratan Administrasi',
+            'tanggal_dikeluarkan' => now(),
+            'nama_ttd' => 'Nama Lurah',
+            'nip_ttd' => '19601010 198803 1 001',
+        ];
+
+        return view('backend.pages.Usaha.preview-pdf', $data);
+    }
+
+    public function generatePdf(Request $request, $id)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
+
+        $surat = SuratKeteranganUsaha::findOrFail($id);
+
+        $data = [
+            'nama' => $surat->nama,
+            'nik' => $surat->nik,
+            'alamat_lengkap' => $surat->alamat_lengkap,
+            'jenis_kelamin' => $surat->jenis_kelamin,
+            'kewarganegaraan' => $surat->kewarganegaraan,
+            'agama' => $surat->agama,
+            'pekerjaan' => $surat->pekerjaan,
+            'status_perkawinan' => $surat->status_perkawinan,
+            'nama_usaha' => $surat->nama_usaha,
+            'jenis_usaha' => $surat->jenis_usaha,
+            'alamat_usaha' => $surat->alamat_usaha,
+            'status_bangunan' => $surat->status_bangunan,
+            'no_sppt' => $surat->no_sppt ?? '-',
+            'akta_pendirian_usaha' => $surat->akta_pendirian_usaha,
+            'jumlah_karyawan' => $surat->jumlah_karyawan,
+            'pimpinan_usaha' => $surat->pimpinan_usaha,
+            'nomor_surat' => $request->nomor_surat ?? 'PP.01/07.04.44/     /IV/KEL.SBJ/'.date('Y'),
+            'nomor_pengantar' => $request->nomor_pengantar,
+            'nomor_pengantar2' => $request->nomor_pengantar2,
+            'tanggal_pernyataan' => $request->tanggal_pernyataan,
+            'keperluan' => $request->keperluan ?? 'Melengkapi Persyaratan Administrasi',
+            'tanggal_dikeluarkan' => $request->tanggal_dikeluarkan,
+            'nama_ttd' => $request->nama_ttd,
+            'nip_ttd' => $request->nip_ttd ?? '19601010 198803 1 001',
+        ];
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'default_font' => 'times',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+        ]);
+
+        $html = view('backend.pages.Usaha.pdf.surat', $data)->render();
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output('Surat-Keterangan-Usaha-'.$surat->id.'.pdf', \Mpdf\Output\Destination::INLINE);
     }
 }

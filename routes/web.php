@@ -105,8 +105,12 @@ Route::middleware('auth')->group(function () {
 
     // admin
     Route::resource('keterangan_domisili', SuratKeteranganPindahDomisiliController::class);
-    Route::resource('surat_keterangan_usahas', SuratKeteranganUsahaController::class);
 
+    // Keterangan Usaha
+        Route::resource('surat_keterangan_usahas', SuratKeteranganUsahaController::class);
+        Route::get('/surat_keterangan_usaha/{id}/preview-pdf', [SuratKeteranganUsahaController::class, 'previewPdf'])->name('suratUsaha.preview-pdf');
+        Route::post('/surat_keterangan_usaha/{id}/generate-pdf', [SuratKeteranganUsahaController::class, 'generatePdf'])->name('suratUsaha.generate-pdf');
+    // END
     // Start beda-data-kependudukan
     Route::resource('beda-data-kependudukan', SuratKeteranganBedaDataKependudukanController::class);
     Route::get('/beda-data-kependudukan/{id}/preview-pdf', [SuratKeteranganBedaDataKependudukanController::class, 'previewPdf'])->name('beda-data-kependudukan.preview-pdf');

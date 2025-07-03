@@ -85,8 +85,8 @@
             </div>
         </div>
         <div class="container-xl mt-5">
-            <div class="row row-deck row-cards">
-                <div class="col-sm-6 col-lg-4">
+            <div class="row">
+                <div class="col-sm-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4">
+                <div class="col-sm-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4">
+                <div class="col-sm-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -126,7 +126,7 @@
 
             <div class="row mt-5">
                 <!-- Proses -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h1>Proses</h1>
                     <div class="card" style="height: 28rem">
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">
@@ -140,7 +140,7 @@
                                                     class="avatar bg-primary-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
                                             </div>
                                             <div class="col">
-                                                <h1 class="mb-0 fs-3 fw-bold text-body">
+                                                <h5 class="mb-0 fs-4 fw-bold text-body">
                                                     @if ($item->model_type == 'surat_keterangan_tidak_mampu')
                                                         Surat Keterangan Tidak Mampu
                                                     @elseif($item->model_type == 'surat_keterangan_usahas')
@@ -160,15 +160,11 @@
                                                     @elseif($item->model_type == 'surat_keterangan_kematian')
                                                         Surat Keterangan Kematian
                                                     @endif
-                                                </h1>
+                                                </h5>
 
                                                 <div class="row align-items-center">
-                                                    <div class="col-6">
-                                                        <div class="text-secondary small">
-                                                            Status: {{ ucfirst($item->status) }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6 text-end">
+
+                                                    <div class="col-12 mt-2">
                                                         <div class="text-muted small">
                                                             Dibuat pada: {{ $item->created_at->format('d M Y') }}
                                                         </div>
@@ -189,7 +185,7 @@
                 </div>
 
                 <!-- Selesai -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h1>Selesai</h1>
                     <div class="card" style="height: 28rem">
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">
@@ -203,7 +199,7 @@
                                                     class="avatar bg-success-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
                                             </div>
                                             <div class="col">
-                                                <h1 class="mb-0 fs-3 fw-bold text-body">
+                                                <h5 class="mb-0 fs-4 fw-bold text-body">
                                                     @if ($item->model_type == 'surat_keterangan_tidak_mampu')
                                                         Surat Keterangan tidak Mampu
                                                     @elseif($item->model_type == 'surat_keterangan_usahas')
@@ -223,15 +219,70 @@
                                                     @elseif($item->model_type == 'surat_keterangan_miskin')
                                                         Surat Keterangan Miskin
                                                     @endif
-                                                </h1>
+                                                </h5>
 
                                                 <div class="row align-items-center">
-                                                    <div class="col-6">
-                                                        <div class="text-secondary small">
-                                                            Status: {{ ucfirst($item->status) }}
+
+                                                    <div class="col-12 mt-2">
+                                                        <div class="text-muted small">
+                                                            Dibuat pada: {{ $item->created_at->format('d M Y') }}
                                                         </div>
                                                     </div>
-                                                    <div class="col-6 text-end">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            @empty
+                                <div class="text-center text-muted py-3">
+                                    Tidak ada data Selesai.
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Ditolak --}}
+                <div class="col-md-4">
+                    <h1>Di Tolak</h1>
+                    <div class="card" style="height: 28rem">
+                        <div class="card-body card-body-scrollable card-body-scrollable-shadow">
+                            @forelse($ditolakItems as $item)
+                                <div class="py-2 border-bottom">
+                                    <a href="{{ url($item->model_type . '/' . $item->id . '/edit') }}"
+                                        class="text-decoration-none text-dark">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <span
+                                                    class="avatar bg-success-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
+                                            </div>
+                                            <div class="col">
+                                                <h5 class="mb-0 fs-4 fw-bold text-body">
+                                                    @if ($item->model_type == 'surat_keterangan_tidak_mampu')
+                                                        Surat Keterangan tidak Mampu
+                                                    @elseif($item->model_type == 'surat_keterangan_usahas')
+                                                        Surat Keterangan Usaha
+                                                    @elseif($item->model_type == 'keterangan_akta_nikah')
+                                                        Surat Keterangan Status Nikah
+                                                    @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
+                                                        Surat Pengantar Ijin Keramaian
+                                                    @elseif($item->model_type == 'surat-pindah-perusahaan')
+                                                        Surat keterangan Pindah Domisili Perusahaan
+                                                    @elseif($item->model_type == 'beda-data-kependudukan')
+                                                        Surat Keterangan Beda Penduduk
+                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri')
+                                                        Surat Keterangan Bekerja di Luar Negeri
+                                                    @elseif($item->model_type == 'surat_keterangan_kematian')
+                                                        Surat Keterangan Kematian
+                                                    @elseif($item->model_type == 'surat_keterangan_miskin')
+                                                        Surat Keterangan Miskin
+                                                    @endif
+                                                </h5>
+
+                                                <div class="row align-items-center">
+
+                                                    <div class="col-12 mt-2">
                                                         <div class="text-muted small">
                                                             Dibuat pada: {{ $item->created_at->format('d M Y') }}
                                                         </div>
@@ -252,72 +303,14 @@
                 </div>
             </div>
             <div class="row mt-5">
-           <div class="col-md-12">
-                    <h1>Di Tolak</h1>
-                    <div class="card" style="height: 28rem">
-                        <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                            @forelse($ditolakItems as $item)
-                                <div class="py-2 border-bottom">
-                                    <a href="{{ url($item->model_type . '/' . $item->id . '/edit') }}"
-                                        class="text-decoration-none text-dark">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <span
-                                                    class="avatar bg-success-lt">{{ strtoupper(substr($item->nama, 0, 2)) }}</span>
-                                            </div>
-                                            <div class="col">
-                                                <h1 class="mb-0 fs-3 fw-bold text-body">
-                                                    @if ($item->model_type == 'surat_keterangan_tidak_mampu')
-                                                        Surat Keterangan tidak Mampu
-                                                    @elseif($item->model_type == 'surat_keterangan_usahas')
-                                                        Surat Keterangan Usaha
-                                                    @elseif($item->model_type == 'keterangan_akta_nikah')
-                                                        Surat Keterangan Status Nikah
-                                                    @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
-                                                        Surat Pengantar Ijin Keramaian
-                                                    @elseif($item->model_type == 'surat-pindah-perusahaan')
-                                                        Surat keterangan Pindah Domisili Perusahaan
-                                                    @elseif($item->model_type == 'beda-data-kependudukan')
-                                                        Surat Keterangan Beda Penduduk
-                                                    @elseif($item->model_type == 'surat-bekerja-luar-negeri')
-                                                        Surat Keterangan Bekerja di Luar Negeri
-                                                    @elseif($item->model_type == 'surat_keterangan_kematian')
-                                                        Surat Keterangan Kematian
-                                                    @elseif($item->model_type == 'surat_keterangan_miskin')
-                                                        Surat Keterangan Miskin
-                                                    @endif
-                                                </h1>
 
-                                                <div class="row align-items-center">
-                                                    <div class="col-6">
-                                                        <div class="text-secondary small">
-                                                            Status: {{ ucfirst($item->status) }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6 text-end">
-                                                        <div class="text-muted small">
-                                                            Dibuat pada: {{ $item->created_at->format('d M Y') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @empty
-                                <div class="text-center text-muted py-3">
-                                    Tidak ada data Selesai.
-                                </div>
-                            @endforelse
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-12 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">Statistik Penduduk Per Tahun</h3>
-                            <canvas id="pendudukChart" height="100"></canvas>
+                            <div style="position: relative; height:60vh; width:100%">
+                                <canvas id="pendudukChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -326,7 +319,9 @@
             <div class="row mb-5 text-center px-3" style="padding-top: 50px;">
                 <div class="col-12 text-center px-3">
                     <h3 class="card-title">Statistik Sektor Mata Pencaharian</h3>
-                    <canvas id="sektorPekerjaanChart" style="max-width: 75%; height: 500px; max-height: 600px; margin: 0 auto;"></canvas>
+                    <div style="position: relative; height:60vh; width:80%; margin: 0 auto;">
+                        <canvas id="sektorPekerjaanChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -570,7 +565,7 @@
         </div>
     @endrole
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         @if (session('success'))
             Swal.fire({
@@ -587,82 +582,200 @@
 
 
 
-<script>
-    const lineCtx = document.getElementById('lineChart').getContext('2d');
-    new Chart(lineCtx, {
-        type: 'line',
-        data: {
-            labels: @json($monthlyLabels),
-            datasets: [{
-                label: 'Jumlah Surat',
-                data: @json($monthlyCounts),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        callback: function(value) {
-                            return Number.isInteger(value) ? value : null;
+    <script>
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: @json($monthlyLabels),
+                datasets: [{
+                    label: 'Jumlah Surat',
+                    data: @json($monthlyCounts),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;
+                            }
                         }
                     }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': ' + Math.round(context.parsed.y);
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + Math.round(context.parsed.y);
+                            }
                         }
                     }
                 }
             }
-        }
+        });
+
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: @json($jenisLabels),
+                datasets: [{
+                    label: 'Jumlah Surat',
+                    data: @json($jenisCounts),
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // membuat bar horizontal
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1, // langkah angka
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + Math.round(context.parsed.x);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data dari controller
+            const chartData = @json($chartData);
+
+            console.log('Data Penduduk:', chartData); // Cek di console browser
+
+            const ctx = document.getElementById('pendudukChart').getContext('2d');
+
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                                label: 'Laki-laki',
+                                data: chartData.laki,
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Perempuan',
+                                data: chartData.perempuan,
+                                backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error('Canvas element not found');
+            }
+        });
+    </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sektorData = @json($sektorPekerjaan);
+    const ctx = document.getElementById('sektorPekerjaanChart');
+
+    // Format data untuk Chart.js
+    const labels = Object.keys(sektorData);
+    const data = Object.values(sektorData);
+
+    // Generate warna otomatis
+    const backgroundColors = labels.map((_, i) => {
+        const hue = Math.round(i * (360 / labels.length));
+        return `hsl(${hue}, 70%, 60%)`;
     });
 
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    new Chart(barCtx, {
-        type: 'bar',
+    new Chart(ctx, {
+        type: 'doughnut', // Bisa diganti 'pie' atau 'bar'
         data: {
-            labels: @json($jenisLabels),
+            labels: labels,
             datasets: [{
-                label: 'Jumlah Surat',
-                data: @json($jenisCounts),
-                backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                data: data,
+                backgroundColor: backgroundColors,
+                borderWidth: 1,
+                hoverOffset: 10
             }]
         },
         options: {
-            indexAxis: 'y', // membuat bar horizontal
             responsive: true,
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1, // langkah angka
-                        callback: function(value) {
-                            return Number.isInteger(value) ? value : null;
-                        }
-                    }
-                }
-            },
+            maintainAspectRatio: false,
             plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        font: {
+                            size: 14
+                        },
+                        padding: 20
+                    }
+                },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return context.dataset.label + ': ' + Math.round(context.parsed.x);
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${label}: ${value} orang (${percentage}%)`;
                         }
                     }
+                },
+                title: {
+                    display: true,
+
+                    font: {
+                        size: 18
+                    }
                 }
+            },
+            cutout: '60%', // Untuk doughnut chart
+            animation: {
+                animateScale: true,
+                animateRotate: true
             }
         }
     });
+});
 </script>
 @endsection

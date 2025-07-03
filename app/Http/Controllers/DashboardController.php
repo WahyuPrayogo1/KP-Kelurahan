@@ -14,11 +14,17 @@ use App\Models\SuratPernyataanTanahTidakSengketa;
 use App\Models\SuratKeteranganBekerjaLuarNegeri;
 use App\Models\SuratKeteranganKematian;
 use App\Models\PendudukStat;
-
+use App\Models\SektorPekerjaan;
+use App\Models\Pekerjaan;
+use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index()
     {
+
+          $sektorPekerjaan = SektorPekerjaan::withCount(['pekerjaan as total_pekerjaan' => function($query) {
+                $query->select(DB::raw('sum(jumlah)'));
+            }])->get()->pluck('total_pekerjaan', 'nama')->toArray();
         // Ambil semua data surat
         $models = [
             ['model' => \App\Models\SuratKeteranganTidakMampu::class, 'label' => 'Tidak Mampu'],
@@ -338,6 +344,6 @@ class DashboardController extends Controller
         $selesaiItems = $selesaiPindah->concat($selesaiUsaha)->concat($selesaiNikah)->concat($selesaiKeramaian)->concat($selesaiPerusahaan)->concat($selesaiBedaPenduduk)->concat($selesaiBekerja)->concat($selesaiKematian)->concat($selesaiMiskin);
         $ditolakItems = $ditolakPindah->concat($ditolakUsaha)->concat($ditolakNikah)->concat($ditolakKeramaian)->concat($ditolakPerusahaan)->concat($ditolakBedaPenduduk)->concat($ditolakBekerja)->concat($ditolakKematian)->concat($ditolakMiskin);
 
-        return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems','ditolakItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData', 'monthlyLabels', 'monthlyCounts','jenisLabels', 'jenisCounts'));
+        return view('dashboard', compact('prosesCount', 'selesaiCount', 'ditolakCount', 'prosesItems', 'selesaiItems','ditolakItems', 'jumlahLaki', 'jumlahPerempuan', 'tahun', 'pendudukStats', 'chartData', 'monthlyLabels', 'monthlyCounts','jenisLabels', 'jenisCounts','sektorPekerjaan'));
     }
 }
