@@ -108,11 +108,35 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label for="alamat_lengkap" class="form-label">Alamat Lengkap</label>
-                                        <textarea name="alamat_lengkap" class="form-control required-step1" rows="3" placeholder="Contoh: Jl. Raya Cibeureum No. 123"  required>{{ old('alamat_lengkap') }}</textarea>
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <label for="alamat" class="form-label">Alamat</label>
+                                            <input type="text" name="alamat" id="alamat" class="form-control required-step1" placeholder="Contoh: Jl. Raya Cibeureum No. 123" value="{{ old('alamat') }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="rt" class="form-label">RT</label>
+                                            <input type="text" name="rt" id="rt" class="form-control required-step1"
+                                                value="{{ old('rt') }}" placeholder="Contoh: 07" maxlength="3" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="rw" class="form-label">RW</label>
+                                            <input type="text" name="rw" id="rw" class="form-control required-step1"
+                                                value="{{ old('rw') }}" placeholder="Contoh: 01" maxlength="3" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="kelurahan" name="kelurahan" class="form-control required-step1"
+                                                placeholder="Kelurahan" required value="{{ old('kelurahan', 'Subangjaya') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="kecamatan" name="kecamatan" class="form-control required-step1"
+                                                placeholder="Kecamatan" required value="{{ old('kecamatan', 'Cikole') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="kode_pos" name="kode_pos"
+                                                class="form-control required-step1 angka-saja" placeholder="Kode Pos" required
+                                                maxlength="5" value="{{ old('kode_pos', '43116') }}">
+                                        </div>
                                     </div>
-
 
                                 </div>
                                 <div class="d-flex justify-content-end mt-3">

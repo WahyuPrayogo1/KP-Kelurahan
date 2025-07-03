@@ -88,8 +88,8 @@
         </div>
     <!-- Kop Surat -->
     <div class="header">
-        <h3>SURAT PENGANTAR KETERANGAN IJIN KERAMAIAN</h3>
-        <p>Nomor : {{ $nomor_surat }}</p>
+        <h3 style="margin-bottom: 0;">SURAT PENGANTAR KETERANGAN IJIN KERAMAIAN</h3>
+        <p style="margin-top: 0;">Nomor Surat: {{ $nomor_surat }}</p>
     </div>
 
     <!-- Data Pemohon -->

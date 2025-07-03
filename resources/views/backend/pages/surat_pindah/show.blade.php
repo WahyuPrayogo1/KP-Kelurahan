@@ -146,7 +146,7 @@
                     </a>
 
                     @role('Admin')
-                        <a href="{{ route('surat.preview-pdf', $surat->id) }}" class="btn btn-info">
+                        <a href="{{ route('surat-pindah-perusahaan.preview-pdf', $surat->id) }}" class="btn btn-info">
                             <i class="fas fa-file-pdf"></i> Buat PDF
                         </a>
                     @endrole

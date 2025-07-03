@@ -46,9 +46,16 @@
                         <label class="form-label fw-bold">Digunakan Untuk</label>
                         <input type="text" name="digunakan_untuk" class="form-control form-control-sm" placeholder="Contoh: keperluan pengajuan beasiswa" required>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Nama Lurah</label>
-                        <input type="text" name="nama_lurah" class="form-control form-control-sm" required>
+                        <input type="text" name="nama_lurah" class="form-control form-control-sm" 
+                        value="{{ old('nama_lurah', 'JUMYATI') }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">NIP Lurah</label>
+                            <input type="text" name="lurah_nip" class="form-control form-control-sm" 
+                            value="{{ old('lurah_nip', '19720412 201001 1 001') }}" required>
+                        </div>
                     </div>
                 </div>
 
@@ -92,19 +99,6 @@
                     <!-- Keterangan -->
                     <div class="mb-3">
                         <p style="text-align: justify;">Adalah benar-benar warga yang berdomisili di wilayah Kelurahan Subangjaya dan termasuk keluarga kurang mampu/tidak mampu.</p>
-                    </div>
-
-                    <!-- Form Tanda Tangan -->
-                    <div class="mt-4 p-3 border rounded">
-                        <h5 class="text-center fw-bold mb-3">DATA TANDA TANGAN</h5>
-
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <label class="form-label small fw-bold">NIP Lurah</label>
-                                <input type="text" name="lurah_nip" class="form-control form-control-sm" required>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
 

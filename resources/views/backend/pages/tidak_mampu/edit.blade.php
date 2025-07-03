@@ -185,21 +185,21 @@
                                 <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
                                 <input type="hidden" name="status" value="proses">
                             @endrole
-                                                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-    @role('Admin')
-        <a href="{{ route('surat_keterangan_tidak_mampu.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Kembali
-        </a>
-    @else
-        <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Kembali
-        </a>
-    @endrole
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            @role('Admin')
+                                <a href="{{ route('surat_keterangan_tidak_mampu.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </a>
+                            @else
+                                <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </a>
+                            @endrole
 
-    <button type="submit" class="btn btn-primary">
-        <i class="fas fa-save me-2"></i>Simpan Perubahan
-    </button>
-</div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Simpan Perubahan
+                            </button>
+                        </div>
 
 
                         </form>

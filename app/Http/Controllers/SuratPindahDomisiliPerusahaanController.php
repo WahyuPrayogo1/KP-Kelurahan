@@ -334,7 +334,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
              if (!auth()->user()->hasRole('Admin')) {
               abort(404, 'Maaf, halaman ini tidak tersedia.');
             }
-            try {
+
                 $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
 
                 // Validasi input
@@ -348,7 +348,8 @@ class SuratPindahDomisiliPerusahaanController extends Controller
                     'nomor_surat_lama' => 'required|string|max:50',
                     'tanggal_surat_lama' => 'required|date',
                     'tujuan_surat' => 'required|string|max:255',
-                    'nama_lurah' => 'required|string|max:100'
+                    'nama_lurah' => 'required|string|max:100',
+                    'lurah_nip' => 'required|string',
                 ]);
 
                 $data = [
@@ -362,6 +363,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
                     'nomor_surat_lama' => $validated['nomor_surat_lama'],
                     'tanggal_surat_lama' => $validated['tanggal_surat_lama'],
                     'tujuan_surat' => $validated['tujuan_surat'],
+                    'lurah_nip' => $validated['lurah_nip'],
                     'nama_lurah' => $validated['nama_lurah'],
                 ];
 
@@ -379,20 +381,9 @@ class SuratPindahDomisiliPerusahaanController extends Controller
                     'margin_footer' => 0,
                 ]);
 
-                // Generate PDF
                 $html = view('backend.pages.surat_pindah.pdf.surat', $data)->render();
                 $mpdf->WriteHTML($html);
 
-                // Return PDF
-                $filename = 'Surat-Pindah-Perusahaan-'.$surat->id.'-'.date('YmdHis').'.pdf';
-                return $mpdf->Output($filename, \Mpdf\Output\Destination::INLINE);
-
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-                abort(404, 'Data surat tidak ditemukan');
-            } catch (\Exception $e) {
-                Log::error('Error generating PDF: '.$e->getMessage());
-                return back()->withError('Terjadi kesalahan saat membuat PDF');
+                return $mpdf->Output('Surat-Pindah-Perusahaan-'.$surat->id.'.pdf', \Mpdf\Output\Destination::INLINE);
             }
         }
-
-}

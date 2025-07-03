@@ -64,6 +64,8 @@ public function index(Request $request)
             'in' => ':attribute tidak valid.',
             'image' => ':attribute harus berupa gambar.',
             'mimes' => ':attribute harus berupa file dengan format jpeg, jpg, atau png.',
+            'digits' => ':attribute harus terdiri dari :digits angka.',
+            'digits_between' => ':attribute harus terdiri dari antara :min sampai :max digit.',
         ];
 
         $attributeNames = [
@@ -81,13 +83,25 @@ public function index(Request $request)
             'fc_kk' => 'Fotokopi KK',
             'fc_buku_nikah' => 'Fotokopi Buku Nikah',
             'pengantar_kematian_rt_rw' => 'Surat Pengantar Kematian dari RT/RW',
+            'alamat' => 'Alamat',
+            'rt' => 'RT',
+            'rw' => 'RW',
+            'kelurahan' => 'Kelurahan',
+            'kecamatan' => 'Kecamatan',
+            'kode_pos' => 'Kode Pos',
             'catatan' => 'Catatan Tambahan',
         ];
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|string|in:L,P',
-            'alamat_lengkap' => 'required|string|max:500',
+            'alamat' => 'required|string|max:255',
+            'rt' => 'required|digits_between:1,3',
+            'rw' => 'required|digits_between:1,3',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|digits:5',
+
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'tempat_meninggal' => 'required|string|max:255',
@@ -104,6 +118,10 @@ public function index(Request $request)
             'catatan' => 'nullable|string',
         ], $messages, $attributeNames);
 
+        // Susun alamat lengkap
+        $validated['alamat_lengkap'] = $request->alamat . ', RT ' . $request->rt . '/RW ' . $request->rw . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi, ' . $request->kode_pos;
+
+        // Upload file
         foreach (['fc_ktp', 'fc_kk', 'fc_buku_nikah', 'pengantar_kematian_rt_rw'] as $fileField) {
             $validated[$fileField] = $request->file($fileField)->store('uploads', 'private');
         }
@@ -302,11 +320,11 @@ public function index(Request $request)
         $validatedData = $request->validate([
             'nomor_surat' => 'required|string',
             'tanggal_surat' => 'required|date',
-            'rt' => 'required|string',
-            'rw' => 'required|string',
             'hari_meninggal' => 'required|string',
             'dimakamkan_di' => 'required|string',
             'nomor_surat_pengantar' => 'required|string',
+            'lurah_nip' => 'required|string',
+            'nama_lurah' => 'required|string|max:255',  
         ]);
 
         $surat = SuratKeteranganKematian::findOrFail($id);
@@ -315,11 +333,11 @@ public function index(Request $request)
             'surat' => $surat,
             'nomor_surat' => $validatedData['nomor_surat'],
             'tanggal_surat' =>  $validatedData['tanggal_surat'],
-            'rt' =>  $validatedData['rt'],
-            'rw' =>  $validatedData['rw'],
             'hari_meninggal' => $validatedData['hari_meninggal'],
             'dimakamkan_di' =>  $validatedData['dimakamkan_di'],
             'nomor_surat_pengantar' =>  $validatedData['nomor_surat_pengantar'],
+            'lurah_nip' => $validatedData['lurah_nip'],
+            'nama_lurah' => $validatedData['nama_lurah'],
         ];
 
         $mpdf = new Mpdf([
