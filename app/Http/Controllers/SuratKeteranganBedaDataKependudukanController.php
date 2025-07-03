@@ -58,7 +58,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|max:20|unique:surat_keterangan_beda_data_kependudukans,nik',
+            'nik' => 'required|string|max:20',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
@@ -67,15 +67,23 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
             'status_perkawinan' => 'required|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
             'agama' => 'required|string|max:100',
             'alamat' => 'required|string',
-            'rt' => 'required|string|max:3',
-            'rw' => 'required|string|max:3',
             'lokasi_perbedaan_nama' => 'required|string|max:255',
             'fc_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'fc_kk' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'surat_pernyataan_beda_data' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'bukti_beda_data' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
+            // Validasi untuk alamat
+            'tempat' => 'required|string|max:255',
+            'rt' => 'required|digits_between:1,3',
+            'rw' => 'required|digits_between:1,3',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|digits:5',
         ]);
+
+        $validated['alamat'] = $request->tempat . ', RT ' . $request->rt . '/RW ' . $request->rw . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi' . ', ' . $request->kode_pos;
 
         foreach (['fc_ktp', 'fc_kk', 'surat_pernyataan_beda_data', 'bukti_beda_data', 'pengantar_rt_rw'] as $fileField) {
             if ($request->hasFile($fileField)) {
@@ -127,7 +135,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
 
         $validatedData = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|max:20|unique:surat_keterangan_beda_data_kependudukans,nik,' . $surat->id,
+            'nik' => 'required|string|max:20' . $surat->id,
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
@@ -290,6 +298,7 @@ class SuratKeteranganBedaDataKependudukanController extends Controller
             'nomor_pengantar' => $request->input('nomor_pengantar'),
             'tanggal_pengantar' => $request->input('tanggal_pengantar'),
             'lurah_nip' => $request->lurah_nip,
+            'nama_lurah' => $request->nama_lurah,
         ];
 
         $mpdf = new Mpdf([

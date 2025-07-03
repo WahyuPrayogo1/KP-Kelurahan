@@ -131,7 +131,7 @@
                                                 <a class="dropdown-item" href="{{route('surat-pindah-perusahaan.index')}}">
                                                   Surat Pindah Perusahaan / Yayasan
                                               </a>
-                                              <a class="dropdown-item" href="#">
+                                              <a class="dropdown-item" href="{{route('beda-data-kependudukan.index')}}">
                                                   Surat Keterangan Beda Data Kependudukan
                                               </a>
                                           </div>

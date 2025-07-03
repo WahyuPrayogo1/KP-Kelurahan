@@ -45,8 +45,8 @@
 
         .signature-line {
             border-top: 0.5pt solid #000;
-            width: 50mm;
-            margin-top: 20mm;
+            width: 65mm;
+            margin: 25mm auto 1mm;
 
         }
         .content-block {
@@ -109,7 +109,7 @@
     <p class="indent-justify">
         Diterangkan lebih lanjut berdasarkan Surat Pengantar dari Ketua RT/RW setempat Nomor {{ $nomor_surat_pengantar ?? '........' }} tanggal 
         {{ $tanggal_surat_pengantar ? \Carbon\Carbon::parse($tanggal_surat_pengantar)->translatedFormat('d F Y') : '........' }},
-        serta sampai dibuatkannya Surat Keterangan ini adalah 'benar' bahwa yang bersangkutan sesuai Kartu Keluarga Nomor {{ $surat->no_kk ?? '........' }} dan Kartu Tanda Penduduk Nomor {{ $surat->nik }} <strong>berstatus {{ $surat->status_perkawinan }}</strong>.
+        serta sampai dibuatkannya Surat Keterangan ini adalah 'benar' bahwa yang bersangkutan sesuai Kartu Keluarga Nomor {{ $surat->no_kk ?? '........' }} dan Kartu Tanda Penduduk Nomor {{ $surat->nik }} berstatus <strong>{{ $surat->status_perkawinan }}</strong>.
     </p>
 
     <p class="indent-justify">
@@ -135,9 +135,10 @@
                         </td>
                     </tr>
                 </table>
-                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
-                <div class="signature-line" style="width: 60mm; margin-top: 30mm; margin-left: 0;"></div>
-                <p style="margin-top: 1mm;">&nbsp;&nbsp;&nbsp;&nbsp;NIP. 19720412 201001 1 001</p>
+                    <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
+                    <div class="signature-line"></div>
+                    <p style="margin-bottom: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $nama_lurah }}</p>
+                    <p style="margin-top: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NIP. {{ $lurah_nip ?? '_________________' }}</p>
             </div>
         </div>
     </div>

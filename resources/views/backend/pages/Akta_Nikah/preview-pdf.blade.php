@@ -72,7 +72,17 @@ use Carbon\Carbon;
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nama Lurah</label>
+                            <input type="text" name="nama_lurah" class="form-control form-control-sm" 
+                            value="{{ old('nama_lurah', 'JUMYATI') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">NIP Lurah</label>
+                            <input type="text" name="lurah_nip" class="form-control form-control-sm"
+                            value="{{ old('lurah_nip', '19720412 201001 1 001') }}" required>
+                        </div>
+                    </div>
 
                 <!-- Preview Surat -->
                 <div class="border p-4 mb-4">

@@ -4,34 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-        .signature-container {
-            margin-top: 15mm;
-            width: 100%;
-            text-align: right;
-            /* Ini yang akan menggeser ke kanan */
-        }
-
-        .signature-box {
-            display: inline-block;
-            text-align: center;
-            width: 45%;
-            /* Sesuaikan lebar sesuai kebutuhan */
-            margin-left: auto;
-            /* Ini membantu mendorong ke kanan */
-        }
-
-        .signature-line {
-            border-top: 0.5pt solid #000;
-            width: 70mm;
-            margin: 20mm auto 2mm;
-        }
-
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 12pt;
+            font-size: 11pt;
             line-height: 1.3;
             margin: 0;
             padding: 0;
+            color: #000;
         }
 
         .header {
@@ -40,7 +19,7 @@
         }
 
         .header h3 {
-            font-size: 11pt;
+            font-size: 12pt;
             text-decoration: underline;
             margin: 2mm 0;
             font-weight: bold;
@@ -58,23 +37,34 @@
 
         .signature-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: 1mm;
+        }
+
+        .signature-column {
+            width: 40%;
+            float: right;
+            box-sizing: border-box;
+            text-align: right;
         }
 
         .signature-box {
-            text-align: center;
-            width: 45%;
+            margin-bottom: 5mm;
+            text-align: start;
         }
 
         .signature-line {
             border-top: 0.5pt solid #000;
-            width: 70mm;
-            margin: 20mm auto 2mm;
+            width: 65mm;
+            margin: 25mm auto 1mm;
         }
 
         .content-block {
-            margin-bottom: 1mm;
+            margin-bottom: 3mm;
+        }
+
+        .indent-justify {
+            text-indent: 8mm;
+            text-align: justify;
+            margin: 1mm 50px 3mm 50px;
         }
     </style>
 </head>
@@ -100,102 +90,70 @@
         <div style="height: 1px; background-color: black; margin-top: 0;"></div>
     </div>
 
-    <!-- Kop Surat -->
-    <div class="header">
-        <h3>SURAT KETERANGAN MISKIN</h3>
-        <p>Nomor : {{ $nomor_surat }}</p>
+    <!-- Judul Surat -->
+     <div class="header">
+        <h3 style="margin-bottom: 0;">SURAT KETERANGAN MISKIN</h3>
+        <p style="margin-top: 0;">Nomor Surat: {{ $nomor_surat }}</p>
     </div>
+    
+    <!-- Isi Surat -->
+    <p class="indent-justify">
+        Lurah Subangjaya Kecamatan Cikole Kota Sukabumi, dengan ini menerangkan bahwa:
+    </p>
 
-    <!-- Data Pemohon -->
-    <div class="content-block">
-        <p>Lurah {{ $nama_lurah }} Kecamatan Cikole Kota Sukabumi dengan ini menerangkan bahwa</p>
-        <table style="padding-left: 150px; padding-right: 50px">
-            <tr>
-                <td width="30%">Nama</td>
-                <td width="5%">:</td>
-                <td>{{ $surat->nama }}</td>
-            </tr>
-            <tr>
-                <td>NIK</td>
-                <td>:</td>
-                <td>{{ $surat->nik }}</td>
-            </tr>
-            <tr>
-                <td>Tempat/Tgl Lahir</td>
-                <td>:</td>
-                <td>{{ $surat->tempat_lahir }}, {{ \Carbon\Carbon::parse($surat->tanggal_lahir)->format('d F Y') }}</td>
-            </tr>
-            <tr>
-                <td>Jenis Kelamin</td>
-                <td>:</td>
-                <td>{{ $surat->jenis_kelamin }}</td>
-            </tr>
-            <tr>
-                <td>Kewarganegaraan</td>
-                <td>:</td>
-                <td>{{ $surat->kewarganegaraan }}</td>
-            </tr>
-            <tr>
-                <td>Pekerjaan</td>
-                <td>:</td>
-                <td>{{ $surat->pekerjaan }}</td>
-            </tr>
-            <tr>
-                <td>Status Perkawinan</td>
-                <td>:</td>
-                <td>{{ $surat->status_perkawinan }}</td>
-            </tr>
-            <tr>
-                <td>Agama</td>
-                <td>:</td>
-                <td>{{ $surat->agama }}</td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{{ $surat->alamat }}</td>
-            </tr>
+    <div style="padding-left: 50px; padding-right: 50px;" class="content-block">
+        <table>
+            <tr><td width="30%">Nama</td><td width="5%">:</td><td>{{ $surat->nama }}</td></tr>
+            <tr><td>NIK</td><td>:</td><td>{{ $surat->nik }}</td></tr>
+            <tr><td>Tempat/Tgl Lahir</td><td>:</td><td>{{ $surat->tempat_lahir }}, {{ \Carbon\Carbon::parse($surat->tanggal_lahir)->format('d F Y') }}</td></tr>
+            <tr><td>Jenis Kelamin</td><td>:</td><td>{{ $surat->jenis_kelamin }}</td></tr>
+            <tr><td>Kewarganegaraan</td><td>:</td><td>{{ $surat->kewarganegaraan }}</td></tr>
+            <tr><td>Pekerjaan</td><td>:</td><td>{{ $surat->pekerjaan }}</td></tr>
+            <tr><td>Status Perkawinan</td><td>:</td><td>{{ $surat->status_perkawinan }}</td></tr>
+            <tr><td>Agama</td><td>:</td><td>{{ $surat->agama }}</td></tr>
+            <tr><td>Alamat</td><td>:</td><td>{{ $surat->alamat }}</td></tr>
         </table>
     </div>
 
-    <!-- Keterangan -->
-    <div class="content-block">
-        <p style="text-align: justify; text-indent: 25px;">
-            Adalah benar-benar warga yang berdomisili di wilayah Kelurahan Subangjaya Kota Sukabumi
-        </p>
-        <p style="text-align: justify; text-indent: 25px;">
-            Diterangkan lebih lanjut bahwa yang bersangkutan berdasarkan Surat Pengantar dari Ketua RT/RW setempat
-            Nomor. {{ $nomor }} Tanggal : {{ $tanggal }} dan Peryataan diatas Materai tanggal
-            {{ $tanggal_materai }} serta sampai dengan dibuatkannya Surat Keterangan ini adalah 'Benar' termasuk
-            keluarga Miskin sesuai dengan surat keputusan Menteri Kesehatan Nomor {{$kesehatan_nomer}} Tahun {{$kesehatan_tahun}}
-        </p>
-    </div>
-    <!-- Penutup -->
-    <div class="content-block">
-        <p style="text-align: justify; text-indent: 25px;">
-            Surat keterangan ini diperegunakan untuk : Pengajuan Pembebasan Biaya Pengobatan ke Rumah Sakit {{$rumah_sakit}}
-        </p>
-    </div>
+    <p class="indent-justify">
+        Adalah benar warga RT/RW Kelurahan Subangjaya Kecamatan Cikole Kota Sukabumi.
+    </p>
 
-    <!-- Penutup -->
-    <div class="content-block">
-        <p style="text-align: justify; text-indent: 25px;">
-            Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya
-        </p>
-    </div>
+    <p class="indent-justify">
+        Diterangkan lebih lanjut bahwa yang bersangkutan berdasarkan Surat Pengantar dari Ketua RT/RW setempat
+        Nomor. {{ $nomor }} Tanggal {{ $tanggal }} dan Peryataan diatas Materai tanggal
+        {{ $tanggal_materai }} serta sampai dengan dibuatkannya Surat Keterangan ini adalah 'Benar' termasuk
+        keluarga Miskin sesuai dengan surat keputusan Menteri Kesehatan Nomor {{$kesehatan_nomer}} Tahun {{$kesehatan_tahun}}.
+    </p>
 
-    <!-- Tanda Tangan - Versi Fixed -->
+    <p class="indent-justify">
+        Surat keterangan ini diperegunakan untuk : <u>Pengajuan Pembebasan Biaya Pengobatan ke Rumah Sakit {{$rumah_sakit}}.</u>
+    </p>
+
+    <p class="indent-justify">
+        Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.
+    </p><br><br>
+
+    <!-- Tanda Tangan -->
     <div class="signature-container">
-        <div class="signature-box">
-            <p>Ditetapkan di : Sukabumi</p>
-            <p>Pada tanggal : {{ isset($tanggal_surat) ? date('d F Y', strtotime($tanggal_surat)) : '' }}</p>
-              <p>Lurah {{ $nama_lurah }}</p>
-            <div class="signature-line"></div>
-
-            <p>NIP. {{ $lurah_nip ?? '_________________' }}</p>
+        <div class="signature-column">
+            <div class="signature-box">
+                <table>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dikeluarkan di &nbsp;&nbsp;&nbsp;: Sukabumi</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pada tanggal &nbsp;&nbsp;&nbsp;&nbsp; :
+                            {{ isset($tanggal_surat) ? date('d F Y', strtotime($tanggal_surat)) : '' }}
+                        </td>
+                    </tr>
+                </table>
+                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
+                <div class="signature-line"></div>
+                <p style="margin-bottom: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $nama_lurah }}</p>
+                <p style="margin-top: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NIP. {{ $lurah_nip ?? '_________________' }}</p>
+            </div>
         </div>
     </div>
-
 </body>
-
 </html>

@@ -65,7 +65,7 @@ class SuratKeteranganMiskinController extends Controller
             [
                 // Data Pemohon
                 'nama' => 'required|string|max:255',
-                'nik' => 'required|digits:16|unique:surat_keterangan_miskins',
+                'nik' => 'required|digits:16',
                 'tempat_lahir' => 'required|string|max:255',
                 'tanggal_lahir' => 'required|date',
                 'jenis_kelamin' => 'required|in:L,P',
@@ -76,6 +76,8 @@ class SuratKeteranganMiskinController extends Controller
 
                 // Alamat (dari form yang digabungkan)
                 'tempat' => 'required|string|max:255',
+                'rt' => 'required|digits_between:1,3',
+                'rw' => 'required|digits_between:1,3',
                 'kelurahan' => 'required|string|max:255',
                 'kecamatan' => 'required|string|max:255',
                 'kode_pos' => 'required|digits:5',
@@ -92,7 +94,6 @@ class SuratKeteranganMiskinController extends Controller
                 'nama.required' => 'Nama lengkap wajib diisi.',
                 'nik.required' => 'NIK wajib diisi.',
                 'nik.digits' => 'NIK harus terdiri dari 16 digit.',
-                'nik.unique' => 'NIK sudah terdaftar.',
                 'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
                 'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
                 'no_hp.required' => 'Nomor HP wajib diisi.',
@@ -128,7 +129,7 @@ class SuratKeteranganMiskinController extends Controller
         );
 
         // Gabungkan alamat lengkap
-        $validated['alamat'] = $request->tempat . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi' . ', ' . $request->kode_pos;
+        $validated['alamat'] = $request->tempat . ', RT ' . $request->rt . '/RW ' . $request->rw . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi' . ', ' . $request->kode_pos;
 
         // Simpan file ke folder private
         $fileFields = ['foto_ktp', 'foto_kk', 'foto_pengantar_rt_rw'];
@@ -185,7 +186,7 @@ class SuratKeteranganMiskinController extends Controller
             [
                 // Data Pemohon
                 'nama' => 'required|string|max:255',
-                'nik' => 'required|digits:16|unique:surat_keterangan_miskins,nik,' . $id,
+                'nik' => 'required|digits:16' . $id,
                 'tempat_lahir' => 'required|string|max:255',
                 'tanggal_lahir' => 'required|date',
 
@@ -209,7 +210,6 @@ class SuratKeteranganMiskinController extends Controller
                 'nama.required' => 'Nama lengkap wajib diisi.',
                 'nik.required' => 'NIK wajib diisi.',
                 'nik.digits' => 'NIK harus terdiri dari 16 digit.',
-                'nik.unique' => 'NIK sudah terdaftar.',
                 'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
                 'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
 

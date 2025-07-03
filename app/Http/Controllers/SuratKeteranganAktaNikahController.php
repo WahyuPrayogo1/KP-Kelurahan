@@ -135,6 +135,9 @@ class SuratKeteranganAktaNikahController extends Controller
             'alamat' => 'required|string|max:255',
             'rt' => 'required|digits_between:1,3',
             'rw' => 'required|digits_between:1,3',
+            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|digits:5',
 
             'no_kk' => 'required|string|max:16',
             'no_pengantar_rt_rw' => 'nullable|string|max:255',
@@ -149,7 +152,7 @@ class SuratKeteranganAktaNikahController extends Controller
         ], $messages);
 
         // Gabungkan alamat_lengkap
-        $validated['alamat_lengkap'] = $request->alamat . ', RT ' . $request->rt . '/RW ' . $request->rw;
+        $validated['alamat_lengkap'] = $request->alamat . ', RT ' . $request->rt . '/RW ' . $request->rw . $request->rw . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi' . ', ' . $request->kode_pos;
 
         // Upload file ke storage
         foreach ([
@@ -378,11 +381,15 @@ class SuratKeteranganAktaNikahController extends Controller
             'tanggal_surat' => 'required|date',
             'nomor_surat_pengantar' => 'required|string|max:255',
             'tanggal_surat_pengantar' => 'required|date',
+            'lurah_nip' => 'required|string',
+            'nama_lurah' => 'required|string|max:255',  
         ], [
             'nomor_surat.required' => 'Nomor Surat wajib diisi.',
             'tanggal_surat.required' => 'Tanggal Surat wajib diisi.',
             'nomor_surat_pengantar.required' => 'Nomor Surat Pengantar RT/RW wajib diisi.',
             'tanggal_surat_pengantar.required' => 'Tanggal Surat Pengantar RT/RW wajib diisi.',
+            'lurah_nip.required' => 'NIP Lurah wajib diisi.',
+            'nama_lurah.required' => 'Nama Lurah wajib diisi.',
         ]);
 
         // Ambil data utama dari database
@@ -392,6 +399,8 @@ class SuratKeteranganAktaNikahController extends Controller
         $data = [
             'surat' => $surat,
             'nomor_surat' => $validatedData['nomor_surat'],
+            'lurah_nip' => $validatedData['lurah_nip'],
+            'nama_lurah' => $validatedData['nama_lurah'],
             'tanggal_surat' => $validatedData['tanggal_surat'],
             'nomor_surat_pengantar' => $validatedData['nomor_surat_pengantar'],
             'tanggal_surat_pengantar' => $validatedData['tanggal_surat_pengantar'],

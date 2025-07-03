@@ -22,7 +22,6 @@
                         <tr><th>Kewarganegaraan</th><td>{{ $surat->kewarganegaraan }}</td></tr>
                         <tr><th>Pekerjaan</th><td>{{ $surat->pekerjaan }}</td></tr>
                         <tr><th>Alamat</th><td>{{ $surat->alamat }}</td></tr>
-                        <tr><th>RT / RW</th><td>{{ $surat->rt }} / {{ $surat->rw }}</td></tr>
                     </table>
                 </div>
 
@@ -81,7 +80,7 @@
                 </a>
 
                 @role('Admin')
-                <a href="{{ route('surat.preview-pdf', $surat->id) }}" class="btn btn-info">
+                <a href="{{ route('beda-data-kependudukan.preview-pdf', $surat->id) }}" class="btn btn-info">
                     <i class="fas fa-file-pdf"></i> Buat PDF
                 </a>
                 @endrole

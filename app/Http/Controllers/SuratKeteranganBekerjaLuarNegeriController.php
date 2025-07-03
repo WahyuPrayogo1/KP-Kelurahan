@@ -386,6 +386,8 @@ public function generatePDF(Request $request, $id)
         'tanggal_pengantar_rt_rw' => 'required|date',
         'rt' => 'required|string|max:10',
         'rw' => 'required|string|max:10',
+        'lurah_nip' => 'required|string',
+        'nama_lurah' => 'required|string|max:255',
         'berlaku_sampai' => 'required|date',
     ], [
         'nomor_surat.required' => 'Nomor Surat wajib diisi.',
@@ -394,6 +396,8 @@ public function generatePDF(Request $request, $id)
         'tanggal_pengantar_rt_rw.required' => 'Tanggal Pengantar RT/RW wajib diisi.',
         'rt.required' => 'RT wajib diisi.',
         'rw.required' => 'RW wajib diisi.',
+        'lurah_nip.required' => 'NIP Lurah wajib diisi.',
+        'nama_lurah.required' => 'Nama Lurah wajib diisi.',
         'berlaku_sampai.required' => 'Tanggal berlaku sampai wajib diisi.',
     ]);
 
@@ -409,6 +413,8 @@ public function generatePDF(Request $request, $id)
         'tanggal_pengantar_rt_rw' => $validatedData['tanggal_pengantar_rt_rw'],
         'rt' => $validatedData['rt'],
         'rw' => $validatedData['rw'],
+        'lurah_nip' => $validatedData['lurah_nip'],
+        'nama_lurah' => $validatedData['nama_lurah'],
         'berlaku_sampai' => $validatedData['berlaku_sampai'],
     ];
 
