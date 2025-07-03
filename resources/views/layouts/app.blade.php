@@ -208,7 +208,7 @@
         <div class="container p-0">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="{{route('home')}}">
-                <img src="{{ asset('images/images.png') }}" alt="Logo" width="40">
+                <img src="{{ asset('images/images.png') }}" alt="Logo" width="45">
             </a>
 
             <!-- Navbar untuk Desktop -->

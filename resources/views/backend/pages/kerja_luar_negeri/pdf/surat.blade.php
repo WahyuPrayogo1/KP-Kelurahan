@@ -79,16 +79,15 @@
     <div style="text-align: center;">
         <table width="100%">
             <tr>
-                <td width="100" align="center">
-                    <img src="{{ public_path('images/logo.png') }}" width="80">
+                <td width="150" align="center" style="padding-left: 50px;">
+                    <img src="{{ public_path('images/logo.png') }}" width="100">
                 </td>
-                <td align="center">
+
+                <td align="center" style="padding-right: 120px;">
                     <div style="font-size: 14pt; font-weight: bold;">PEMERINTAH KOTA SUKABUMI</div>
                     <div style="font-size: 13pt;">KECAMATAN CIKOLE</div>
                     <div style="font-size: 16pt; font-weight: bold;">KELURAHAN SUBANGJAYA</div>
-                    <div style="font-size: 11pt;">
-                        Jl. Subangjaya No. 41 Telp. (0266) 235 755 Kota Sukabumi
-                    </div>
+                    <div style="font-size: 11pt;">Jl. Subangjaya No. 41 Telp. (0266) 235 755 Kota Sukabumi</div>
                 </td>
             </tr>
         </table>

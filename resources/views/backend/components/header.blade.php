@@ -7,7 +7,7 @@
               </button>
               <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
                 <a href="{{ route('home') }}" class="d-flex align-items-center">
-                    <img src="{{ asset('images/logo.png') }}" width="32" height="32" alt="Tabler" class="me-2">
+                    <img src="{{ asset('images/logo.png') }}" width="45" height="40" alt="Tabler" class="me-2">
                     <span class="fw-bold fs-5">Kelurahan Subang Jaya</span>
                 </a>
             </h1>
