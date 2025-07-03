@@ -174,7 +174,7 @@ class SuratPengantarIjinKeramaianController extends Controller
     public function update(Request $request, $id)
     {
         $surat = SuratPengantarIjinKeramaian::findOrFail($id);
-         if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
         $previousStatus = $surat->status; // Simpan status sebelumnya
@@ -221,7 +221,6 @@ class SuratPengantarIjinKeramaianController extends Controller
                 $this->sendSelesaiNotification($surat);
             }
         }
-
 
         if (auth()->user()->hasRole('Admin')) {
             return redirect()->route('surat_pengantar_ijin_keramaian.index')

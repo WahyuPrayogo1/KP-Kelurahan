@@ -43,10 +43,10 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
     public function edit($id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-              abort(404, 'Maaf, halaman ini tidak tersedia.');
-            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
 
         // Pisahkan alamat lengkap menjadi bagian-bagian
         $alamatParts = explode(', ', $surat->alamat_perusahaan);
@@ -73,10 +73,10 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
     public function update(Request $request, $id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-              abort(404, 'Maaf, halaman ini tidak tersedia.');
-            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
         $previousStatus = $surat->status; // Simpan status sebelumnya
 
         $validatedData = $request->validate([
@@ -143,7 +143,12 @@ class SuratPindahDomisiliPerusahaanController extends Controller
             }
         }
 
-        return redirect()->route('surat-pindah-perusahaan.index')->with('success', 'Data berhasil diupdate!');
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat-pindah-perusahaan.index')
+                ->with('success', 'Surat pengantar ijin keramaian berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
     }
 
       protected function sendRejectionNotification(SuratPindahDomisiliPerusahaan $surat)
@@ -214,10 +219,10 @@ class SuratPindahDomisiliPerusahaanController extends Controller
 
     public function destroy($id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-              abort(404, 'Maaf, halaman ini tidak tersedia.');
-            }
         $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
 
         // Hapus semua file terkait jika ada
         $fileFields = ['foto_ktp', 'foto_kk', 'foto_akte_notaris', 'foto_pengantar_rt_rw'];
@@ -231,7 +236,12 @@ class SuratPindahDomisiliPerusahaanController extends Controller
         // Hapus data dari database
         $surat->delete();
 
-        return redirect()->route('keterangan_domisili.index')->with('success', 'Data berhasil dihapus!');
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('keterangan_domisili.index')
+                ->with('success', 'Surat Keterangan Domisili berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
     }
 
     public function store(Request $request)
@@ -303,6 +313,9 @@ class SuratPindahDomisiliPerusahaanController extends Controller
        public function show($id)
         {
             $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+            if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
             return view('backend.pages.surat_pindah.show', compact('surat'));
         }
 

@@ -65,7 +65,7 @@ class SuratKeteranganMiskinController extends Controller
             [
                 // Data Pemohon
                 'nama' => 'required|string|max:255',
-                'nik' => 'required|digits:16|unique:surat_keterangan_miskins',
+                'nik' => 'required|digits:16',
                 'tempat_lahir' => 'required|string|max:255',
                 'tanggal_lahir' => 'required|date',
                 'jenis_kelamin' => 'required|in:L,P',
@@ -92,7 +92,6 @@ class SuratKeteranganMiskinController extends Controller
                 'nama.required' => 'Nama lengkap wajib diisi.',
                 'nik.required' => 'NIK wajib diisi.',
                 'nik.digits' => 'NIK harus terdiri dari 16 digit.',
-                'nik.unique' => 'NIK sudah terdaftar.',
                 'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
                 'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
                 'no_hp.required' => 'Nomor HP wajib diisi.',

@@ -6,7 +6,7 @@
                   <span class="navbar-toggler-icon"></span>
               </button>
               <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <a href="{{ route('/dashboard') }}" class="d-flex align-items-center">
+                <a href="{{ route('home') }}" class="d-flex align-items-center">
                     <img src="{{ asset('images/logo.png') }}" width="32" height="32" alt="Tabler" class="me-2">
                     <span class="fw-bold fs-5">Kelurahan Subang Jaya</span>
                 </a>
@@ -95,7 +95,7 @@
                           </li>
                           @role('Admin')
                               <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
+                                  <a class="nav-link dropdown-toggle" href="#layanan" data-bs-toggle="dropdown"
                                       data-bs-auto-close="outside" role="button" aria-expanded="false">
                                       <span
                                           class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->

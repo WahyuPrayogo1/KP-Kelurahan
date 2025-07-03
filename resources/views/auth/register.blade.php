@@ -8,11 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         body {
             background-color: #f3e5f5;
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
         }
 
         h1 {
@@ -34,13 +37,13 @@
             background-image: url('/images/image-desa.png');
             background-size: cover;
             background-position: center;
-            height: 100%;
+            min-height: 300px;
         }
 
         .label-form {
             font-size: 14px;
             font-weight: 500;
-            color: #4F4F4F;
+            color: #6F3A68;
         }
 
         .form-control:focus {
@@ -50,10 +53,7 @@
 
         .form-control {
             border: none;
-        }
-
-        .label-form {
-            color: #6F3A68;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .link {
@@ -70,6 +70,7 @@
             color: white;
             border: none;
             transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(111, 58, 104, 0.3);
         }
 
         .btn-custom:hover {
@@ -92,17 +93,66 @@
             color: #6c757d;
             margin-top: 0.25rem;
         }
+
+        .register-container {
+            min-height: 100vh;
+        }
+
+        .register-form {
+            padding: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .register-image {
+                min-height: 100vh;
+            }
+
+            .register-form {
+                padding: 3rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .register-form {
+                width: 100%;
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            .register-image {
+                display: none;
+            }
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 74%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6F3A68;
+            cursor: pointer;
+        }
+
+        .password-container {
+            position: relative;
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid p-0 register-container">
-        <div class="row g-0" style="height: 100vh;">
+        <div class="row g-0 min-vh-100">
             <!-- Kolom Kiri: Form Register -->
             <div class="col-md-6 d-flex align-items-center justify-content-center register-form">
                 <div style="width: 100%; max-width: 400px;">
-                    <h1 class="fw-bold fs-1">REGISTER</h1>
-                    <p>Daftar untuk bergabung di <small style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAY!</small></p>
+                    <h1 class="fw-bold fs-1 mb-3">REGISTER</h1>
+                    <p class="mb-4">Daftar untuk bergabung di <span style="color: #6F3A68; font-weight: bold">SALAMIN KE BANG JAY!</span></p>
 
                     <!-- Laravel Register Form -->
                     <form class="mt-4" method="POST" action="{{ route('register') }}" id="registerForm">
@@ -113,8 +163,8 @@
 
                         <!-- Nama -->
                         <div class="mb-3">
-                            <label for="name" class="form-label label-form">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
+                            <label for="name" class="form-label label-form">Nama Lengkap</label>
+                            <input type="text" class="form-control shadow-sm rounded" id="name" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
                             @error('name')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -123,7 +173,7 @@
                         <!-- Nomor WhatsApp -->
                         <div class="mb-3">
                             <label for="whatsapp_number" class="form-label label-form">Nomor WhatsApp</label>
-                            <div class="input-group">
+                            <div class="input-group shadow-sm rounded">
                                 <span class="input-group-text">+62</span>
                                 <input type="tel"
                                        class="form-control phone-input"
@@ -146,57 +196,104 @@
                         </div>
 
                         <!-- Password -->
-                        <div class="mb-3">
+                        <div class="mb-3 password-container">
                             <label for="password" class="form-label label-form">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
+                            <input type="password" class="form-control shadow-sm rounded" id="password" name="password" required autocomplete="new-password">
+                            <button type="button" class="password-toggle" id="togglePassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
                             @error('password')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
 
                         <!-- Konfirmasi Password -->
-                        <div class="mb-3">
+                        <div class="mb-3 password-container">
                             <label for="password_confirmation" class="form-label label-form">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
-                            @error('password_confirmation')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            <input type="password" class="form-control shadow-sm rounded" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
+                            <button type="button" class="password-toggle" id="togglePasswordConfirmation">
+                                <i class="bi bi-eye"></i>
+                            </button>
                         </div>
 
                         <!-- Tombol Register -->
-                        <button type="submit" class="btn btn-custom w-100 py-2">REGISTER</button>
+                        <button type="submit" class="btn btn-custom w-100 py-2 mt-2 shadow-sm">REGISTER</button>
                     </form>
 
                     <div class="mt-3 text-center">
                         <p>Sudah punya Akun? <a href="{{ route('login') }}" class="link">Login</a></p>
+                        <a href="{{route('home')}}">Kembali</a>
                     </div>
                 </div>
             </div>
 
             <!-- Kolom Kanan: Gambar -->
-            <div class="col-md-6 register-image"></div>
+            <div class="col-md-6 register-image d-none d-md-block"></div>
         </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Format nomor WhatsApp sebelum submit
             const phoneInput = document.getElementById('whatsapp_number');
             let phoneNumber = phoneInput.value.replace(/\D/g, '');
+
+            // Validasi nomor WhatsApp
+            if (phoneNumber.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nomor WhatsApp Kosong',
+                    text: 'Silakan masukkan nomor WhatsApp Anda',
+                    confirmButtonColor: '#6F3A68'
+                });
+                return;
+            }
+
+            // Validasi harus dimulai dengan 8
+            if (!phoneNumber.startsWith('8')) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Format Nomor Salah',
+                    html: 'Nomor WhatsApp harus dimulai dengan angka <strong>8</strong> (contoh: 8123456789)',
+                    confirmButtonColor: '#6F3A68'
+                });
+                return;
+            }
+
+            // Validasi panjang nomor (10-13 digit setelah 0 dihilangkan)
+            if (phoneNumber.length < 10 || phoneNumber.length > 13) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nomor WhatsApp Tidak Valid',
+                    html: 'Nomor WhatsApp harus terdiri dari <strong>10-13 digit</strong> (tidak termasuk kode negara)',
+                    confirmButtonColor: '#6F3A68'
+                });
+                return;
+            }
+
+            // Validasi password
+            const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('password_confirmation').value;
+
+            if (password !== passwordConfirmation) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Tidak Cocok',
+                    text: 'Password dan konfirmasi password harus sama',
+                    confirmButtonColor: '#6F3A68'
+                });
+                return;
+            }
 
             // Hilangkan leading 0 jika ada
             if (phoneNumber.startsWith('0')) {
                 phoneNumber = phoneNumber.substring(1);
-            }
-
-            // Pastikan nomor dimulai dengan 8
-            if (!phoneNumber.startsWith('8')) {
-                phoneNumber = '8' + phoneNumber;
             }
 
             // Format ke 628 untuk dikirim ke server
@@ -209,10 +306,53 @@
             this.submit();
         });
 
-        // Validasi input hanya angka
+        // Validasi input hanya angka dan maksimal 13 digit
         document.getElementById('whatsapp_number').addEventListener('input', function(e) {
             this.value = this.value.replace(/\D/g, '');
+
+            // Batasi panjang input maksimal 13 digit
+            if (this.value.length > 13) {
+                this.value = this.value.substring(0, 13);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Maksimal 13 Digit',
+                    text: 'Nomor WhatsApp maksimal 13 digit (tidak termasuk kode negara)',
+                    confirmButtonColor: '#6F3A68',
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+            }
         });
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const togglePasswordConfirmation = document.getElementById('togglePasswordConfirmation');
+        const password = document.getElementById('password');
+        const passwordConfirmation = document.getElementById('password_confirmation');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+        });
+
+        togglePasswordConfirmation.addEventListener('click', function() {
+            const type = passwordConfirmation.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordConfirmation.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+        });
+
+        // Tampilkan pesan error dari server jika ada
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ $error }}',
+                    confirmButtonColor: '#6F3A68'
+                });
+            @endforeach
+        @endif
     </script>
 </body>
 </html>

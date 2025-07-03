@@ -21,7 +21,7 @@
     </div>
 
     <!-- Section Baru -->
-    <div class="container mt-5 mb-md-5 mb-0 pt-2">
+    <div class="container mt-5 mb-md-5 mb-0 pt-2" id="layanan" style="scroll-margin-top: 100px;">
         <div class="row g-4">
             <div
                 class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
@@ -143,68 +143,73 @@
             </div>
 
     </div>
-    <div class="container p-3 mt-5 mt-md-5 mb-0">
-        <section class="artikel-slider px-0 py-3 py-md-4">
-            <div
-                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
-                <div class="text-center text-md-start w-100" style="max-width: 720px;">
-                    <h2 class="text-uppercase m-0"
-                        style="color: #6F3A68; font-weight:700; letter-spacing: 3px; font-size: 30px">
-                        Artikel dan Berita Terbaru
-                    </h2>
-                    <p class="text-muted small mb-3 mt-2">
-                        Baca & Temukan Berita Terbaru Tentang Kelurahan Subangjaya Sukabumi
-                    </p>
-                </div>
-
-                <div class="d-flex align-items-center gap-2 justify-content-center w-100 justify-content-md-end">
-
-                    <!-- Button Prev -->
-                    <button
-                        class="btn btn-outline-secondary border-0 rounded-circle swiper-button-prev-custom d-flex justify-content-center align-items-center"
-                        style="width: 40px; height: 40px;">
-                        <i class="bi bi-arrow-left"></i>
-                    </button>
-                    <!-- Button Next -->
-                    <button
-                        class="btn bg-purple text-white border-0 rounded-circle swiper-button-next-custom d-flex justify-content-center align-items-center"
-                        style="width: 40px; height: 40px;">
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                </div>
+<div class="container p-3 mt-5 mt-md-5 mb-0">
+    <section class="artikel-slider px-0 py-3 py-md-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <div class="text-center text-md-start w-100" style="max-width: 720px;">
+                <h2 class="text-uppercase m-0"
+                    style="color: #6F3A68; font-weight:700; letter-spacing: 3px; font-size: 30px">
+                    Artikel dan Berita Terbaru
+                </h2>
+                <p class="text-muted small mb-3 mt-2">
+                    Baca & Temukan Berita Terbaru Tentang Kelurahan Subangjaya Sukabumi
+                </p>
             </div>
 
-            <div class="position-relative">
+            @if($artikels->isNotEmpty())
+            <div class="d-flex align-items-center gap-2 justify-content-center w-100 justify-content-md-end">
+                <!-- Button Prev -->
+                <button
+                    class="btn btn-outline-secondary border-0 rounded-circle swiper-button-prev-custom d-flex justify-content-center align-items-center"
+                    style="width: 40px; height: 40px;">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <!-- Button Next -->
+                <button
+                    class="btn bg-purple text-white border-0 rounded-circle swiper-button-next-custom d-flex justify-content-center align-items-center"
+                    style="width: 40px; height: 40px;">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+            @endif
+        </div>
+
+        <div class="position-relative">
+            @if($artikels->isEmpty())
+                <div class="alert alert-info text-center py-4">
+                    <i class="bi bi-info-circle-fill me-2"></i> Tidak ada artikel tersedia saat ini
+                </div>
+            @else
                 <!-- Slider main container -->
                 <div class="swiper artikelSwiper">
-                        <!-- Slide Item -->
-                        <div class="swiper-wrapper">
-                            @foreach ($artikels as $artikel)
-                                <div class="swiper-slide">
-                                    <div class="card shadow-sm rounded-2 overflow-hidden h-100">
-                                        <img src="{{ asset('storage/' . $artikel->gambar) }}" class="card-img-top" alt="..." height="200px">
+                    <!-- Slide Item -->
+                    <div class="swiper-wrapper">
+                        @foreach ($artikels as $artikel)
+                            <div class="swiper-slide">
+                                <div class="card shadow-sm rounded-2 overflow-hidden h-100">
+                                    <img src="{{ asset('storage/' . $artikel->gambar) }}" class="card-img-top" alt="..." height="200px">
 
-                                        <div class="card-body">
-                                            <h5 class="card-title"
-                                                style="font-size: 15px; line-height: 24px; color:#000000; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
-                                                {{ $artikel->judul }}
-                                            </h5>
-                                            <p class="card-text"
-                                                style="font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; padding-top:5px">
-                                                {!! Str::limit(strip_tags($artikel->isi), 120) !!}
-                                            </p>
-                                            <a href="{{ route('berita.detail', $artikel->id) }}" class="text-decoration-none fw-semibold text-purple"
-                                                style="margin-top: 10px; font-size: 15px">Baca Selengkapnya →</a>
-
-                                        </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            style="font-size: 15px; line-height: 24px; color:#000000; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                            {{ $artikel->judul }}
+                                        </h5>
+                                        <p class="card-text"
+                                            style="font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; padding-top:5px">
+                                            {!! Str::limit(strip_tags($artikel->isi), 120) !!}
+                                        </p>
+                                        <a href="{{ route('berita.detail', $artikel->id) }}" class="text-decoration-none fw-semibold text-purple"
+                                            style="margin-top: 10px; font-size: 15px">Baca Selengkapnya →</a>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
-    </div>
+            @endif
+        </div>
+    </section>
+</div>
 
     <div class="container p-3 mt-2  mb-5">
         <section class="team-slider px-0 py-3 py-md-4">

@@ -207,7 +207,7 @@
     <nav class="navbar navbar-expand-lg bg-white shadow sticky-top py-2 px-3">
         <div class="container p-0">
             <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="{{route('home')}}">
                 <img src="{{ asset('images/images.png') }}" alt="Logo" width="40">
             </a>
 
@@ -215,7 +215,9 @@
             <div class="d-none d-lg-flex ms-3">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{route('tentangKami.list')}}">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
+                    <li class="nav-item">
+    <a class="nav-link" href="{{ url('/') }}#layanan">Layanan</a>
+</li>
                     <li class="nav-item"><a class="nav-link" href="{{route('persyaratan')}}">Persyaratan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('berita.list')}}">Artikel</a></li>
                 </ul>
@@ -250,7 +252,9 @@
         <div class="offcanvas-body">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="{{route('tentangKami.list')}}">Tentang Kami</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
+                <li class="nav-item">
+    <a class="nav-link" href="{{ url('/') }}#layanan">Layanan</a>
+</li>
                 <li class="nav-item"><a class="nav-link" href="{{route('persyaratan')}}">Persyaratan</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{route('berita.list')}}">Artikel</a></li>
             </ul>

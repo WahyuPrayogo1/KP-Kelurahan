@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Http;
 Route::get('/', function () {
     $artikels = Artikel::latest()->take(5)->get(); // Ambil 5 artikel terbaru
     return view('welcome', compact('artikels'));
-});
+})->name('home');
 
 Route::get('/test-wa', function () {
     $phone = '6281212823970'; // ganti dengan nomor WA kamu

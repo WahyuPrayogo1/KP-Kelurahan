@@ -164,18 +164,20 @@ class SuratKeteranganUsahaController extends Controller
     }
     public function edit($id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
         $surat = SuratKeteranganUsaha::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
+        }
         return view('backend.pages.Usaha.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
     {
-         if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
+        $surat = SuratKeteranganUsaha::findOrFail($id);
+        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+            abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
+        $previousStatus = $surat->status;
         $validated = $request->validate([
             // Data Pemohon
             'nama' => 'required|string|max:255',
@@ -306,8 +308,13 @@ class SuratKeteranganUsahaController extends Controller
             }
         }
 
-        return redirect()->route('surat_keterangan_usahas.index')
-            ->with('success', 'Data surat keterangan usaha berhasil diperbarui.');
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('surat_keterangan_usahas.index')
+                ->with('success', 'Surat Keterangan Usaha berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+        }
+
     }
         protected function sendRejectionNotification(SuratKeteranganUsaha $surat)
     {
@@ -377,13 +384,12 @@ class SuratKeteranganUsahaController extends Controller
 
    public function destroy($id)
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            abort(403, 'Unauthorized');
-        }
         try {
             // Find the record
             $surat = SuratKeteranganUsaha::findOrFail($id);
-
+            if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+                abort(404, 'Maaf, halaman ini tidak tersedia.');
+            }
             // List of file fields to delete
             $fileFields = [
                 'foto_ktp',
@@ -404,8 +410,12 @@ class SuratKeteranganUsahaController extends Controller
             // Delete the record
             $surat->delete();
 
+            if (auth()->user()->hasRole('Admin')) {
             return redirect()->route('surat_keterangan_usahas.index')
-                ->with('success', 'Surat Keterangan Usaha berhasil dihapus.');
+                ->with('success', 'Surat Keterangan Usaha berhasil diperbarui.');
+            } else {
+                return redirect()->back()->with('success', 'Surat berhasil diperbarui.');
+            }
 
         } catch (\Exception $e) {
             return redirect()->back()
