@@ -24,8 +24,6 @@ return new class extends Migration
             $table->string('kewarganegaraan');
             $table->text('alamat_lengkap');
             $table->string('no_kk');
-            $table->string('no_pengantar_rt_rw')->nullable();
-            $table->date('tanggal_pengantar_rt_rw')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('foto_ktp');
             $table->string('foto_kartu_keluarga');

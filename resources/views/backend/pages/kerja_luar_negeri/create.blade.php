@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Kewarganegaraan</label>
-                                    <input type="text" name="kewarganegaraan_pekerja" class="form-control required-step1" required value="{{ old('kewarganegaraan_pekerja') }}">
+                                    <input type="text" name="kewarganegaraan_pekerja" class="form-control required-step1" required value="{{ old('kewarganegaraan_pekerja', 'Indonesia') }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Agama Pekerja</label>
@@ -179,11 +179,11 @@
                             <div id="step2" style="display: none;">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Foto KTP (PDF/JPG/PNG)</label>
+                                    <label class="form-label">Foto KTP</label>
                                     <input type="file" name="fc_ktp" class="form-control" required accept="application/pdf,image/jpeg,image/png">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Foto KK (PDF/JPG/PNG)</label>
+                                    <label class="form-label">Foto KK</label>
                                     <input type="file" name="fc_kk" class="form-control" required accept="application/pdf,image/jpeg,image/png">
                                 </div>
                                 <div class="col-md-6 mb-3">

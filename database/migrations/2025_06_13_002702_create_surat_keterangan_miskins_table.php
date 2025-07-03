@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
               // Data Pemohon
             $table->string('nama');
-            $table->string('nik')->unique();
+            $table->string('nik');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

@@ -31,6 +31,9 @@
                             <th>Jenis Kelamin</th>
                             <td>{{ $surat->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                         </tr>
+                        <th>Alamat Lengkap</th>
+                            <td>{{ $surat->alamat }}</td>
+                        </tr>
                     </table>
                 </div>
 
@@ -66,15 +69,6 @@
                             </td>
                         </tr>
                     </table>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-12">
-                    <h5>Alamat Lengkap</h5>
-                    <div class="alert alert-light">
-                        {{ $surat->alamat }}
-                    </div>
                 </div>
             </div>
 

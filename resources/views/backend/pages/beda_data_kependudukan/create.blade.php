@@ -180,24 +180,36 @@
                   </div>
                 </div>
 
-                <div class="col-md-6 mb-3">
-                  <label for="alamat" class="form-label required-field">Alamat</label>
-                  <textarea name="alamat" id="alamat" class="form-control required-step1 @error('alamat') is-invalid @enderror" rows="2" required>{{ old('alamat') }}</textarea>
-                  @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-
-                <div class="col-md-3 mb-3">
-                  <label for="rt" class="form-label required-field">RT</label>
-                  <input type="text" name="rt" id="rt" class="form-control required-step1 @error('rt') is-invalid @enderror"
-                    value="{{ old('rt') }}" maxlength="3" pattern="^[0-9]{1,3}$" title="RT harus berupa angka (1-3 digit)" required>
-                  @error('rt')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-
-                <div class="col-md-3 mb-3">
-                  <label for="rw" class="form-label required-field">RW</label>
-                  <input type="text" name="rw" id="rw" class="form-control required-step1 @error('rw') is-invalid @enderror"
-                    value="{{ old('rw') }}" maxlength="3" pattern="^[0-9]{1,3}$" title="RW harus berupa angka (1-3 digit)" required>
-                  @error('rw')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <div class="col-md-12 mb-3">
+                  <label class="form-label">Alamat Lengkap</label>
+                  <div class="row g-2">
+                      <div class="col-md-4">
+                          <input type="text" id="tempat" name="tempat" class="form-control required-step1"
+                              placeholder="Contoh: Jl. Raya Cibeureum No. 123" required
+                              value="{{ old('tempat') }}">
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" id="rt" name="rt" class="form-control required-step1"
+                              placeholder="Rt.07" maxlength="3" required value="{{ old('rt') }}">
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" id="rw" name="rw" class="form-control required-step1"
+                              placeholder="Rw.01" maxlength="3" required value="{{ old('rw') }}">
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" id="kelurahan" name="kelurahan" class="form-control required-step1"
+                              placeholder="Kelurahan" required value="{{ old('kelurahan', 'Subangjaya') }}">
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" id="kecamatan" name="kecamatan" class="form-control required-step1"
+                              placeholder="Kecamatan" required value="{{ old('kecamatan', 'Cikole') }}">
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" id="kode_pos" name="kode_pos"
+                              class="form-control required-step1 angka-saja" placeholder="Kode Pos" required
+                              maxlength="5" value="{{ old('kode_pos', '43116') }}">
+                      </div>
+                  </div>
                 </div>
 
                 <div class="d-flex justify-content-end mt-3">
@@ -215,47 +227,43 @@
                 <div class="col-md-6 mb-3">
                   <label for="fc_ktp" class="form-label required-field">Upload Foto KTP</label>
                   <input type="file" name="fc_ktp" id="fc_ktp" class="form-control @error('fc_ktp') is-invalid @enderror" accept="image/*,.pdf" required>
-                  <div class="file-upload-info">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                  <div class="file-upload-info"></div>
                   @error('fc_ktp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="col-md-6 mb-3">
                   <label for="fc_kk" class="form-label required-field">Upload Foto KK</label>
                   <input type="file" name="fc_kk" id="fc_kk" class="form-control @error('fc_kk') is-invalid @enderror" accept="image/*,.pdf" required>
-                  <div class="file-upload-info">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                  <div class="file-upload-info"></div>
                   @error('fc_kk')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="col-md-6 mb-3">
                   <label for="surat_pernyataan_beda_data" class="form-label required-field">Upload Surat Pernyataan</label>
                   <input type="file" name="surat_pernyataan_beda_data" id="surat_pernyataan_beda_data" class="form-control @error('surat_pernyataan_beda_data') is-invalid @enderror" accept="image/*,.pdf" required>
-                  <div class="file-upload-info">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                  <div class="file-upload-info"></div>
                   @error('surat_pernyataan_beda_data')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="col-md-6 mb-3">
                   <label for="bukti_beda_data" class="form-label required-field">Upload Bukti Beda Data</label>
                   <input type="file" name="bukti_beda_data" id="bukti_beda_data" class="form-control @error('bukti_beda_data') is-invalid @enderror" accept="image/*,.pdf" required>
-                  <div class="file-upload-info">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                  <div class="file-upload-info"></div>
                   @error('bukti_beda_data')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="col-md-6 mb-3">
                   <label for="pengantar_rt_rw" class="form-label required-field">Upload Surat Pengantar RT/RW</label>
                   <input type="file" name="pengantar_rt_rw" id="pengantar_rt_rw" class="form-control @error('pengantar_rt_rw') is-invalid @enderror" accept="image/*,.pdf" required>
-                  <div class="file-upload-info">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                  <div class="file-upload-info"></div>
                   @error('pengantar_rt_rw')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
               </div>
 
               <div class="form-navigation">
-                <button type="button" class="btn btn-secondary px-4" onclick="prevStep()">
-                  <i class="fas fa-arrow-left me-2"></i> Kembali
-                </button>
-                <button type="submit" class="btn btn-success px-4">
-                  <i class="fas fa-paper-plane me-2"></i> Kirim Pengajuan
-                </button>
+                <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>
+                <button type="submit" class="btn btn-success">Kirim Pengajuan</button>
               </div>
             </div>
           </form>

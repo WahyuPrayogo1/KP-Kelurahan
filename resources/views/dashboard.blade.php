@@ -205,7 +205,7 @@
                                             <div class="col">
                                                 <h1 class="mb-0 fs-3 fw-bold text-body">
                                                     @if ($item->model_type == 'surat_keterangan_tidak_mampu')
-                                                        Surat Keterangan Pindah Domisili
+                                                        Surat Keterangan tidak Mampu
                                                     @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
@@ -213,7 +213,7 @@
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
-                                                        Surat Pengantar Ijin Keramaian
+                                                        Surat keterangan Pindah Domisili Perusahaan
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
                                                     @elseif($item->model_type == 'surat-bekerja-luar-negeri')
@@ -268,7 +268,7 @@
                                             <div class="col">
                                                 <h1 class="mb-0 fs-3 fw-bold text-body">
                                                     @if ($item->model_type == 'surat_keterangan_tidak_mampu')
-                                                        Surat Keterangan Pindah Domisili
+                                                        Surat Keterangan tidak Mampu
                                                     @elseif($item->model_type == 'surat_keterangan_usahas')
                                                         Surat Keterangan Usaha
                                                     @elseif($item->model_type == 'keterangan_akta_nikah')
@@ -276,7 +276,7 @@
                                                     @elseif($item->model_type == 'surat_pengantar_ijin_keramaian')
                                                         Surat Pengantar Ijin Keramaian
                                                     @elseif($item->model_type == 'surat-pindah-perusahaan')
-                                                        Surat Pengantar Ijin Keramaian
+                                                        Surat keterangan Pindah Domisili Perusahaan
                                                     @elseif($item->model_type == 'beda-data-kependudukan')
                                                         Surat Keterangan Beda Penduduk
                                                     @elseif($item->model_type == 'surat-bekerja-luar-negeri')

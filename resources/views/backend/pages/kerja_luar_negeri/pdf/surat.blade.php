@@ -11,55 +11,66 @@
             padding: 0;
             color: #000;
         }
+
         .header {
             text-align: center;
             margin-bottom: 5mm;
         }
+
         .header h3 {
             font-size: 12pt;
             text-decoration: underline;
             margin: 2mm 0;
             font-weight: bold;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         td {
             padding: 0.5mm 0;
             vertical-align: top;
         }
-        .signature-container {
-            display: flex;
-        }
-        .signature-column {
-            width: 40%;
-            float: right;   /* Ubah dari kiri ke kanan */
-            box-sizing: border-box;
-            text-align: right;  /* agar teks tanda tangan rata kanan */
-    }
-        .signature-box {
-            margin-bottom: 5mm;
-            text-align: start;
-        }
-        .signature-line {
-            border-top: 0.5pt solid #000;
-            width: 50mm;
-            margin-top: 20mm;
-        }
+
         .content-block {
             margin-bottom: 3mm;
             padding-left: 50px;
             padding-right: 50px;
         }
+
         .indent-justify {
             text-indent: 10mm;
             text-align: justify;
             margin: 3mm 50px 6mm 50px;
         }
+
+        .signature-container {
+            display: flex;
+        }
+
+        .signature-column {
+            width: 40%;
+            float: right;
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+        .signature-box {
+            margin-bottom: 5mm;
+            text-align: start;
+        }
+
+        .signature-line {
+            border-top: 0.5pt solid #000;
+            width: 65mm;
+            margin: 25mm auto 1mm;
+        }
+
         .line-through {
             text-decoration: line-through;
-            color: rgb(0, 0, 0);
+            color: #000;
         }
     </style>
 </head>
@@ -104,28 +115,29 @@
             <tr><td>Pekerjaan</td><td>:</td><td>{{ $surat->pekerjaan_pemohon }}</td></tr>
             <tr><td>Status Perkawinan</td><td>:</td><td>{{ ucfirst($surat->status_perkawinan_pemohon) }}</td></tr>
             <tr><td>Agama</td><td>:</td><td>{{ $surat->agama_pemohon }}</td></tr>
-            <tr><td>Alamat</td><td>:</td><td>{{ $surat->alamat_pemohon }}<br>Kel. Subangjaya Kec. Cikole Kota Sukabumi 43116</td></tr>
+            <tr><td>Alamat</td><td>:</td><td>{{ $surat->alamat_pemohon }}<br>Kelurahan Subangjaya, Kecamatan Cikole, Kota Sukabumi, 43116.</td></tr>
         </table>
     </div>
-        @php
-        $hubunganEnums = ['orang tua', 'suami', 'istri', 'anak', 'saudara'];
-        $userChoice = $surat->hubungan_dengan_pekerja;
-        @endphp
 
-        <p class="indent-justify">
-            Menyatakan dengan sesungguhnya dan berani diangkat sumpah bahwa
-            @foreach ($hubunganEnums as $index => $hubungan)
-                @php
-                    $isSelected = ($hubungan === $userChoice);
-                    $displayText = ucwords($hubungan);
-                @endphp
-                <span class="{{ $isSelected ? '' : 'line-through' }}">{{ $displayText }}</span>
-                @if ($index !== count($hubunganEnums) - 1)
-                    <span> / </span>
-                @endif
-            @endforeach
-            saya:
-        </p>
+    @php
+    $hubunganEnums = ['orang tua', 'suami', 'istri', 'anak', 'saudara'];
+    $userChoice = $surat->hubungan_dengan_pekerja;
+    @endphp
+
+    <p class="indent-justify">
+        Menyatakan dengan sesungguhnya dan berani diangkat sumpah bahwa
+        @foreach ($hubunganEnums as $index => $hubungan)
+            @php
+                $isSelected = ($hubungan === $userChoice);
+                $displayText = ucwords($hubungan);
+            @endphp
+            <span class="{{ $isSelected ? '' : 'line-through' }}">{{ $displayText }}</span>
+            @if ($index !== count($hubunganEnums) - 1)
+                <span> / </span>
+            @endif
+        @endforeach
+        saya:
+    </p>
 
     <div class="content-block">
         <table>
@@ -140,35 +152,35 @@
     </div>
 
     <p class="indent-justify">
-        Diterangkan lebih lanjut bahwa berdasarkan surat pengantar RT {{ $rt }} RW {{ $rw }} nomor: <strong>{{ $nomor_pengantar_rt_rw }}</strong> dan Pernyataan yang bersangkutan diatas materai tanggal <strong>{{ \Carbon\Carbon::parse($tanggal_pengantar_rt_rw)->translatedFormat('d F Y') }}</strong>,
-        serta sampai dengan  dibuatkannya Surat keterangan ini bahwa pada saat ini <strong>{{ $surat->hubungan_dengan_pekerja }}</strong> saya sedang bekerja di <strong>{{ $surat->negara_tujuan }}</strong>.
+        Diterangkan lebih lanjut bahwa berdasarkan surat pengantar RT.{{ $rt }}/RW.{{ $rw }} nomor: {{ $nomor_pengantar_rt_rw }} dan Pernyataan yang bersangkutan di atas materai tanggal {{ \Carbon\Carbon::parse($tanggal_pengantar_rt_rw)->translatedFormat('d F Y') }}, serta sampai dengan dibuatkannya Surat keterangan ini bahwa pada saat ini {{ $surat->hubungan_dengan_pekerja }} saya sedang bekerja di {{ $surat->negara_tujuan }}.
     </p>
 
-    <p class="indent-justify">
-        Surat keterangan ini di pergunakan untuk: <strong><u> melengkapi persyaratan administrasi </u></strong>
+    <p class="indent-justify" style="margin-bottom: 1mm;">
+        Surat keterangan ini dipergunakan untuk: <u>melengkapi persyaratan administrasi</u>.
     </p>
 
-    <p class="indent-justify">
-        Demikian Surat Keterangan ini dibuat agar yang berkepentingan maklum dan untuk dipergunakan sebagaimana mestinya dan berlaku sampai dengan tanggal <strong>{{ \Carbon\Carbon::parse($berlaku_sampai)->translatedFormat('d F Y') }}</strong>.
+    <p class="indent-justify" style="margin-bottom: 1mm;">
+        Demikian Surat Keterangan ini dibuat agar yang berkepentingan maklum dan untuk dipergunakan sebagaimana mestinya dan berlaku sampai dengan tanggal {{ \Carbon\Carbon::parse($berlaku_sampai)->translatedFormat('d F Y') }}.
     </p>
 
     <!-- Tanda Tangan -->
     <div class="signature-container">
         <div class="signature-column">
-            <div class="signature-box" style="text-align: left;">
+            <div class="signature-box">
                 <table>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dikeluarkan di &nbsp;&nbsp;: Sukabumi</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dikeluarkan di &nbsp;&nbsp;&nbsp;: Sukabumi</td>
                     </tr>
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pada Tanggal &nbsp;&nbsp;&nbsp; :
-                            {{ $tanggal_surat ? \Carbon\Carbon::parse($tanggal_surat)->translatedFormat('d-m-Y') : date('d-m-Y') }}
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pada tanggal &nbsp;&nbsp;&nbsp;&nbsp; :
+                            {{ $tanggal_surat ? \Carbon\Carbon::parse($tanggal_surat)->translatedFormat('d F Y') : date('d F Y') }}
                         </td>
                     </tr>
                 </table>
-                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
-                <div class="signature-line" style="width: 60mm; margin-top: 30mm; margin-left: 0;"></div>
-                <p style="margin-top: 1mm;">&nbsp;&nbsp;&nbsp;&nbsp;NIP. 19720412 201001 1 001</p>
+                <p style="margin-top: 2mm;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LURAH SUBANGJAYA</strong></p>
+                <div class="signature-line"></div>
+                <p style="margin-bottom: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $nama_lurah }}</p>
+                <p style="margin-top: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NIP. {{ $lurah_nip ?? '_________________' }}</p>
             </div>
         </div>
     </div>

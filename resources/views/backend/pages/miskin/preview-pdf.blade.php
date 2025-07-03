@@ -51,10 +51,6 @@
                         <label class="form-label fw-bold">Pembebasan ke rumah sakit</label>
                         <input type="text" name="rumah_sakit" class="form-control form-control-sm" required>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label fw-bold">Nama Lurah</label>
-                        <input type="text" name="nama_lurah" class="form-control form-control-sm" required>
-                    </div>
                 </div>
 
                 <!-- Preview Surat -->
@@ -104,10 +100,17 @@
                         <h5 class="text-center fw-bold mb-3">DATA TANDA TANGAN</h5>
 
                         <div class="row g-3">
-                            <div class="col-md-12">
-                                <label class="form-label small fw-bold">NIP Lurah</label>
-                                <input type="text" name="lurah_nip" class="form-control form-control-sm" required>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nama Lurah</label>
+                                <input type="text" name="nama_lurah" class="form-control form-control-sm" 
+                                value="{{ old('nama_lurah', 'JUMYATI') }}" required>
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">NIP Lurah</label>
+                                <input type="text" name="lurah_nip" class="form-control form-control-sm"
+                                value="{{ old('lurah_nip', '19720412 201001 1 001') }}" required>
+                            </div>
+                        </div>
 
                         </div>
                     </div>

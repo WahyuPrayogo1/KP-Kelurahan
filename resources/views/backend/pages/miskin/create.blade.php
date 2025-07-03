@@ -118,23 +118,31 @@
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Alamat Lengkap</label>
                                         <div class="row g-2">
-                                            <div class="col-md-12">
+                                            <div class="col-md-4">
                                                 <input type="text" id="tempat" name="tempat" class="form-control required-step1"
                                                     placeholder="Contoh: Jl. Raya Cibeureum No. 123" required
                                                     value="{{ old('tempat') }}">
                                             </div>
                                             <div class="col-md-4">
+                                                <input type="text" id="rt" name="rt" class="form-control required-step1"
+                                                    placeholder="Rt.07" maxlength="3" required value="{{ old('rt') }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" id="rw" name="rw" class="form-control required-step1"
+                                                    placeholder="Rw.01" maxlength="3" required value="{{ old('rw') }}">
+                                            </div>
+                                            <div class="col-md-4">
                                                 <input type="text" id="kelurahan" name="kelurahan" class="form-control required-step1"
-                                                    placeholder="Kelurahan" required value="{{ old('kelurahan') }}">
+                                                    placeholder="Kelurahan" required value="{{ old('kelurahan', 'Subangjaya') }}">
                                             </div>
                                             <div class="col-md-4">
                                                 <input type="text" id="kecamatan" name="kecamatan" class="form-control required-step1"
-                                                    placeholder="Kecamatan" required value="{{ old('kecamatan') }}">
+                                                    placeholder="Kecamatan" required value="{{ old('kecamatan', 'Cikole') }}">
                                             </div>
                                             <div class="col-md-4">
                                                 <input type="text" id="kode_pos" name="kode_pos"
                                                     class="form-control required-step1 angka-saja" placeholder="Kode Pos" required
-                                                    maxlength="5" value="{{ old('kode_pos') }}">
+                                                    maxlength="5" value="{{ old('kode_pos', '43116') }}">
                                             </div>
                                         </div>
                                     </div>
