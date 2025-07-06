@@ -47,9 +47,8 @@
                     </div>
                     <div class="col-md-4 d-flex align-items-end gap-2">
                         <button type="submit" class="btn btn-primary w-50">Tampilkan</button>
-                        <a href="{{ route('rekap.export', ['jenis' => request('jenis', 'semua'), 'rentang' => request('rentang', '1bulan')]) }}"
-                        class="btn btn-success w-50">
-                            Download Excel
+                        <a href="{{ route('rekap.export', ['jenis' => request('jenis', 'semua'), 'rentang' => request('rentang', '1bulan')]) }}" class="btn btn-success w-50">
+                            <i class="fas fa-file-csv"></i> Export CSV
                         </a>
                     </div>
                 </form>

@@ -31,49 +31,42 @@ class RekapSuratController extends Controller
         return view('backend.pages.laporan.index', compact('rekapData', 'jenis', 'rentang'));
     }
 
-    public function export(Request $request): StreamedResponse
-    {
-        $jenis = $request->input('jenis', 'semua');
-        $rentang = $request->input('rentang', '1bulan');
-        $rekapData = $this->filterData($jenis, $rentang);
+    public function export(Request $request)
+{
+    $jenis = $request->input('jenis', 'semua');
+    $rentang = $request->input('rentang', '1bulan');
+    $rekapData = $this->filterData($jenis, $rentang);
 
-        $filename = 'rekap_surat_' . now()->format('Ymd_His') . '.csv';
+    $filename = 'rekap_surat_' . now()->format('Ymd_His') . '.csv';
+    $filePath = storage_path("app/public/{$filename}");
 
-        return response()->streamDownload(function () use ($rekapData, $jenis) {
-            $writer = SimpleExcelWriter::streamDownload('php://output');
+    // siapkan data untuk CSV
+    $data = [];
 
-            if ($jenis === 'semua') {
-                $writer->addRow(['No', 'Jenis Surat', 'Nama Pemohon', 'Status', 'Tanggal Pengajuan']);
-                $no = 1;
-                foreach ($rekapData as $item) {
-                    if (!is_object($item)) continue;
-                    $writer->addRow([
-                        $no++,
-                        $item->jenis_surat ?? '-',
-                        $item->nama ?? '-',
-                        ucfirst($item->status ?? '-'),
-                        Carbon::parse($item->created_at)->format('d-m-Y'),
-                    ]);
-                }
-            } else {
-                $writer->addRow(['No', 'Nama Pemohon', 'Status', 'Tanggal Pengajuan']);
-                $no = 1;
-                foreach ($rekapData as $item) {
-                    if (!is_object($item)) continue;
-                    $writer->addRow([
-                        $no++,
-                        $item->nama ?? '-',
-                        ucfirst($item->status ?? '-'),
-                        Carbon::parse($item->created_at)->format('d-m-Y'),
-                    ]);
-                }
-            }
-
-            $writer->close();
-        }, $filename, [
-            'Content-Type' => 'text/csv',
-        ]);
+    if ($jenis === 'semua') {
+        foreach ($rekapData as $item) {
+            $data[] = [
+                'Jenis Surat' => $item->jenis_surat ?? '-',
+                'Nama Pemohon' => $item->nama ?? '-',
+                'Status' => ucfirst($item->status ?? '-'),
+                'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
+            ];
+        }
+    } else {
+        foreach ($rekapData as $item) {
+            $data[] = [
+                'Nama Pemohon' => $item->nama ?? '-',
+                'Status' => ucfirst($item->status ?? '-'),
+                'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
+            ];
+        }
     }
+
+    SimpleExcelWriter::create($filePath)->addRows($data);
+
+    return response()->download($filePath)->deleteFileAfterSend();
+}
+
 
     public function filterData($jenis, $rentang)
     {
