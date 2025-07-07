@@ -82,7 +82,16 @@
                     }
                 },
                 { data: 'judul', name: 'judul' },
-                { data: 'isi', name: 'isi' },
+                {
+        data: 'isi',
+        name: 'isi',
+        render: function(data, type, row) {
+            // Potong teks menjadi 10 kata
+            return type === 'display' ?
+                data.split(' ').slice(0, 10).join(' ') + '...' :
+                data;
+        }
+    },
                 {
 
                 data: 'gambar',

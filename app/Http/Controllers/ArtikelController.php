@@ -38,17 +38,19 @@ class ArtikelController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:255',
+        $request->validate([
+            'judul' => 'required|max:255',
             'isi' => 'required',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|max:2048'
         ]);
 
+        $data = $request->only(['judul', 'isi']);
+
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('uploads/artikels', 'public');
+            $data['gambar'] = $request->file('gambar')->store('artikel-images', 'public');
         }
 
-        Artikel::create($validated);
+        Artikel::create($data);
 
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil dibuat!');
     }
@@ -91,8 +93,13 @@ class ArtikelController extends Controller
 
     public function detail($id)
     {
+         // Ambil 3 artikel terbaru (selain yang sedang dilihat)
+    $relatedArticles = Artikel::where('id', '!=', $id)
+        ->latest()
+        ->take(3)
+        ->get();
         $artikel = Artikel::findOrFail($id);
-        return view('pages.artikel.detail', compact('artikel'));
+        return view('pages.artikel.detail', compact('artikel','relatedArticles'));
     }
 
     public function list()
