@@ -135,7 +135,7 @@
                           maxlength="5" value="{{ old('kode_pos', '43116') }}">
                   </div>
                 </div>
-                
+
               </div>
               <div class="d-flex justify-content-end mt-3">
                 <button type="button" class="btn btn-primary" onclick="if(validateStep1()) nextStep()">Lanjut</button>
@@ -183,6 +183,7 @@
                 <div class="d-flex justify-content-between mt-3">
                     <button type="button" class="btn btn-secondary" onclick="prevStep()">Kembali</button>
                     <button type="submit" class="btn btn-success">Kirim Pengajuan</button>
+                    <img src="{{asset('loading.gif')}}" id="submitSpinner" style="display: none; height: 20px;">
                 </div>
             </div>
 

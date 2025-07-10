@@ -167,9 +167,46 @@ class SuratKeteranganAktaNikahController extends Controller
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'proses';
 
-        SuratKeteranganAktaNikah::create($validated);
+        $surat =  SuratKeteranganAktaNikah::create($validated);
+        // Kirim notifikasi WhatsApp
+        $this->sendNewSubmissionNotification($surat);
 
         return redirect()->route('/dashboard')->with('success', 'Pengajuan Surat Keterangan Akta Nikah berhasil dikirim.');
+    }
+
+    protected function sendNewSubmissionNotification(SuratKeteranganAktaNikah $surat)
+    {
+        $targetNumber = '081222535789'; // Nomor tujuan
+        $user = $surat->user;
+
+        $message = "Halo Admin,\n\n";
+        $message .= "Ada pengajuan baru Surat Keterangan Akta Nikah dengan detail berikut:\n";
+        $message .= "Nama: {$surat->nama}\n";
+        $message .= "NIK: {$surat->nik}\n";
+        $message .= "Tanggal Lahir: {$surat->tanggal_lahir}\n";
+        $message .= "Alamat: {$surat->alamat_lengkap}\n\n";
+        $message .= "Silakan periksa sistem untuk verifikasi lebih lanjut.\n\n";
+        $message .= "Salam,\nSistem Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $targetNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi pengajuan baru', [
+                    'response' => $response->body(),
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
@@ -382,7 +419,7 @@ class SuratKeteranganAktaNikahController extends Controller
             'nomor_surat_pengantar' => 'required|string|max:255',
             'tanggal_surat_pengantar' => 'required|date',
             'lurah_nip' => 'required|string',
-            'nama_lurah' => 'required|string|max:255',  
+            'nama_lurah' => 'required|string|max:255',
         ], [
             'nomor_surat.required' => 'Nomor Surat wajib diisi.',
             'tanggal_surat.required' => 'Tanggal Surat wajib diisi.',

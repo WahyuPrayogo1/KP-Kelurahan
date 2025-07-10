@@ -564,6 +564,60 @@
             </div>
         </div>
     @endrole
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const cardsContainer = document.getElementById('cardsContainer');
+            const cards = document.querySelectorAll('.searchable-card');
+            const noResultsTemplate = document.getElementById('noResultsTemplate');
+
+            // Store original cards and container HTML
+            const originalCards = Array.from(cards);
+            let noResultsElement = null;
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+
+                // Remove any existing "no results" message
+                if (noResultsElement) {
+                    noResultsElement.remove();
+                    noResultsElement = null;
+                }
+
+                // If search term is empty, show all cards
+                if (!searchTerm) {
+                    originalCards.forEach(card => {
+                        card.classList.remove('d-none');
+                    });
+                    return;
+                }
+
+                let hasResults = false;
+
+                originalCards.forEach(card => {
+                    const searchData = card.getAttribute('data-search').toLowerCase();
+                    const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+                    const cardText = card.querySelector('.card-text').textContent.toLowerCase();
+
+                    if (searchData.includes(searchTerm) ||
+                        cardTitle.includes(searchTerm) ||
+                        cardText.includes(searchTerm)) {
+                        card.classList.remove('d-none');
+                        hasResults = true;
+                    } else {
+                        card.classList.add('d-none');
+                    }
+                });
+
+                // Show "no results" message if no matches found
+                if (!hasResults) {
+                    noResultsElement = noResultsTemplate.cloneNode(true);
+                    noResultsElement.classList.remove('d-none');
+                    cardsContainer.appendChild(noResultsElement);
+                }
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -711,71 +765,71 @@
     </script>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sektorData = @json($sektorPekerjaan);
-    const ctx = document.getElementById('sektorPekerjaanChart');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sektorData = @json($sektorPekerjaan);
+            const ctx = document.getElementById('sektorPekerjaanChart');
 
-    // Format data untuk Chart.js
-    const labels = Object.keys(sektorData);
-    const data = Object.values(sektorData);
+            // Format data untuk Chart.js
+            const labels = Object.keys(sektorData);
+            const data = Object.values(sektorData);
 
-    // Generate warna otomatis
-    const backgroundColors = labels.map((_, i) => {
-        const hue = Math.round(i * (360 / labels.length));
-        return `hsl(${hue}, 70%, 60%)`;
-    });
+            // Generate warna otomatis
+            const backgroundColors = labels.map((_, i) => {
+                const hue = Math.round(i * (360 / labels.length));
+                return `hsl(${hue}, 70%, 60%)`;
+            });
 
-    new Chart(ctx, {
-        type: 'doughnut', // Bisa diganti 'pie' atau 'bar'
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: backgroundColors,
-                borderWidth: 1,
-                hoverOffset: 10
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right',
-                    labels: {
-                        font: {
-                            size: 14
+            new Chart(ctx, {
+                type: 'doughnut', // Bisa diganti 'pie' atau 'bar'
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 14
+                                },
+                                padding: 20
+                            }
                         },
-                        padding: 20
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const label = context.label || '';
-                            const value = context.raw || 0;
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = Math.round((value / total) * 100);
-                            return `${label}: ${value} orang (${percentage}%)`;
-                        }
-                    }
-                },
-                title: {
-                    display: true,
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} orang (${percentage}%)`;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
 
-                    font: {
-                        size: 18
+                            font: {
+                                size: 18
+                            }
+                        }
+                    },
+                    cutout: '60%', // Untuk doughnut chart
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
                     }
                 }
-            },
-            cutout: '60%', // Untuk doughnut chart
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        }
-    });
-});
-</script>
+            });
+        });
+    </script>
 @endsection
