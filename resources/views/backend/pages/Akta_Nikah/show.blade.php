@@ -123,7 +123,7 @@
             </div>
 
             <!-- Catatan -->
-           @if($surat->status === 'ditolak' && $surat->catatan)
+           @if($surat->status === 'revisi' && $surat->catatan)
     <div class="mt-3">
         <h5>Catatan</h5>
         <div class="alert alert-info">

@@ -217,7 +217,7 @@
                                         </div>
                                     </div>
 
-                                    @if ($surat->status == 'ditolak' && $surat->catatan)
+                                    @if ($surat->status == 'revisi' && $surat->catatan)
                                         <div class="alert alert-danger mt-3 p-2">
                                             <div class="d-flex align-items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +231,7 @@
                                                     <path d="M12 16h.01"></path>
                                                 </svg>
                                                 <div class="ms-2">
-                                                    <h4 class="alert-title">Alasan Penolakan</h4>
+                                                    <h4 class="alert-title">Alasan Perbaikan</h4>
                                                     <div class="text-muted">{{ $surat->catatan }}</div>
                                                 </div>
                                             </div>
@@ -432,8 +432,8 @@
                                                 </a>
                                             @endif
 
-                                            <!-- Button Edit - Only show when status is 'ditolak' -->
-                                            @if ($surat->status == 'ditolak')
+                                            <!-- Button Edit - Only show when status is 'revisi' -->
+                                            @if ($surat->status == 'revisi')
                                                 @if ($surat->type == 'pindah_domisili')
                                                     <a href="{{ route('keterangan_domisili.edit', $surat->id) }}"
                                                         class="btn btn-sm btn-outline-warning">

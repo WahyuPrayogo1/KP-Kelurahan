@@ -29,6 +29,9 @@
     .form-label {
         font-weight: 500;
     }
+    .auto-uppercase {
+        text-transform: uppercase;
+    }
 </style>
 
 <div class="container mt-4">
@@ -54,7 +57,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" name="nama" id="nama" class="form-control" required value="{{ old('nama', $surat->nama) }}">
+                                <input type="text" name="nama" id="nama" class="form-control auto-uppercase" required value="{{ old('nama', $surat->nama) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="nik" class="form-label">NIK</label>
@@ -66,7 +69,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
-                                <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" required value="{{ old('tempat_lahir', $surat->tempat_lahir) }}">
+                                <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control auto-uppercase" required value="{{ old('tempat_lahir', $surat->tempat_lahir) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
@@ -84,13 +87,28 @@
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label for="agama" class="form-label">Agama</label>
-                                <input type="text" name="agama" id="agama" class="form-control" required value="{{ old('agama', $surat->agama) }}">
+                                <select name="agama" id="agama" class="form-select required-step1" required>
+                                    <option value="">Pilih Agama</option>
+                                    <option value="ISLAM" {{ old('agama', $surat->agama) == 'ISLAM' ? 'selected' : '' }}>ISLAM</option>
+                                    <option value="KRISTEN" {{ old('agama', $surat->agama) == 'KRISTEN' ? 'selected' : '' }}>KRISTEN</option>
+                                    <option value="KATOLIK" {{ old('agama', $surat->agama) == 'KATOLIK' ? 'selected' : '' }}>KATOLIK</option>
+                                    <option value="HINDU" {{ old('agama', $surat->agama) == 'HINDU' ? 'selected' : '' }}>HINDU</option>
+                                    <option value="BUDDHA" {{ old('agama', $surat->agama) == 'BUDDHA' ? 'selected' : '' }}>BUDDHA</option>
+                                    <option value="KONGHUCU" {{ old('agama', $surat->agama) == 'KONGHUCU' ? 'selected' : '' }}>KONGHUCU</option>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="status_perkawinan" class="form-label">Status Perkawinan</label>
-                                <input type="text" name="status_perkawinan" id="status_perkawinan" class="form-control" required value="{{ old('status_perkawinan', $surat->status_perkawinan) }}">
+                                <select name="status_perkawinan" id="status_perkawinan" class="form-select required-step1" required>
+                                    <option value="">Pilih status perkawinan</option>
+                                    <option value="BELUM KAWIN" {{ old('status_perkawinan', $surat->status_perkawinan) == 'BELUM KAWIN' ? 'selected' : '' }}>BELUM KAWIN</option>
+                                    <option value="KAWIN" {{ old('status_perkawinan', $surat->status_perkawinan) == 'KAWIN' ? 'selected' : '' }}>KAWIN</option>
+                                    <option value="CERAI HIDUP" {{ old('status_perkawinan', $surat->status_perkawinan) == 'CERAI HIDUP' ? 'selected' : '' }}>CERAI HIDUP</option>
+                                    <option value="CERAI MATI" {{ old('status_perkawinan', $surat->status_perkawinan) == 'CERAI MATI' ? 'selected' : '' }}>CERAI MATI</option>
+                                </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
@@ -178,7 +196,7 @@
                                         </option>
                                         <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
                                         </option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                        <option value="revisi" {{ $surat->status == 'revisi' ? 'selected' : '' }}>Revisi
                                         </option>
                                     </select>
                                 </div>
@@ -196,7 +214,7 @@
                             <!-- Action Buttons -->
                         <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                             @role('Admin')
-                                <a href="{{ route('surat_pengantar_ijin_keramaian.index') }}" class="btn btn-secondary">
+                                <a href="{{ route('keterangan_akta_nikah.index') }}" class="btn btn-secondary">
                                     <i class="fas fa-arrow-left me-2"></i>Kembali
                                 </a>
                             @else

@@ -114,7 +114,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <div class="subheader">Ditolak</div>
+                                <div class="subheader">Revisi</div>
                             </div>
                             <!-- Ganti angka '10' dengan data dinamis dari controller -->
                             <div class="h1 mb-3">{{ $ditolakCount }}</div>
@@ -245,7 +245,7 @@
 
                 {{-- Ditolak --}}
                 <div class="col-md-4">
-                    <h1>Di Tolak</h1>
+                    <h1>Revisi</h1>
                     <div class="card" style="height: 28rem">
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                             @forelse($ditolakItems as $item)

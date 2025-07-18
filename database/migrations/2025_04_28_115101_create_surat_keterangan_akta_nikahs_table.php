@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->string('agama');
-            $table->enum('status_perkawinan', ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']);
+            $table->enum('status_perkawinan', ['BELUM KAWIN', 'KAWIN', 'CERAI HIDUP', 'CERAI MATI']);
             $table->string('pekerjaan');
             $table->string('kewarganegaraan');
             $table->text('alamat_lengkap');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('foto_surat_pernyataan_nikah');
             $table->string('foto_surat_pengantar_rt_rw');
             // End tambahan kolom baru
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->date('tanggal_dikeluarkan')->nullable();
             $table->timestamps();

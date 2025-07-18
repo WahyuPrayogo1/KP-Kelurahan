@@ -27,6 +27,9 @@
         .form-label {
             font-weight: 500;
         }
+        .text-uppercase {
+            text-transform: uppercase;
+        }
     </style>
 
     <div class="container mt-4">
@@ -34,133 +37,154 @@
             <div class="col-lg-10">
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Surat Keterangan Usaha</h4>
+                        <h4 class="mb-0 text-uppercase"><i class="fas fa-edit me-2"></i>EDIT SURAT KETERANGAN USAHA</h4>
                     </div>
                     <div class="card-body">
+                          @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Sukses!</strong> {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
                         <form action="{{ route('surat_keterangan_usahas.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <!-- Data Pemohon Section -->
-                            <h5 class="section-title"><i class="fas fa-user-circle me-2"></i>Data Pemohon</h5>
+                            <h5 class="section-title text-uppercase"><i class="fas fa-user-circle me-2"></i>DATA PEMOHON</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="nama" class="form-label">Nama Lengkap</label>
-                                    <input type="text" name="nama" class="form-control" required value="{{ $surat->nama }}">
+                                    <label for="nama" class="form-label text-uppercase">NAMA LENGKAP</label>
+                                    <input type="text" name="nama" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->nama) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="nik" class="form-label">NIK</label>
+                                    <label for="nik" class="form-label text-uppercase">NIK</label>
                                     <input type="text" name="nik" class="form-control" required
                                            value="{{ $surat->nik }}" maxlength="16" minlength="16"
                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="no_hp" class="form-label">Nomor HP</label>
+                                    <label for="no_hp" class="form-label text-uppercase">NOMOR HP</label>
                                     <input type="text" name="no_hp" id="no_hp" class="form-control" required
                                            value="{{ $surat->no_hp }}" oninput="validateNoHP(this)">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                    <label for="jenis_kelamin" class="form-label text-uppercase">JENIS KELAMIN</label>
                                     <select name="jenis_kelamin" class="form-select" required>
-                                        <option value="L" {{ $surat->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                        <option value="P" {{ $surat->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                        <option value="L" {{ $surat->jenis_kelamin == 'L' ? 'selected' : '' }}>LAKI-LAKI</option>
+                                        <option value="P" {{ $surat->jenis_kelamin == 'P' ? 'selected' : '' }}>PEREMPUAN</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="kewarganegaraan" class="form-label">Kewarganegaraan</label>
-                                    <input type="text" name="kewarganegaraan" class="form-control" required value="{{ $surat->kewarganegaraan }}">
+                                    <label for="kewarganegaraan" class="form-label text-uppercase">KEWARGANEGARAAN</label>
+                                    <input type="text" name="kewarganegaraan" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->kewarganegaraan) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                    <input type="text" name="pekerjaan" class="form-control" required value="{{ $surat->pekerjaan }}">
+                                    <label for="pekerjaan" class="form-label text-uppercase">PEKERJAAN</label>
+                                    <input type="text" name="pekerjaan" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->pekerjaan) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="status_perkawinan" class="form-label">Status Perkawinan</label>
+                                    <label for="status_perkawinan" class="form-label text-uppercase">STATUS PERKAWINAN</label>
                                     <select name="status_perkawinan" class="form-select" required>
-                                        <option value="Belum Kawin" {{ $surat->status_perkawinan == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                                        <option value="Kawin" {{ $surat->status_perkawinan == 'Kawin' ? 'selected' : '' }}>Kawin</option>
-                                        <option value="Cerai Hidup" {{ $surat->status_perkawinan == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
-                                        <option value="Cerai Mati" {{ $surat->status_perkawinan == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+                                        <option value="BELUM KAWIN" {{ $surat->status_perkawinan == 'BELUM KAWIN' ? 'selected' : '' }}>BELUM KAWIN</option>
+                                        <option value="KAWIN" {{ $surat->status_perkawinan == 'KAWIN' ? 'selected' : '' }}>KAWIN</option>
+                                        <option value="CERAI HIDUP" {{ $surat->status_perkawinan == 'CERAI HIDUP' ? 'selected' : '' }}>CERAI HIDUP</option>
+                                        <option value="CERAI MATI" {{ $surat->status_perkawinan == 'CERAI MATI' ? 'selected' : '' }}>CERAI MATI</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="agama" class="form-label">Agama</label>
+                                    <label for="agama" class="form-label text-uppercase">AGAMA</label>
                                     <select name="agama" class="form-select" required>
-                                        <option value="Islam" {{ $surat->agama == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                        <option value="Kristen" {{ $surat->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                        <option value="Katolik" {{ $surat->agama == 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                                        <option value="Hindu" {{ $surat->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                        <option value="Buddha" {{ $surat->agama == 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                                        <option value="Konghucu" {{ $surat->agama == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                                        <option value="ISLAM" {{ $surat->agama == 'ISLAM' ? 'selected' : '' }}>ISLAM</option>
+                                        <option value="KRISTEN" {{ $surat->agama == 'KRISTEN' ? 'selected' : '' }}>KRISTEN</option>
+                                        <option value="KATOLIK" {{ $surat->agama == 'KATOLIK' ? 'selected' : '' }}>KATOLIK</option>
+                                        <option value="HINDU" {{ $surat->agama == 'HINDU' ? 'selected' : '' }}>HINDU</option>
+                                        <option value="BUDDHA" {{ $surat->agama == 'BUDDHA' ? 'selected' : '' }}>BUDDHA</option>
+                                        <option value="KONGHUCU" {{ $surat->agama == 'KONGHUCU' ? 'selected' : '' }}>KONGHUCU</option>
                                     </select>
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <label class="form-label">Alamat Lengkap</label>
+                                    <label class="form-label text-uppercase">ALAMAT LENGKAP</label>
                                     <div class="row g-2">
                                         <div class="col-md-12">
-                                            <input type="text" id="tempat" name="tempat" class="form-control"
-                                                placeholder="Contoh: Jl. Raya Cibeureum No. 123" required
-                                                value="{{ old('tempat', explode(',', $surat->alamat_lengkap)[0] ?? '') }}">
+                                            <input type="text" id="tempat" name="tempat" class="form-control text-uppercase"
+                                                placeholder="CONTOH: JL. RAYA CIBEUREUM NO. 123" required
+                                                value="{{ strtoupper(old('tempat', explode(',', $surat->alamat_lengkap)[0] ?? '')) }}"
+                                                oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" id="kelurahan" name="kelurahan" class="form-control"
-                                                placeholder="Kelurahan" required
-                                                value="{{ old('kelurahan', isset(explode(', Kel. ', $surat->alamat_lengkap)[1]) ? explode(' Kec. ', explode(', Kel. ', $surat->alamat_lengkap)[1])[0] : '') }}">
+                                            <label class="form-label">Kelurahan</label>
+                                            <input type="text" id="kelurahan" name="kelurahan" class="form-control text-uppercase"
+                                                placeholder="KELURAHAN" required
+                                                value="{{ strtoupper(old('kelurahan', isset(explode(', KEL. ', $surat->alamat_lengkap)[1]) ? explode(' KEC. ', explode(', KEL. ', $surat->alamat_lengkap)[1])[0] : '')) }}"
+                                                oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" id="kecamatan" name="kecamatan" class="form-control"
-                                                placeholder="Kecamatan" required
-                                                value="{{ old('kecamatan', isset(explode(' Kec. ', $surat->alamat_lengkap)[1]) ? explode(', Kota', explode(' Kec. ', $surat->alamat_lengkap)[1])[0] : '') }}">
+                                            <label class="form-label">Kecamatan</label>
+                                            <input type="text" id="kecamatan" name="kecamatan" class="form-control text-uppercase"
+                                                placeholder="KECAMATAN" required
+                                                value="{{ strtoupper(old('kecamatan', isset(explode(' KEC. ', $surat->alamat_lengkap)[1]) ? explode(', KOTA', explode(' KEC. ', $surat->alamat_lengkap)[1])[0] : '')) }}"
+                                                oninput="this.value = this.value.toUpperCase()">
                                         </div>
-                                        <div class="col-md-4">
+                                       <div class="col-md-4">
+                                            <label class="form-label">Kode POS</label>
                                             <input type="text" id="kode_pos" name="kode_pos"
-                                                class="form-control angka-saja" placeholder="Kode Pos" required
+                                                class="form-control angka-saja" placeholder="KODE POS" required
                                                 maxlength="5"
-                                                value="{{ old('kode_pos', isset(explode(', ', $surat->alamat_lengkap)[3]) ? explode(' ', trim(explode(', ', $surat->alamat_lengkap)[3]))[0] : '') }}">
+                                                value="{{ old('kode_pos', isset(explode(', ', $surat->alamat_lengkap)[4]) ? trim(explode(', ', $surat->alamat_lengkap)[4]) : '') }}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Data Usaha Section -->
-                            <h5 class="section-title"><i class="fas fa-briefcase me-2"></i>Data Usaha</h5>
+                            <h5 class="section-title text-uppercase"><i class="fas fa-briefcase me-2"></i>DATA USAHA</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="nama_usaha" class="form-label">Nama Usaha</label>
-                                    <input type="text" name="nama_usaha" class="form-control" required value="{{ $surat->nama_usaha }}">
+                                    <label for="nama_usaha" class="form-label text-uppercase">NAMA USAHA</label>
+                                    <input type="text" name="nama_usaha" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->nama_usaha) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="jenis_usaha" class="form-label">Jenis Usaha</label>
-                                    <input type="text" name="jenis_usaha" class="form-control" required value="{{ $surat->jenis_usaha }}">
+                                    <label for="jenis_usaha" class="form-label text-uppercase">JENIS USAHA</label>
+                                    <input type="text" name="jenis_usaha" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->jenis_usaha) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <label for="alamat_usaha" class="form-label">Alamat Usaha</label>
-                                    <textarea name="alamat_usaha" class="form-control" rows="2" required>{{ $surat->alamat_usaha }}</textarea>
+                                    <label for="alamat_usaha" class="form-label text-uppercase">ALAMAT USAHA</label>
+                                    <textarea name="alamat_usaha" class="form-control text-uppercase" rows="2" required
+                                              oninput="this.value = this.value.toUpperCase()">{{ strtoupper($surat->alamat_usaha) }}</textarea>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="status_bangunan" class="form-label">Status Bangunan</label>
+                                    <label for="status_bangunan" class="form-label text-uppercase">STATUS BANGUNAN</label>
                                     <select name="status_bangunan" class="form-select" required>
-                                        <option value="Milik Sendiri" {{ $surat->status_bangunan == 'Milik Sendiri' ? 'selected' : '' }}>Milik Sendiri</option>
-                                        <option value="Sewa" {{ $surat->status_bangunan == 'Sewa' ? 'selected' : '' }}>Sewa</option>
-                                        <option value="Pinjam Pakai" {{ $surat->status_bangunan == 'Pinjam Pakai' ? 'selected' : '' }}>Pinjam Pakai</option>
+                                        <option value="MILIK SENDIRI" {{ $surat->status_bangunan == 'MILIK SENDIRI' ? 'selected' : '' }}>MILIK SENDIRI</option>
+                                        <option value="SEWA" {{ $surat->status_bangunan == 'SEWA' ? 'selected' : '' }}>SEWA</option>
+                                        <option value="PINJAM PAKAI" {{ $surat->status_bangunan == 'PINJAM PAKAI' ? 'selected' : '' }}>PINJAM PAKAI</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="no_sppt" class="form-label">No SPPT PBB</label>
-                                    <input type="text" name="no_sppt" class="form-control" value="{{ $surat->no_sppt }}">
+                                    <label for="no_sppt" class="form-label text-uppercase">NO SPPT PBB</label>
+                                    <input type="text" name="no_sppt" class="form-control text-uppercase"
+                                           value="{{ strtoupper($surat->no_sppt) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="akta_pendirian_usaha" class="form-label">Akta Pendirian Usaha</label>
-                                    <input type="text" name="akta_pendirian_usaha" class="form-control" value="{{ $surat->akta_pendirian_usaha }}">
+                                    <label for="akta_pendirian_usaha" class="form-label text-uppercase">AKTA PENDIRIAN USAHA</label>
+                                    <input type="text" name="akta_pendirian_usaha" class="form-control text-uppercase"
+                                           value="{{ strtoupper($surat->akta_pendirian_usaha) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="jumlah_karyawan" class="form-label">Jumlah Karyawan</label>
+                                    <label for="jumlah_karyawan" class="form-label text-uppercase">JUMLAH KARYAWAN</label>
                                     <input type="number" name="jumlah_karyawan" class="form-control" required
                                            value="{{ $surat->jumlah_karyawan }}" min="0">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="pimpinan_usaha" class="form-label">Pimpinan Usaha</label>
-                                    <input type="text" name="pimpinan_usaha" class="form-control" required value="{{ $surat->pimpinan_usaha }}">
+                                    <label for="pimpinan_usaha" class="form-label text-uppercase">PIMPINAN USAHA</label>
+                                    <input type="text" name="pimpinan_usaha" class="form-control text-uppercase" required
+                                           value="{{ strtoupper($surat->pimpinan_usaha) }}" oninput="this.value = this.value.toUpperCase()">
                                 </div>
                             </div>
 
@@ -256,32 +280,44 @@
                                 </div>
                             </div>
 
-                            <!-- Status dan Catatan Section -->
-                            <h5 class="section-title"><i class="fas fa-cog me-2"></i>Status & Catatan</h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                                                        <!-- Status dan Catatan Section -->
+                            @role('Admin')
+                                <!-- Jika Admin, tampilkan dropdown status -->
+                                <div class="col-md-12 mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <select name="status" id="status" class="form-select" required>
-                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                        <option value="proses" {{ $surat->status == 'proses' ? 'selected' : '' }}>Proses
+                                        </option>
+                                        <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        <option value="revisi" {{ $surat->status == 'revisi' ? 'selected' : '' }}>Revisi
+                                        </option>
                                     </select>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="catatan" class="form-label">Catatan Tambahan</label>
                                     <textarea name="catatan" class="form-control" placeholder="Opsional">{{ $surat->catatan }}</textarea>
                                 </div>
-                            </div>
+                            @else
+                                <!-- Jika bukan admin, set default status "proses" lewat input hidden -->
+                                <input type="hidden" name="status" value="proses">
+                            @endrole>
 
-                            <!-- Action Buttons -->
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            @role('Admin')
                                 <a href="{{ route('surat_keterangan_usahas.index') }}" class="btn btn-secondary">
                                     <i class="fas fa-arrow-left me-2"></i>Kembali
                                 </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Simpan Perubahan
-                                </button>
-                            </div>
+                            @else
+                                <a href="{{ route('surat.saya') }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                                </a>
+                            @endrole
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Simpan Perubahan
+                            </button>
+                        </div>
                         </form>
                     </div>
                 </div>

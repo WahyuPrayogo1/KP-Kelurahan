@@ -17,7 +17,7 @@ class CreateSuratKeteranganBedaDataKependudukansTable extends Migration
             $table->string('jenis_kelamin');
             $table->string('kewarganegaraan');
             $table->string('pekerjaan');
-            $table->enum('status_perkawinan', ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']);
+            $table->enum('status_perkawinan', ['BELUM KAWIN', 'KAWIN', 'CERAI HIDUP', 'CERAI MATI']);
             $table->string('agama');
             $table->text('alamat');
             $table->string('lokasi_perbedaan_nama');
@@ -31,7 +31,7 @@ class CreateSuratKeteranganBedaDataKependudukansTable extends Migration
             $table->string('pengantar_rt_rw')->nullable();
 
             // Status dan catatan
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
 
             $table->timestamps();

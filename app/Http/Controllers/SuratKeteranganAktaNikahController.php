@@ -29,7 +29,7 @@ class SuratKeteranganAktaNikahController extends Controller
                         case 'proses':
                             $badgeClass = 'warning';
                             break;
-                        case 'ditolak':
+                        case 'revisi':
                             $badgeClass = 'danger';
                             break;
                         default:
@@ -128,7 +128,7 @@ class SuratKeteranganAktaNikahController extends Controller
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
             'agama' => 'required|string|max:100',
-            'status_perkawinan' => 'required|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
+            'status_perkawinan' => 'required|in:BELUM KAWIN,KAWIN,CERAI HIDUP,CERAI MATI',
             'pekerjaan' => 'required|string|max:255',
             'kewarganegaraan' => 'required|string|max:100',
 
@@ -151,8 +151,19 @@ class SuratKeteranganAktaNikahController extends Controller
             'catatan' => 'nullable|string',
         ], $messages);
 
+        $validated['nama'] = strtoupper($validated['nama']);
+        $validated['tempat_lahir'] = strtoupper($validated['tempat_lahir']);
+        $validated['agama'] = strtoupper($validated['agama']);
+        $validated['status_perkawinan'] = strtoupper($validated['status_perkawinan']);
+        $validated['pekerjaan'] = strtoupper($validated['pekerjaan']);
+        $validated['kewarganegaraan'] = strtoupper($validated['kewarganegaraan']);
+        $validated['alamat'] = strtoupper($validated['alamat']);
+        $validated['kelurahan'] = strtoupper($validated['kelurahan']);
+        $validated['kecamatan'] = strtoupper($validated['kecamatan']);
+        $validated['catatan'] = strtoupper($validated['catatan'] ?? '');
+
         // Gabungkan alamat_lengkap
-        $validated['alamat_lengkap'] = $request->alamat . ', RT ' . $request->rt . '/RW ' . $request->rw . $request->rw . ', Kel. ' . $request->kelurahan . ', Kec. ' . $request->kecamatan . ', Kota Sukabumi' . ', ' . $request->kode_pos;
+        $validated['alamat_lengkap'] = $validated['alamat'] . ', RT ' . $request->rt . '/RW ' . $request->rw . ', Kel. ' . $validated['kelurahan'] . ', Kec. ' . $validated['kecamatan'] . ', Kota Sukabumi' . ', ' . $request->kode_pos;
 
         // Upload file ke storage
         foreach ([
@@ -246,7 +257,7 @@ class SuratKeteranganAktaNikahController extends Controller
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
             'agama' => 'required|string|max:100',
-            'status_perkawinan' => 'required|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
+            'status_perkawinan' => 'required|in:BELUM KAWIN,KAWIN,CERAI HIDUP,CERAI MATI',
             'pekerjaan' => 'required|string|max:255',
             'kewarganegaraan' => 'required|string|max:100',
             'alamat_lengkap' => 'required|string',
@@ -257,7 +268,7 @@ class SuratKeteranganAktaNikahController extends Controller
             'foto_kartu_keluarga' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_surat_pernyataan_nikah' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_surat_pengantar_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status' => 'required|in:proses,selesai,ditolak',
+            'status' => 'required|in:proses,selesai,revisi',
             'catatan' => 'nullable|string',
             'tanggal_dikeluarkan' => 'nullable|date',
         ]);
@@ -285,7 +296,7 @@ class SuratKeteranganAktaNikahController extends Controller
         $surat->update($validated);
         // Kirim notifikasi hanya jika status berubah
         if ($previousStatus != $request->status) {
-            if ($request->status == 'ditolak') {
+            if ($request->status == 'revisi') {
                 $this->sendRejectionNotification($surat);
             } elseif ($request->status == 'selesai') {
                 $this->sendSelesaiNotification($surat);
@@ -306,7 +317,7 @@ class SuratKeteranganAktaNikahController extends Controller
         $whatsappNumber = $user->whatsapp_number;
 
         $message = "Halo {$user->name},\n\n";
-        $message .= "Mohon maaf, pengajuan Surat Keterangan Akta Nikah Anda *ditolak*.\n";
+        $message .= "Mohon maaf, pengajuan Surat Keterangan Akta Nikah Anda *revisi*.\n";
         $message .= "Alasan penolakan: {$surat->catatan}\n\n";
         $message .= "Silakan perbaiki dan ajukan kembali.\n\n";
         $message .= "Salam,\nAdmin Subang Jaya";
