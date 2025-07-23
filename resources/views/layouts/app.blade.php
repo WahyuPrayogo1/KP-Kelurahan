@@ -214,10 +214,8 @@
             <!-- Navbar untuk Desktop -->
             <div class="d-none d-lg-flex ms-3">
                 <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{{route('home')}}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('tentangKami.list')}}">Tentang Kami</a></li>
-                    <li class="nav-item">
-    <a class="nav-link" href="{{ url('/') }}#layanan">Layanan</a>
-</li>
                     <li class="nav-item"><a class="nav-link" href="{{route('persyaratan')}}">Persyaratan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('berita.list')}}">Artikel</a></li>
                 </ul>

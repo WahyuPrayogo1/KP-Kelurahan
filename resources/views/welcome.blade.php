@@ -23,8 +23,7 @@
     <!-- Section Baru -->
     <div class="container mt-5 mb-md-5 mb-0 pt-2" id="layanan" style="scroll-margin-top: 100px;">
         <div class="row g-4">
-            <div
-                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                 <div class="text-center text-md-start">
                     <h2 class="text-uppercase m-0"
                         style="color: #6F3A68; font-weight:700; letter-spacing: 3px; font-size: 30px">
@@ -44,103 +43,81 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-bullhorn fa-2x me-3" style="color: #6F3A68;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Pengantar Keterangan Ijin Keramaian</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat_keterangan_usahas.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-store fa-2x me-3" style="color: #FF7043;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Usaha</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-store fa-2x me-3" style="color: #FF7043;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Usaha</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('beda-data-kependudukan.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-id-card fa-2x me-3" style="color: #50E3C2;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Beda Data Kependudukan</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-building fa-2x me-3" style="color: #BD10E0;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Pindah Domisili Perusahaan/Yayasan</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat_keterangan_tidak_mampu.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user-injured fa-2x me-3" style="color: #e4556d;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Tidak Mampu</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-map-marked-alt fa-2x me-3" style="color: #4A90E2;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat_keterangan_miskin.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-money-bill-wave fa-2x me-3" style="color: #6F3A68;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Miskin</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-map fa-2x me-3" style="color: #D0021B;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Kepemilikan Tanah Tidak Sengketa</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('keterangan_akta_nikah.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-ring fa-2x me-3" style="color: #D0021B;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Akta Nikah</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-id-card fa-2x me-3" style="color: #50E3C2;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Beda Data Kependudukan</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat-bekerja-luar-negeri.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-briefcase fa-2x me-3" style="color: #50E3C2;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Bekerja di Luar Negeri</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-file-signature fa-2x me-3" style="color: #e4556d;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Status Perkawinan</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat_keterangan_kematian.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-file-medical fa-2x me-3" style="color: #e4556d;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Keterangan Kematian</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-user-shield fa-2x me-3" style="color: #6F3A68;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Ahli Waris</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat_pengantar_ijin_keramaian.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-bullhorn fa-2x me-3" style="color: #6F3A68;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Pengantar Ijin Keramaian</h5>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-map-pin fa-2x me-3" style="color: #FF7043;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Domisili</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-kaaba fa-2x me-3" style="color: #4A90E2;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Domisili Calon Jemaah Haji</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-house-user fa-2x me-3" style="color: #7ED321;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Pindah Domisili</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-road fa-2x me-3" style="color: #BD10E0;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Jalan</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-ring fa-2x me-3" style="color: #D0021B;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Untuk Nikah</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-user-friends fa-2x me-3" style="color: #6F3A68;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Tentang Orang Tua</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-file-medical fa-2x me-3" style="color: #e4556d;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Kematian</h5>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-briefcase fa-2x me-3" style="color: #50E3C2;"></i>
-                        <h5 class="mb-0 layanan-text">Surat Keterangan Bekerja di Luar Negeri</h5>
-                    </div>
+                <div class="col-sm-6 col-lg-3 mb-4">
+                    <a href="{{ route('surat-pindah-perusahaan.create') }}" style="text-decoration: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-building fa-2x me-3" style="color: #BD10E0;"></i>
+                            <h5 class="mb-0 layanan-text">Surat Pindah Domisili Perusahaan</h5>
+                        </div>
+                    </a>
                 </div>
             </div>
+        </div>
+    </div>
 
     </div>
 <div class="container p-3 mt-5 mt-md-5 mb-0">

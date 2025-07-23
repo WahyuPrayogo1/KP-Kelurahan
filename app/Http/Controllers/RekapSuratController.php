@@ -32,41 +32,40 @@ class RekapSuratController extends Controller
     }
 
     public function export(Request $request)
-{
-    $jenis = $request->input('jenis', 'semua');
-    $rentang = $request->input('rentang', '1bulan');
-    $rekapData = $this->filterData($jenis, $rentang);
+    {
+        $jenis = $request->input('jenis', 'semua');
+        $rentang = $request->input('rentang', '1bulan');
+        $rekapData = $this->filterData($jenis, $rentang);
 
-    $filename = 'rekap_surat_' . now()->format('Ymd_His') . '.csv';
-    $filePath = storage_path("app/public/{$filename}");
+        $filename = 'rekap_surat_' . now()->format('Ymd_His') . '.xlsx'; // Format Excel
+        $filePath = storage_path("app/public/{$filename}");
 
-    // siapkan data untuk CSV
-    $data = [];
+        $data = [];
 
-    if ($jenis === 'semua') {
-        foreach ($rekapData as $item) {
-            $data[] = [
-                'Jenis Surat' => $item->jenis_surat ?? '-',
-                'Nama Pemohon' => $item->nama ?? '-',
-                'Status' => ucfirst($item->status ?? '-'),
-                'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
-            ];
+        if ($jenis === 'semua') {
+            foreach ($rekapData as $item) {
+                $data[] = [
+                    'Jenis Surat' => $item->jenis_surat ?? '-',
+                    'Nama Pemohon' => $item->nama ?? '-',
+                    'Status' => ucfirst($item->status ?? '-'),
+                    'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
+                ];
+            }
+        } else {
+            foreach ($rekapData as $item) {
+                $data[] = [
+                    'Nama Pemohon' => $item->nama ?? '-',
+                    'Status' => ucfirst($item->status ?? '-'),
+                    'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
+                ];
+            }
         }
-    } else {
-        foreach ($rekapData as $item) {
-            $data[] = [
-                'Nama Pemohon' => $item->nama ?? '-',
-                'Status' => ucfirst($item->status ?? '-'),
-                'Tanggal Pengajuan' => \Carbon\Carbon::parse($item->created_at)->format('d-m-Y'),
-            ];
-        }
+
+        // Ini baris pentingnya:
+        SimpleExcelWriter::create($filePath)->addRows($data);
+
+        return response()->download($filePath)->deleteFileAfterSend();
     }
-
-    SimpleExcelWriter::create($filePath)->addRows($data);
-
-    return response()->download($filePath)->deleteFileAfterSend();
-}
-
 
     public function filterData($jenis, $rentang)
     {
