@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('foto_pernyataan_tetangga'); // Surat pernyataan + FC KTP tetangga
             $table->string('foto_pengantar_rt_rw'); // Surat Pengantar RT/RW
 
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

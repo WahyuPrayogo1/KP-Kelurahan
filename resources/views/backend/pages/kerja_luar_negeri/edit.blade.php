@@ -195,7 +195,7 @@
                                         </option>
                                         <option value="selesai" {{ $surat->status == 'selesai' ? 'selected' : '' }}>Selesai
                                         </option>
-                                        <option value="ditolak" {{ $surat->status == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                        <option value="revisi" {{ $surat->status == 'revisi' ? 'selected' : '' }}>revisi
                                         </option>
                                     </select>
                                 </div>

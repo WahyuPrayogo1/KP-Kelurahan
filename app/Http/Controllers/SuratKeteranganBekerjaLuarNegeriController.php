@@ -29,7 +29,7 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
                         case 'proses':
                             $badgeClass = 'warning';
                             break;
-                        case 'ditolak':
+                        case 'revisi':
                             $badgeClass = 'danger';
                             break;
                         default:
@@ -182,9 +182,45 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
         $validated['status'] = 'proses';
 
         // Simpan ke database
-        SuratKeteranganBekerjaLuarNegeri::create($validated);
+        $surat = SuratKeteranganBekerjaLuarNegeri::create($validated);
+        // Kirim notifikasi WhatsApp
+        $this->sendNewSubmissionNotification($surat);
 
         return redirect()->route('/dashboard')->with('success', 'Pengajuan Surat Keterangan Bekerja Luar Negeri berhasil dikirim.');
+    }
+
+     protected function sendNewSubmissionNotification(SuratKeteranganBekerjaLuarNegeri $surat)
+    {
+        $targetNumber = '081222535789'; // Nomor tujuan
+        $user = $surat->user;
+
+        $message = "Halo Admin,\n\n";
+        $message .= "Ada pengajuan baru Surat Keterangan Bekerja Di Luar Negeri dengan detail berikut:\n";
+        $message .= "Nama: {$surat->nama}\n";
+        $message .= "Tanggal Lahir: {$surat->tanggal_lahir}\n";
+        $message .= "Alamat Kerja: {$surat->alamat_pekerja}\n\n";
+        $message .= "Silakan periksa sistem untuk verifikasi lebih lanjut.\n\n";
+        $message .= "Salam,\nSistem Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $targetNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi pengajuan baru', [
+                    'response' => $response->body(),
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
@@ -235,7 +271,7 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
             'agama_pekerja' => 'required|string|max:100',
             'alamat_pekerja' => 'required|string|max:500',
             'negara_tujuan' => 'required|string|max:255',
-            'status' => 'required|in:proses,selesai,ditolak',
+            'status' => 'required|in:proses,selesai,revisi',
             'catatan' => 'nullable|string|max:1000',
             'fc_ktp' => 'nullable|file|mimes:jpeg,jpg,png|max:2048',
             'fc_kk' => 'nullable|file|mimes:jpeg,jpg,png|max:2048',
@@ -259,7 +295,7 @@ class SuratKeteranganBekerjaLuarNegeriController extends Controller
         $surat->update($validated);
         // Kirim notifikasi hanya jika status berubah
         if ($previousStatus != $request->status) {
-            if ($request->status == 'ditolak') {
+            if ($request->status == 'revisi') {
                 $this->sendRejectionNotification($surat);
             } elseif ($request->status == 'selesai') {
                 $this->sendSelesaiNotification($surat);

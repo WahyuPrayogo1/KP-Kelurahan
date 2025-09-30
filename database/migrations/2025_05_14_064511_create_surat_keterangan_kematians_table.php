@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('fc_buku_nikah'); // 3. Fotocopy Buku Nikah
             $table->string('pengantar_kematian_rt_rw'); // 4. Surat Pengantar dari RT/RW
 
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

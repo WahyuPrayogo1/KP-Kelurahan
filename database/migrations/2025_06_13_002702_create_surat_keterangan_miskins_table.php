@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('foto_pengantar_rt_rw');
 
             // Status
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

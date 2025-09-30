@@ -26,7 +26,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
                     $badgeClass = match ($row->status) {
                         'selesai' => 'success',
                         'proses' => 'warning',
-                        'ditolak' => 'danger',
+                        'revisi' => 'danger',
                         default => 'secondary',
                     };
                     return '<span class="text-white badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
@@ -41,28 +41,44 @@ class SuratPindahDomisiliPerusahaanController extends Controller
         return view('backend.pages.surat_pindah.index');
     }
 
-    public function edit($id)
-    {
-        $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
-        if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
-            abort(404, 'Maaf, halaman ini tidak tersedia.');
-        }
-
-        // Pisahkan alamat lengkap menjadi bagian-bagian
-        $alamatParts = explode(', ', $surat->alamat_perusahaan);
-
-        $alamat = $alamatParts[0] ?? '';
-        $kelurahan = str_replace('Kel. ', '', $alamatParts[1] ?? '');
-        $kecamatan = str_replace('Kec. ', '', $alamatParts[2] ?? '');
-
-        preg_match('/RT (\d+)\/RW (\d+)/', $alamatParts[3] ?? '', $rtRwMatch);
-        $rt = $rtRwMatch[1] ?? '';
-        $rw = $rtRwMatch[2] ?? '';
-
-        $kode_pos = $alamatParts[5] ?? '';
-
-        return view('backend.pages.surat_pindah.edit', compact('surat', 'alamat', 'kelurahan', 'kecamatan', 'rt', 'rw', 'kode_pos'));
+public function edit($id)
+{
+    $surat = SuratPindahDomisiliPerusahaan::findOrFail($id);
+    if (!auth()->user()->hasRole('Admin') && auth()->user()->id != $surat->user_id) {
+        abort(404, 'Maaf, halaman ini tidak tersedia.');
     }
+
+    $alamat = '';
+    $kelurahan = '';
+    $kecamatan = '';
+    $rt = '';
+    $rw = '';
+    $kode_pos = '';
+
+    $alamatParts = explode(', ', $surat->alamat_perusahaan);
+
+    // Ambil alamat utama
+    $alamat = $alamatParts[0] ?? '';
+
+    // Ambil Kelurahan & Kecamatan
+    foreach ($alamatParts as $part) {
+        if (str_starts_with($part, 'Kel.')) {
+            $kelurahan = str_replace('Kel. ', '', $part);
+        }
+        if (str_starts_with($part, 'Kec.')) {
+            $kecamatan = str_replace('Kec. ', '', $part);
+        }
+        if (is_numeric($part)) { // kemungkinan kode pos
+            $kode_pos = $part;
+        }
+    }
+preg_match('/RT[.\s]*0*([0-9]+)\s*\/?\s*RW[.\s]*0*([0-9]+)/i', $surat->alamat_perusahaan, $rtRwMatch);
+$rt = $rtRwMatch[1] ?? '';
+$rw = $rtRwMatch[2] ?? '';
+
+    return view('backend.pages.surat_pindah.edit', compact('surat', 'alamat', 'kelurahan', 'kecamatan', 'rt', 'rw', 'kode_pos'));
+}
+
 
 
 
@@ -87,7 +103,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
             'tanggal_pindah' => 'required|string',
             'nomor_tdp' => 'required|string|max:50',
             'jenis_usaha' => 'required|string|max:100',
-            'status' => 'required|in:proses,selesai,ditolak',
+            'status' => 'required|in:proses,selesai,revisi',
             'foto_ktp' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kk' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
             'foto_pernyataan_pindah' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
@@ -123,20 +139,23 @@ class SuratPindahDomisiliPerusahaanController extends Controller
         // Jika kamu mau perbarui alamat lengkap seperti di store()
         $alamatLengkap = $request->alamat_perusahaan;
         if ($request->has(['kelurahan_perusahaan', 'kecamatan_perusahaan', 'rt_perusahaan', 'rw_perusahaan', 'kode_pos_perusahaan'])) {
-            $alamatLengkap .= ', Kel. ' . $request->kelurahan_perusahaan
-                . ', Kec. ' . $request->kecamatan_perusahaan
-                . ', RT ' . $request->rt_perusahaan
-                . '/RW ' . $request->rw_perusahaan
-                . ', Kota Sukabumi'
-                . ', ' . $request->kode_pos_perusahaan;
+$alamatLengkap = $request->alamat_perusahaan
+    . ', Kel. ' . $request->kelurahan_perusahaan
+    . ', Kec. ' . $request->kecamatan_perusahaan
+    . ', RT ' . $request->rt_perusahaan
+    . '/RW ' . $request->rw_perusahaan
+    . ', Kota Sukabumi'
+    . ', ' . $request->kode_pos_perusahaan;
 
-            $validatedData['alamat_perusahaan'] = $alamatLengkap;
+$validatedData['alamat_perusahaan'] = $alamatLengkap;
+
+
         }
 
         $surat->update($validatedData);
          // Kirim notifikasi hanya jika status berubah
         if ($previousStatus != $request->status) {
-            if ($request->status == 'ditolak') {
+            if ($request->status == 'revisi') {
                 $this->sendRejectionNotification($surat);
             } elseif ($request->status == 'selesai') {
                 $this->sendSelesaiNotification($surat);
@@ -289,7 +308,7 @@ class SuratPindahDomisiliPerusahaanController extends Controller
         . ', Kota Sukabumi'
         . ', ' . $request->kode_pos_perusahaan;
         // Save to database
-        SuratPindahDomisiliPerusahaan::create([
+         $surat =  SuratPindahDomisiliPerusahaan::create([
             'nama_perusahaan' => $request->nama_perusahaan,
             'alamat_perusahaan' => $alamatLengkap,
             'user_id' => auth()->id(),
@@ -306,8 +325,42 @@ class SuratPindahDomisiliPerusahaanController extends Controller
             'status' => 'proses',
             'catatan' => $request->catatan,
         ]);
+          $this->sendNewSubmissionNotification($surat);
 
         return redirect()->route('/dashboard')->with('success', 'Pengajuan surat pindah domisili perusahaan berhasil dikirim.');
+    }
+
+     protected function sendNewSubmissionNotification(SuratPindahDomisiliPerusahaan $surat)
+    {
+        $targetNumber = '081222535789'; // Nomor tujuan
+        $user = $surat->user;
+
+        $message = "Halo Admin,\n\n";
+        $message .= "Ada pengajuan baru Surat Keterangan Pindah Domisili Peerusahaan dengan detail berikut:\n";
+        $message .= "Nama Perusahaan: {$surat->nama_perusahaan}\n";
+        $message .= "Nama Pemilik: {$surat->nama_pemilik}\n";
+        $message .= "Silakan periksa sistem untuk verifikasi lebih lanjut.\n\n";
+        $message .= "Salam,\nSistem Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $targetNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi pengajuan baru', [
+                    'response' => $response->body(),
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
        public function show($id)

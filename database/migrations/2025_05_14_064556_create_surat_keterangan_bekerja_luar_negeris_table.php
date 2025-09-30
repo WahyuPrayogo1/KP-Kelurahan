@@ -41,7 +41,7 @@ return new class extends Migration
 
             // Metadata
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

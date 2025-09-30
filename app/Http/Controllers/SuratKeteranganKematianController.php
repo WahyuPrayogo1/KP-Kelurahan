@@ -29,7 +29,7 @@ public function index(Request $request)
                         case 'proses':
                             $badgeClass = 'warning';
                             break;
-                        case 'ditolak':
+                        case 'revisi':
                             $badgeClass = 'danger';
                             break;
                         default:
@@ -129,9 +129,46 @@ public function index(Request $request)
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'proses';
 
-        SuratKeteranganKematian::create($validated);
+        $surat = SuratKeteranganKematian::create($validated);
+          // Kirim notifikasi WhatsApp
+        $this->sendNewSubmissionNotification($surat);
+
 
         return redirect()->route('/dashboard')->with('success', 'Pengajuan berhasil dikirim.');
+    }
+
+    protected function sendNewSubmissionNotification(SuratKeteranganKematian $surat)
+    {
+        $targetNumber = '081222535789'; // Nomor tujuan
+        $user = $surat->user;
+
+        $message = "Halo Admin,\n\n";
+        $message .= "Ada pengajuan baru Surat Keterangan Kematian dengan detail berikut:\n";
+        $message .= "Nama: {$surat->nama}\n";
+        $message .= "Tanggal Lahir: {$surat->tanggal_lahir}\n";
+        $message .= "Alamat: {$surat->alamat_lengkap}\n\n";
+        $message .= "Silakan periksa sistem untuk verifikasi lebih lanjut.\n\n";
+        $message .= "Salam,\nSistem Subang Jaya";
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => env('WABLAS_TOKEN') . '.' . env('WABLAS_SECRET_KEY'),
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ])->asForm()->post(env('WABLAS_URL') . '/api/send-message', [
+                'phone' => $targetNumber,
+                'message' => $message
+            ]);
+
+            if (!$response->successful()) {
+                \Log::error('Gagal mengirim notifikasi pengajuan baru', [
+                    'response' => $response->body(),
+                    'surat_id' => $surat->id
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Error mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
@@ -180,7 +217,7 @@ public function index(Request $request)
             'fc_buku_nikah' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'pengantar_kematian_rt_rw' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
-            'status' => 'required|in:proses,selesai,ditolak',
+            'status' => 'required|in:proses,selesai,revisi',
             'catatan' => 'nullable|string',
         ]);
 
@@ -198,7 +235,7 @@ public function index(Request $request)
         $surat->update($validated);
         // Kirim notifikasi hanya jika status berubah
         if ($previousStatus != $request->status) {
-            if ($request->status == 'ditolak') {
+            if ($request->status == 'revisi') {
                 $this->sendRejectionNotification($surat);
             } elseif ($request->status == 'selesai') {
                 $this->sendSelesaiNotification($surat);
@@ -324,7 +361,7 @@ public function index(Request $request)
             'dimakamkan_di' => 'required|string',
             'nomor_surat_pengantar' => 'required|string',
             'lurah_nip' => 'required|string',
-            'nama_lurah' => 'required|string|max:255',  
+            'nama_lurah' => 'required|string|max:255',
         ]);
 
         $surat = SuratKeteranganKematian::findOrFail($id);

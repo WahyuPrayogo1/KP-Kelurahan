@@ -93,33 +93,33 @@ class DashboardController extends Controller
         // Hitung dari SuratKeteranganTidakMampu
         $prosesPindah = SuratKeteranganTidakMampu::where('status', 'proses')->count();
         $selesaiPindah = SuratKeteranganTidakMampu::where('status', 'selesai')->count();
-        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'ditolak')->count();
+        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'revisi')->count();
 
         // Hitung dari SuratKeteranganMiskin
         $prosesMiskin = SuratKeteranganMiskin::where('status', 'proses')->count();
         $selesaiMiskin = SuratKeteranganMiskin::where('status', 'selesai')->count();
-        $ditolakMiskin = SuratKeteranganMiskin::where('status', 'ditolak')->count();
+        $ditolakMiskin = SuratKeteranganMiskin::where('status', 'revisi')->count();
 
 
         // Hitung dari SuratKeteranganUsaha
         $prosesUsaha = SuratKeteranganUsaha::where('status', 'proses')->count();
         $selesaiUsaha = SuratKeteranganUsaha::where('status', 'selesai')->count();
-        $ditolakUsaha = SuratKeteranganUsaha::where('status', 'ditolak')->count();
+        $ditolakUsaha = SuratKeteranganUsaha::where('status', 'revisi')->count();
 
         // Hitung dari SuratKeteranganAktaNikah
         $prosesNikah = SuratKeteranganAktaNikah::where('status', 'proses')->count();
         $selesaiNikah = SuratKeteranganAktaNikah::where('status', 'selesai')->count();
-        $ditolakNikah = SuratKeteranganAktaNikah::where('status', 'ditolak')->count();
+        $ditolakNikah = SuratKeteranganAktaNikah::where('status', 'revisi')->count();
 
         // Hitung dari SuratPengantarIjinKeramaian
         $prosesKeramaian = SuratPengantarIjinKeramaian::where('status', 'proses')->count();
         $selesaiKeramaian = SuratPengantarIjinKeramaian::where('status', 'selesai')->count();
-        $ditolakKeramaian = SuratPengantarIjinKeramaian::where('status', 'ditolak')->count();
+        $ditolakKeramaian = SuratPengantarIjinKeramaian::where('status', 'revisi')->count();
 
         // Hitung dari
         $prosesPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'proses')->count();
         $selesaiPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'selesai')->count();
-        $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'ditolak')->count();
+        $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'revisi')->count();
 
          // Hitung dari
         // $prosesTanah = SuratPernyataanTanahTidakSengketa::where('status', 'proses')->count();
@@ -129,17 +129,17 @@ class DashboardController extends Controller
           // Beda Penduduk
         $prosesBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'proses')->count();
         $selesaiBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'selesai')->count();
-        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')->count();
+        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'revisi')->count();
 
         // Bekerja Luar negeri
         $prosesBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'proses')->count();
         $selesaiBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'selesai')->count();
-        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'ditolak')->count();
+        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'revisi')->count();
 
         // Keterangan Kematian
         $prosesKematian = SuratKeteranganKematian::where('status', 'proses')->count();
         $selesaiKematian = SuratKeteranganKematian::where('status', 'selesai')->count();
-        $ditolakKematian = SuratKeteranganKematian::where('status', 'ditolak')->count();
+        $ditolakKematian = SuratKeteranganKematian::where('status', 'revisi')->count();
 
         // Total semua model
         $prosesCount =    $prosesMiskin + $prosesKematian + $prosesBekerja + $prosesPindah + $prosesUsaha + $prosesNikah + $prosesKeramaian + $prosesPerusahaan + $prosesBedaPenduduk;
@@ -279,59 +279,59 @@ class DashboardController extends Controller
 
              // Ambil semua data status "ditolak" dari semua model
 
-               $ditolakMiskin = SuratKeteranganMiskin::where('status', 'ditolak')
+               $ditolakMiskin = SuratKeteranganMiskin::where('status', 'revisi')
                 ->get()
                 ->map(function ($item) {
                     $item->model_type = 'surat_keterangan_miskin';
                     return $item;
             });
-        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'ditolak')
+        $ditolakBedaPenduduk = SuratKeteranganBedaDataKependudukan::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'beda-data-kependudukan';
                 return $item;
             });
 
-        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'ditolak')
+        $ditolakPindah = SuratKeteranganTidakMampu::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat_keterangan_tidak_mampu';
                 return $item;
             });
 
-        $ditolakUsaha = SuratKeteranganUsaha::where('status', 'ditolak')
+        $ditolakUsaha = SuratKeteranganUsaha::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat_keterangan_usahas';
                 return $item;
             });
 
-        $ditolakNikah = SuratKeteranganAktaNikah::where('status', 'ditolak')
+        $ditolakNikah = SuratKeteranganAktaNikah::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'keterangan_akta_nikah';
                 return $item;
             });
 
-        $ditolakKeramaian = SuratPengantarIjinKeramaian::where('status', 'ditolak')
+        $ditolakKeramaian = SuratPengantarIjinKeramaian::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat_pengantar_ijin_keramaian';
                 return $item;
             });
-        $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'ditolak')
+        $ditolakPerusahaan = SuratPindahDomisiliPerusahaan::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat-pindah-perusahaan';
                 return $item;
             });
-        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'ditolak')
+        $ditolakBekerja = SuratKeteranganBekerjaLuarNegeri::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat-bekerja-luar-negeri';
                 return $item;
             });
-        $ditolakKematian = SuratKeteranganKematian::where('status', 'ditolak')
+        $ditolakKematian = SuratKeteranganKematian::where('status', 'revisi')
             ->get()
             ->map(function ($item) {
                 $item->model_type = 'surat_keterangan_kematian';

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
               // Data Pemohon
             $table->string('nama');
-            $table->string('nik')->unique();
+            $table->string('nik');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
@@ -32,8 +32,7 @@ return new class extends Migration
             $table->string('foto_pengantar_rt_rw');
 
             // Status
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
-            $table->text('catatan')->nullable();
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

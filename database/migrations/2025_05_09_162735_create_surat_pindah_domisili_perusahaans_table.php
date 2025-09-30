@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('surat_pindah_domisili_perusahaans', function (Blueprint $table) {
-            $table->id();                                                                                                                                                                                                                                                                                                                 
+            $table->id();
              // Data pengaju (perorangan)
             $table->string('nama_perusahaan');
             $table->string('alamat_perusahaan');
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('foto_pengantar_rt_rw'); // Surat Pengantar RT/RW
 
             // Status permohonan
-            $table->enum('status', ['proses', 'selesai', 'ditolak'])->default('proses');
+            $table->enum('status', ['proses', 'selesai', 'revisi'])->default('proses');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });
