@@ -187,6 +187,11 @@
                                        inputmode="numeric">
                             </div>
                             <div class="input-hint">Masukkan nomor tanpa 0 di depan (contoh: 8123456789)</div>
+                            <div class="alert alert-warning mt-2 py-2 px-3" style="font-size: 13px; background-color: #fdf4ff; color: #6F3A68; border: 1px solid #e0b3de;">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Pastikan nomor WhatsApp yang kamu masukkan benar. Nomor ini akan digunakan untuk menerima notifikasi dari sistem kami.
+                            </div>
+
                             @error('whatsapp_number')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
                             @enderror
@@ -301,9 +306,20 @@
 
             // Set nilai ke hidden field
             document.getElementById('formattedWhatsappNumber').value = formattedNumber;
-
-            // Submit form
-            this.submit();
+            // Setelah nomor sudah divalidasi dan diformat
+            Swal.fire({
+                icon: 'info',
+                title: 'Perhatian!',
+                html: 'Nomor WhatsApp <strong>+' + formattedNumber + '</strong> akan digunakan untuk menerima notifikasi dari sistem kami. Pastikan nomornya benar sebelum melanjutkan.',
+                confirmButtonText: 'Ya, benar',
+                showCancelButton: true,
+                cancelButtonText: 'Periksa Lagi',
+                confirmButtonColor: '#6F3A68'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
         });
 
         // Validasi input hanya angka dan maksimal 13 digit
