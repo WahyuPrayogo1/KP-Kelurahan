@@ -39,18 +39,18 @@ class SuratKeteranganAktaNikahController extends Controller
                     return '<span class="text-white badge bg-' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
                 })
                 ->addColumn('aksi', function ($row) {
-                    return view('backend.pages.Akta_nikah.actions', compact('row'));
+                    return view('backend.pages.Akta_Nikah.actions', compact('row'));
                 })
                 ->rawColumns(['status', 'aksi']) // ini yang benar
                 ->make(true);
         }
 
-        return view('backend.pages.Akta_nikah.index');
+        return view('backend.pages.Akta_Nikah.index');
     }
 
     public function create()
     {
-        return view('backend.pages.Akta_nikah.create');
+        return view('backend.pages.Akta_Nikah.create');
     }
 
     public function store(Request $request)
@@ -228,7 +228,7 @@ class SuratKeteranganAktaNikahController extends Controller
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        return view('backend.pages.Akta_nikah.show', compact('surat'));
+        return view('backend.pages.Akta_Nikah.show', compact('surat'));
     }
 
     public function edit($id)
@@ -238,7 +238,7 @@ class SuratKeteranganAktaNikahController extends Controller
             abort(404, 'Maaf, halaman ini tidak tersedia.');
         }
 
-        return view('backend.pages.Akta_nikah.edit', compact('surat'));
+        return view('backend.pages.Akta_Nikah.edit', compact('surat'));
     }
 
     public function update(Request $request, $id)
@@ -413,7 +413,7 @@ class SuratKeteranganAktaNikahController extends Controller
 
         $surat = SuratKeteranganAktaNikah::findOrFail($id);
 
-        return view('backend.pages.Akta_nikah.preview-pdf', compact('surat'));
+        return view('backend.pages.Akta_Nikah.preview-pdf', compact('surat'));
     }
 
     public function generatePdf(Request $request, $id)
@@ -469,7 +469,7 @@ class SuratKeteranganAktaNikahController extends Controller
         ]);
 
         // Render Blade template menjadi HTML
-        $html = view('backend.pages.Akta_nikah.pdf.surat', $data)->render();
+        $html = view('backend.pages.Akta_Nikah.pdf.surat', $data)->render();
         $mpdf->WriteHTML($html);
 
         // Tampilkan PDF langsung di browser
