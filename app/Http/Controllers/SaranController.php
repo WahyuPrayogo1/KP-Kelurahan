@@ -52,13 +52,13 @@ class SaranController extends Controller
             return DataTables::of($sarans)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {
-                    return view('backend.pages.saran.action', compact('row'));
+                    return view('backend.pages.Saran.action', compact('row'));
                 })
                 ->rawColumns(['aksi']) // jika ada HTML di kolom aksi
                 ->make(true);
         }
 
-        return view('backend.pages.saran.index');
+        return view('backend.pages.Saran.index');
     }
 
 
